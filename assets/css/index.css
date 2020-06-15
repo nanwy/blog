@@ -1,0 +1,26 @@
+@media screen and (max-width: 992px){
+  .bloger{
+    position: fixed;
+    /* left: -300px; */
+    /* top: 200px; */
+    z-index: 10;
+    transform: translateX(-100%);
+    transition: transform .5s ease;
+  }
+  .article{
+    transform: translateX(0);
+    transition: transform .5s ease;
+  }
+  .container .bloger{
+    transform: translateX(0);
+  }
+  .container .article{
+    transform: translateX(300px);
+  
+  }
+}
+@media screen and (max-width: 550px){
+  .article_content{
+    display: block !important;
+  }
+}
