@@ -1,6 +1,6 @@
 <template>
   <div class="main">
-    <el-row :gutter="20">
+    <el-row :gutter="24">
       <el-col :span="24">
         <div v-for="item in blogList" :key="item.id" class="article_content">
           <nuxt-link :to="'/article/'+item.id" tag="h2" class="overtext">
@@ -17,8 +17,23 @@
             </div>
           </div>
         </div>
+        <div class="yema" :class="{'left':center}">
+      <el-pagination
+        background
+        layout=" sizes, prev, pager, next"
+        :total="total"
+        :page-size="5"
+        :pager-count="5"
+        :current-page='pageNum'
+        :page-sizes="[3,5,7]"
+        @current-change="currentchange"
+        @size-change="handleSizeChange"
+        style="text-align:center;"
+      ></el-pagination>
+    </div>
       </el-col>
     </el-row>
+    
   </div>
 </template>
 
@@ -28,14 +43,18 @@ export default {
   data() {
     return {
       // blogList: []
+      center:false
     };
   },
   created() {
-    // console.log(api);
+    console.log(this.$store.state.article.count);
     // this._getBlogList();
   },
   async asyncData({ store, params }) {
-    await store.dispatch("article/bloglist");
+    await store.dispatch("article/bloglist", {
+      pageNum: 1,
+      pageSize:5
+    });
   },
   filters: {
     showDate(value) {
@@ -49,11 +68,40 @@ export default {
     },
     formatDate(time) {
       return formatDate(time);
+    },
+    handleSizeChange(pageSize){
+      console.log(pageSize);
+       this.$store.commit("article/pageSize", pageSize);
+       console.log(this.$store.state.article.pageSize);
+       this.$store.dispatch("article/bloglist", {
+        pageNum:this.$store.state.article.pageNum
+      });
+    },
+    currentchange(pageNum) {
+      // console.log(pageNum,pageSize);
+      if(pageNum >= this.$store.state.article.count / this.$store.state.article.pageSize / 2 && pageNum < this.$store.state.article.count / this.$store.state.article.pageSize -2){
+        this.center = true
+        // console.log('dian吉',this.$store.state.article.count);
+        
+      }else{
+        this.center = false
+      }
+      // console.log('dian吉',this.$store.state.article.count / this.$store.state.article.pageSize / 2);
+      // this.$store.commit("article/nowpage", pageNum);
+      this.$store.dispatch("article/bloglist", {
+        pageNum
+      });
     }
   },
   computed: {
     blogList() {
       return this.$store.state.article.list;
+    },
+    total() {
+      return this.$store.state.article.count;
+    },
+    pageNum(){
+      return this.$store.state.article.pageNum;
     }
   }
 };
@@ -78,5 +126,14 @@ export default {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+.yema {
+  /* width: 80%; */
+  text-align: center;
+  padding: 50px 0;
+  /* margin: 0 auto; */
+}
+.left{
+  margin-left: -15px;
 }
 </style>
