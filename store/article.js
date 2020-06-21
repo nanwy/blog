@@ -24,67 +24,71 @@ export const state = () => ({
   // 文章类型
   typelist: null,
   history: null,
-  Detail: null
+  Detail: null,
+  isOpen: false
 })
 export const mutations = {
   list(state, res) {
-      state.list = res
+    state.list = res
   },
   page(state, res) {
-      state.list = res
+    state.list = res
+  },
+  isOpen(state, res) {
+    state.isOpen = res
   },
   pageSize(state, res) {
-      state.pageSize = res
+    state.pageSize = res
   },
   nowtype(state, res) {
-      state.nowtype = res
+    state.nowtype = res
   },
   typelist(state, res) {
-      state.typelist = res
+    state.typelist = res
   },
   data(state, res) {
-      if (res != null) {
-          // window.document.title = res.list.rows[0].title + " | vueblog"
-          state.data = res.data
-      } else {
-          state.data = res
-      }
+    if (res != null) {
+      // window.document.title = res.list.rows[0].title + " | vueblog"
+      state.data = res.data
+    } else {
+      state.data = res
+    }
   },
   search(state, res) {
-      state.search = res
+    state.search = res
   },
   pagelist(state, res) {
-      state.pagelist = res
+    state.pagelist = res
   },
   hotlist(state, res) {
-      // state.hotlist = res
-      // slice截取指定元素
-      // state.hotlist = res.slice(0, 3)
-      state.hotlist = res
+    // state.hotlist = res
+    // slice截取指定元素
+    // state.hotlist = res.slice(0, 3)
+    state.hotlist = res
   },
   history(state, res) {
-      // slice截取指定元素
-      state.history = res
+    // slice截取指定元素
+    state.history = res
   },
   count(state, res) {
-      state.count = res
+    state.count = res
   }
 }
 export const actions = {
-  async bloglist({commit,state},data){
-    var {pageNum} = data
+  async bloglist({ commit, state }, data) {
+    var { pageNum } = data
     console.log(state.pageSize);
-    
+
     const res = await this.$axios.$get(`/api/blog/page?pageNum=${pageNum}&pageSize=${state.pageSize}`)
-      console.log(res);
-    commit('count',res.message.count)
-    commit('list',res.data)
+    console.log(res);
+    commit('count', res.message.count)
+    commit('list', res.data)
   },
-  async getBlogDetail({commit},data) {
-    let {id} = data
-      const res = await this.$axios.$get(`/api/blog/detail?id=${id}`)
-      commit('data',res)
-      // console.log(this.blogList);
-      
-    },
+  async getBlogDetail({ commit }, data) {
+    let { id } = data
+    const res = await this.$axios.$get(`/api/blog/detail?id=${id}`)
+    commit('data', res)
+    // console.log(this.blogList);
+
+  },
 }

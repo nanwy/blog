@@ -1,9 +1,7 @@
 <template>
   <div class="article">
-    <transition>
-      <!-- <router-view /> -->
-      <nuxt />
-    </transition>
+    <!-- <router-view /> -->
+    <nuxt-child keep-alive />
   </div>
 </template>
 
@@ -11,19 +9,16 @@
 export default {
   computed: {
     key() {
-      console.log(this.$route.path)
+      console.log(this.$route.path);
       return this.$route.path;
     }
-  }
+  },
+  created() {
+    // console.log(this.$refs.nuxt);
+  },
+  transition: "test"
 };
 </script>
 
 <style scoped>
-.v-enter {
-  transform: translateX(-10px);
-  opacity: 0;
-}
-.v-enter-active {
-  transition: all 0.5s ease;
-}
 </style>

@@ -24,14 +24,15 @@ export default {
   */
   css: [
     'element-ui/lib/theme-chalk/index.css',
-    '~/assets/css/index.css'
+    '~/assets/css/index.css',
+    '~assets/css/main.css'
   ],
   /*
   ** Plugins to load before mounting the App
   */
- plugins: [
-  { src: '~/plugins/element-ui', ssr: true }
-],
+  plugins: [
+    { src: '~/plugins/element-ui', ssr: true }
+  ],
   /*
   ** Nuxt.js dev-modules
   */
@@ -52,8 +53,8 @@ export default {
   },
   proxy: {
     '/api': {
-      target: 'http://59.110.124.156:8000',
-      // target: 'http://localhost:3003',
+      // target: 'http://59.110.124.156:8000',
+      target: 'http://localhost:8000',
       pathRewrite: {
         '^/api': 'api'
       }
@@ -70,8 +71,8 @@ export default {
     },
     babel: {
       plugins: [
-        [ "component", {"libraryName": "element-ui",  "styleLibraryName": "theme-chalk"}] 
-      ] 
+        ["component", { "libraryName": "element-ui", "styleLibraryName": "theme-chalk" }]
+      ]
     },
   }
 }
