@@ -1,5 +1,23 @@
 @media screen and (max-width: 992px) {
-
+  .el-main {
+    margin-left: 0 !important;
+    transition: all 0.5s ease;
+  }
+  .left-nav {
+    position: relative !important;
+    background-image: none !important;
+    height: 120px !important;
+    line-height: 120px !important;
+    transition: all 0.5s ease;
+  }
+  .bloger {
+    position: fixed;
+    /* left: -300px; */
+    top: 120px !important;
+    z-index: 10;
+    transform: translateX(-100%);
+    transition: all 0.5s ease;
+  }
 
   .article {
     transform: translateX(0);
@@ -32,8 +50,13 @@
     flex: 2;
   }
 
+  .hide-aside {
+    display: block !important;
+  }
+
   .nav {
     height: 120px !important;
+    transition: height 0.5s ease;
   }
 }
 
@@ -49,10 +72,10 @@
   .bloger {
     position: fixed;
     /* left: -300px; */
-    top: 80px;
+    top: 80px !important;
     z-index: 10;
     transform: translateX(-100%);
-    transition: transform 0.5s ease;
+    transition: all 0.5s ease;
   }
 
   .container1 {
@@ -66,7 +89,13 @@
   .nav {
     height: 80px !important;
   }
-
+  .left-nav {
+    position: relative !important;
+    background-image: none !important;
+    height: 80px !important;
+    line-height: 80px !important;
+    transition: all 0.5s ease;
+  }
 }
 
 a {
@@ -78,13 +107,8 @@ a {
 }
 
 html {
-  background-image: linear-gradient(to right,
-      #eea2a2 0%,
-      #bbc1bf 19%,
-      #57c6e1 42%,
-      #b49fda 79%,
-      #7ac5d8 100%);
-
+  background-image: linear-gradient(to right, #eea2a2 0%, #bbc1bf 19%, #57c6e1 42%, #b49fda 79%, #7ac5d8 100%);
+  overflow-x: hidden;
 }
 
 body {

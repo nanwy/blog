@@ -40,17 +40,17 @@
 </template>
 
 <script>
-import nheader from "./header";
-import vaside from "./aside";
-import vmain from "./main";
-import backtop from "./backtop";
-import { color } from "../plugins/color";
+import nheader from './header'
+import vaside from './aside'
+import vmain from './main'
+import backtop from './backtop'
+import { color } from '../plugins/color'
 export default {
   data() {
     return {
       navBar: [],
       bran: []
-    };
+    }
   },
   components: {
     nheader,
@@ -60,16 +60,16 @@ export default {
   },
   mounted() {
     // console.log(color);
-    color(window);
+    color(window)
   },
   comments: {},
   methods: {},
   computed: {
     isOpen() {
-      return this.$store.state.article.isOpen;
+      return this.$store.state.article.isOpen
     }
   }
-};
+}
 </script>
 
 <style scoped>
@@ -85,9 +85,17 @@ export default {
 .container1 {
   margin: 0 auto;
   width: 970px;
+
+  position: relative;
   /* background: #f1f3f4; */
 }
 .el-main {
   padding: 0 20px;
+  margin-left: 225px;
+  overflow: visible;
+  transition: all 0.5s ease;
+}
+.el-main::-webkit-scrollbar {
+  display: none;
 }
 </style>

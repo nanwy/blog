@@ -1,9 +1,11 @@
 <template>
   <transition name="test">
-    <div>
-      <div v-if="res">
+    <div class="detail_content">
+      <div class="title" v-if="res">
+        <h1>{{res.title}}</h1>
+        <p>{{res.views}}次观看</p>
         <img :src="res.img" alt />
-        <h2>{{res.title}}</h2>
+
         <markdown :md="res.content"></markdown>
       </div>
     </div>
@@ -12,12 +14,12 @@
 
 <script>
 // import api from "@/api/article.js";
-import markdown from "../../components/markdown";
+import markdown from '../../components/markdown'
 export default {
   data() {
     return {
       blog: []
-    };
+    }
   },
   components: {
     markdown
@@ -27,31 +29,26 @@ export default {
 
     // var id = this.$route.params.id;
     // this.getBlogDetail(id)
-    console.log(this.$store.state.article.data[0]);
+    console.log(this.$store.state.article.data)
   },
   async asyncData({ store, params }) {
-    var id = params.id;
-    await store.dispatch("article/getBlogDetail", { id });
+    var id = params.id
+    console.log(id)
+
+    await store.dispatch('article/getBlogDetail', { id })
     // this.blog = res.data
   },
   computed: {
     res() {
-      return this.$store.state.article.data[0];
+      return this.$store.state.article.data[0]
     }
   },
-  methods: {
-    async getBlogDetail(id) {
-      this.$store.dispatch("article/getBlogDetail", { id });
-      // console.log(res);
-      // this.blog = res.data
-      // console.log(this.blogList);
-    }
-  },
-  transition: "test"
-};
+  methods: {},
+  transition: 'test'
+}
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .test-enter-active,
 .test-leave-active {
   transition: all 0.5s;
@@ -59,5 +56,15 @@ export default {
 .test-enter,
 .test-leave-active {
   transform: translateX(100%, 0);
+}
+.detail_content {
+  padding: 40px;
+  .title {
+    text-align: center;
+    img {
+      height: 80%;
+      width: 100%;
+    }
+  }
 }
 </style>

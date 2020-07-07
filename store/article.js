@@ -37,6 +37,9 @@ export const mutations = {
   isOpen(state, res) {
     state.isOpen = res
   },
+  pageNum(state, res) {
+    state.pageNum = res
+  },
   pageSize(state, res) {
     state.pageSize = res
   },
@@ -77,11 +80,12 @@ export const mutations = {
 export const actions = {
   async bloglist({ commit, state }, data) {
     var { pageNum } = data
-    console.log(state.pageSize);
+    console.log(state.pageNum);
 
     const res = await this.$axios.$get(`/api/blog/page?pageNum=${pageNum}&pageSize=${state.pageSize}`)
     console.log(res);
     commit('count', res.message.count)
+    commit('pageNum', pageNum)
     commit('list', res.data)
   },
   async getBlogDetail({ commit }, data) {

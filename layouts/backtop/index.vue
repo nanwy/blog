@@ -12,36 +12,37 @@ export default {
     return {
       visible: false,
       toggle: false
-    };
+    }
   },
   methods: {
     handleTo() {
-      scrollTo({ top: 0, behavior: "smooth" });
+      console.log(scrollTo)
+
+      scrollTo({ top: 0, behavior: 'smooth' })
     },
     handleResize() {
-      const { width } = document.documentElement.getBoundingClientRect();
-      this.toggle = width > 1200;
+      const { width } = document.documentElement.getBoundingClientRect()
+      this.toggle = width > 1200
     },
     headershow() {
       // 头部高度为70px
-      const height = 50;
-      const offsetTop =
-        window.pageYOffset || document.documentElement.scrollTop;
-      this.visible = offsetTop > height;
+      const height = 50
+      const offsetTop = window.pageYOffset || document.documentElement.scrollTop
+      this.visible = offsetTop > height
     }
   },
   created() {},
   mounted() {
-    this.handleResize();
-    window.addEventListener("scroll", this.headershow);
-    window.addEventListener("resize", this.handleResize);
+    this.handleResize()
+    window.addEventListener('scroll', this.headershow)
+    window.addEventListener('resize', this.handleResize)
   },
   destroyed() {
-    window.removeEventListener("scroll", this.headershow);
-    window.addEventListener("resize", this.handleResize);
+    window.removeEventListener('scroll', this.headershow)
+    window.addEventListener('resize', this.handleResize)
   },
   computed: {}
-};
+}
 </script>
 
 <style scoped>

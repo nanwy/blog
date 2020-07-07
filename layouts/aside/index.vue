@@ -1,7 +1,7 @@
 <template>
   <div class="bloger" @touchmove.prevent @mousewheel.prevent>
-    <el-aside class="blog-aside" width="100vw" @click.native="slide">
-      <el-col :span="18">
+    <el-aside class="blog-aside">
+      <el-col :span="24">
         <el-card class="box-card" style="height:100vh" shadow="hover">
           <div class="bloger-img">
             <img src="http://img.nanwayan.cn/1592539247967cc138bd2a23cbf2f1f75a333b9289381.png" alt />
@@ -11,9 +11,8 @@
           </div>
         </el-card>
       </el-col>
-      <a href="#" class="to"></a>
     </el-aside>
-    <div class="hide-aside"></div>
+    <div class="hide-aside" @click="slide" v-if="isOpen"></div>
   </div>
 </template>
 
@@ -21,12 +20,17 @@
 export default {
   methods: {
     slide() {
-      console.log("dianji");
-      document.body.removeAttribute("class", "ban");
-      this.$store.commit("article/isOpen", false);
+      // console.log('dianji')
+      // document.body.removeAttribute('class', 'ban')
+      this.$store.commit('article/isOpen', false)
+    }
+  },
+  computed: {
+    isOpen() {
+      return this.$store.state.article.isOpen
     }
   }
-};
+}
 </script>
 
 <style scoped>
@@ -37,6 +41,7 @@ export default {
   width: 100vw;
   height: 100vh;
   z-index: 15;
+  display: none;
 }
 .box-card {
   /* align-items: center; */
@@ -49,8 +54,17 @@ export default {
   height: 500px;
   display: block;
 }
+.bloger {
+  width: 225px;
+  position: fixed;
+  top: 200px;
+  /* right: 0; */
+  /* left: 0; */
+  bottom: 0;
+  transition: all 0.5s ease;
+}
 .blog-aside {
-  width: 100vw;
+  width: 225px !important;
   position: relative;
   left: 0px;
   top: 0;

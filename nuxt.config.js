@@ -23,9 +23,10 @@ export default {
   ** Global CSS
   */
   css: [
-    'element-ui/lib/theme-chalk/index.css',
+    // 'element-ui/lib/theme-chalk/index.css',
     '~/assets/css/index.css',
-    '~assets/css/main.css'
+    '~assets/css/main.css',
+    '~assets/css/animate.compat.css'
   ],
   /*
   ** Plugins to load before mounting the App
@@ -68,6 +69,10 @@ export default {
     ** You can extend webpack config here
     */
     extend(config, ctx) {
+    },
+    analyze: true,
+    assetFilter: function (assetFilename) {
+      return assetFilename.endsWith('.js');
     },
     babel: {
       plugins: [
