@@ -4,6 +4,7 @@
   /* font-size: 12px; */
 /* } */
 
+
 .test-enter {
   animation: bounce-in 0.5s;
 }
@@ -29,6 +30,7 @@
 }
 
 @keyframes bounce {
+
   0%,
   20% {
     animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);

@@ -25,6 +25,7 @@
         @focus="blurSearchFor"
       ></el-autocomplete>
     </div>
+    <span id="pause" @click="show">切换canvas动画</span>
   </div>
 </template>
 
@@ -34,7 +35,8 @@ export default {
     return {
       state: '',
       time: null,
-      isOpen: false
+      isOpen: false,
+      isShow: true
     }
   },
   created() {
@@ -47,6 +49,9 @@ export default {
     window.removeEventListener('scroll', this.handleScroll)
   },
   methods: {
+    show() {
+      this.$emit('show')
+    },
     showMenu() {
       this.isOpen = !this.$store.state.article.isOpen
       console.log(this.isOpen)
@@ -115,6 +120,7 @@ export default {
 
 <style scoped>
 .nav {
+  position: relative;
   padding: 0 20px 0 0;
   display: flex;
   align-items: center;
@@ -137,7 +143,7 @@ export default {
   line-height: 200px;
   transition: all 0.5s ease;
   background-image: url('http://img.nanwayan.cn/20200707224825.png');
-  filter: brightness(50%);
+  filter: brightness(85%);
 }
 .menu {
   width: 35px;
@@ -145,6 +151,17 @@ export default {
   font-size: 25px;
   color: azure;
   display: none;
+  cursor: pointer;
+}
+#pause {
+  position: absolute;
+  top: 10px;
+  right: 5px;
+  color: #ffffff;
+  font-size: 12px;
+  border: 1px solid #a6c1ee;
+  border-radius: 10px;
+  padding: 2px;
   cursor: pointer;
 }
 .link-home {

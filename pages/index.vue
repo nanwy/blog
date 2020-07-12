@@ -12,7 +12,7 @@
           >
             <div class="artilcl">
               <nuxt-link :to="'/article/'+item.id" tag="h2" class="overtext">
-                <img :src="item.img" class="image" />
+                <img v-lazy="item.img" class="image" />
               </nuxt-link>
             </div>
 
@@ -86,6 +86,18 @@ export default {
 
   mounted() {
     console.log('mounted')
+    if (process.browser) {
+      console.log('搜索')
+
+      // 在页面mounted生命周期里面 根据环境实例化WOW
+      new WOW({
+        boxClass: 'wow',
+        // animateClass: 'animated',
+        offset: 0,
+        mobile: true,
+        live: false
+      }).init()
+    }
   },
   activated() {
     console.log('zhixing')
@@ -215,7 +227,7 @@ export default {
 .artilcl img {
   width: 100%;
   height: 100%;
-  min-height: 200px;
+  max-height: 300px;
 }
 @keyframes move {
   0% {
@@ -258,5 +270,6 @@ export default {
 .article_b {
   border-left: 1px solid #000;
   padding-left: 10px;
+  max-width: 300px;
 }
 </style>

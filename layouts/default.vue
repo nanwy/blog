@@ -1,13 +1,12 @@
 <template>
-  <div>
+  <div id="bg-canvas">
+    <canvas id="demo-canvas" v-show="isShow"></canvas>
     <el-container class="container1" :class="{'container':isOpen}">
       <div class="content" style="width:100%;">
-        <nheader></nheader>
+        <nheader @show="show"></nheader>
         <el-container>
           <!-- 侧边布局 -->
-
           <vaside />
-
           <!-- 主布局 -->
           <transition name="el-zoom-in-center">
             <el-main class="bg-light main1">
@@ -25,14 +24,13 @@
                   >{{item.title}}</el-breadcrumb-item>
                 </el-breadcrumb>
               </div>
-
               <!-- 主内容 -->
               <vmain keep-alive />
-
               <!-- <div style="height:1000px;"></div> -->
               <backtop />
             </el-main>
           </transition>
+          <vasider />
         </el-container>
       </div>
     </el-container>
@@ -42,28 +40,79 @@
 <script>
 import nheader from './header'
 import vaside from './aside'
+import vasider from './asider'
 import vmain from './main'
+
+if (process.browser) {
+  require('../plugins/TweenLite.min')
+  require('../plugins/EasePack.min')
+  require('../plugins/demo-1')
+}
+// import { initHeader, initAnimation, addListeners } from '../plugins/demo-1'
+
 import backtop from './backtop'
 import { color } from '../plugins/color'
 export default {
   data() {
     return {
       navBar: [],
-      bran: []
+      bran: [],
+      isShow: true,
+      dialogVisible: false,
+      second: 3,
+      timer: null
     }
   },
   components: {
     nheader,
     vmain,
     vaside,
-    backtop
+    backtop,
+    vasider
   },
   mounted() {
-    // console.log(color);
+    // this.show()
+    if (!window.matchMedia('(min-width: 400px)').matches) {
+      this.$message({
+        message: '当前为移动端,为确保流畅数秒后将关闭canvas动画',
+        type: 'warning'
+      })
+      this.timer = setInterval(() => {
+        // this.show()
+        this.second--
+        // console.log('this.second < 0: ', this.second < 0)
+        if (this.second === 0) {
+          clearInterval(this.timer)
+          this.show()
+          // this.second--
+          this.dialogVisible = false
+          // i.animateHeader = false
+          // console.log('i', i)
+        }
+        // this.dialogVisible = false
+      }, 1000)
+
+      console.log('当前为移动端')
+    }
+    // console.log('canvas', initHeader, initAnimation, addListeners)
+    // if (process.browser) {
+    //   initHeader()
+    //   initAnimation()
+    //   addListeners()
+    // }
     color(window)
   },
   comments: {},
-  methods: {},
+  methods: {
+    cancelClick() {
+      this.dialogVisible = false
+      clearInterval(this.timer)
+    },
+    show() {
+      this.isShow = !this.isShow
+      // console.log('点击', this.isShow)
+    }
+  },
   computed: {
     isOpen() {
       return this.$store.state.article.isOpen
@@ -73,6 +122,16 @@ export default {
 </script>
 
 <style scoped>
+#bg-canvas {
+  position: relative;
+}
+#demo-canvas {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  z-index: -2;
+  opacity: 1;
+}
 .geren-enter-active,
 .geren-leave-active {
   transition: transform linear 0.1s;
@@ -81,18 +140,27 @@ export default {
 .geren-leave-to {
   transform: translateX(-300px);
 }
-
+.tips {
+  position: absolute;
+  top: -67px;
+  right: -121px;
+  transform: scale(0.5, 0.5);
+}
 .container1 {
   margin: 0 auto;
-  width: 970px;
-
+  width: 1200px;
+  box-shadow: 0 0 30px rgba(255, 112, 173, 0.35);
   position: relative;
   /* background: #f1f3f4; */
 }
+.el-container {
+  display: flex;
+  justify-content: space-between;
+}
 .el-main {
-  padding: 0 20px;
+  padding: 20px;
   margin-left: 225px;
-  overflow: visible;
+  /* overflow: visible; */
   transition: all 0.5s ease;
 }
 .el-main::-webkit-scrollbar {

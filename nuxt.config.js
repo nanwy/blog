@@ -32,7 +32,12 @@ export default {
   ** Plugins to load before mounting the App
   */
   plugins: [
-    { src: '~/plugins/element-ui', ssr: true }
+    // '@/plugins/TweenLite.min',
+    '~/plugins/vue-lazyload.js',
+    {
+      src: '~/plugins/element-ui', ssr: true,
+
+    }
   ],
   /*
   ** Nuxt.js dev-modules
