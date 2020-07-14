@@ -1,6 +1,6 @@
 <template>
   <div id="bg-canvas">
-    <canvas id="demo-canvas" v-show="isShow"></canvas>
+    <!-- <canvas id="demo-canvas" v-show="isShow"></canvas> -->
     <el-container class="container1" :class="{'container':isOpen}">
       <div class="content" style="width:100%;">
         <nheader @show="show"></nheader>
@@ -43,11 +43,11 @@ import vaside from './aside'
 import vasider from './asider'
 import vmain from './main'
 
-if (process.browser) {
-  require('../plugins/TweenLite.min')
-  require('../plugins/EasePack.min')
-  require('../plugins/demo-1')
-}
+// if (process.browser) {
+//   require('../plugins/TweenLite.min')
+//   require('../plugins/EasePack.min')
+//   require('../plugins/demo-1')
+// }
 // import { initHeader, initAnimation, addListeners } from '../plugins/demo-1'
 
 import backtop from './backtop'
@@ -72,28 +72,28 @@ export default {
   },
   mounted() {
     // this.show()
-    if (!window.matchMedia('(min-width: 400px)').matches) {
-      this.$message({
-        message: '当前为移动端,为确保流畅数秒后将关闭canvas动画',
-        type: 'warning'
-      })
-      this.timer = setInterval(() => {
-        // this.show()
-        this.second--
-        // console.log('this.second < 0: ', this.second < 0)
-        if (this.second === 0) {
-          clearInterval(this.timer)
-          this.show()
-          // this.second--
-          this.dialogVisible = false
-          // i.animateHeader = false
-          // console.log('i', i)
-        }
-        // this.dialogVisible = false
-      }, 1000)
+    // if (!window.matchMedia('(min-width: 400px)').matches) {
+    //   this.$message({
+    //     message: '当前为移动端,为确保流畅数秒后将关闭canvas动画',
+    //     type: 'warning'
+    //   })
+    //   this.timer = setInterval(() => {
+    //     // this.show()
+    //     this.second--
+    //     // console.log('this.second < 0: ', this.second < 0)
+    //     if (this.second === 0) {
+    //       clearInterval(this.timer)
+    //       this.show()
+    //       // this.second--
+    //       this.dialogVisible = false
+    //       // i.animateHeader = false
+    //       // console.log('i', i)
+    //     }
+    //     // this.dialogVisible = false
+    //   }, 1000)
 
-      console.log('当前为移动端')
-    }
+    //   console.log('当前为移动端')
+    // }
     // console.log('canvas', initHeader, initAnimation, addListeners)
     // if (process.browser) {
     //   initHeader()
@@ -124,13 +124,18 @@ export default {
 <style scoped>
 #bg-canvas {
   position: relative;
+  background-image: url('http://img.nanwayan.cn/shawu.png');
+  background-size: cover;
+  background-attachment: fixed;
+  background-position: 50% 20%;
 }
+
 #demo-canvas {
   position: fixed;
   top: 0px;
   left: 0px;
-  z-index: -2;
-  opacity: 1;
+  z-index: 0;
+  opacity: 0.6;
 }
 .geren-enter-active,
 .geren-leave-active {
@@ -149,8 +154,9 @@ export default {
 .container1 {
   margin: 0 auto;
   width: 1200px;
-  box-shadow: 0 0 30px rgba(255, 112, 173, 0.35);
+  /* box-shadow: 0 0 30px rgba(255, 112, 173, 0.35); */
   position: relative;
+
   /* background: #f1f3f4; */
 }
 .el-container {
@@ -158,9 +164,11 @@ export default {
   justify-content: space-between;
 }
 .el-main {
-  padding: 20px;
-  margin-left: 225px;
+  padding: 10px;
+  /* margin-left: 225px; */
   /* overflow: visible; */
+  /* /* background-color: #f1f3f4; */
+  /* background-color: #fff; */
   transition: all 0.5s ease;
 }
 .el-main::-webkit-scrollbar {

@@ -3,12 +3,11 @@
     <div class="menu" @click="showMenu">
       <i class="el-icon-s-operation"></i>
     </div>
-    <div class="left-nav" id="left-nav">
-      <nuxt-link to="/" class="link-home">
-        <i class="el-icon-s-home"></i>
-        <span class="blog-name">南浮宫魅影</span>
-      </nuxt-link>
-    </div>
+
+    <nuxt-link to="/" class="link-home">
+      <i class="el-icon-s-home"></i>
+      <span class="blog-name">南浮宫魅影</span>
+    </nuxt-link>
 
     <div class="time">{{time}}</div>
     <div class="search">
@@ -25,7 +24,7 @@
         @focus="blurSearchFor"
       ></el-autocomplete>
     </div>
-    <span id="pause" @click="show">切换canvas动画</span>
+    <!-- <span id="pause" @click="show">切换canvas动画</span> -->
   </div>
 </template>
 
@@ -42,12 +41,7 @@ export default {
   created() {
     setInterval(this.nowTime, 1000)
   },
-  mounted() {
-    window.addEventListener('scroll', this.handleScroll)
-  },
-  beforeDestroy() {
-    window.removeEventListener('scroll', this.handleScroll)
-  },
+
   methods: {
     show() {
       this.$emit('show')
@@ -60,18 +54,18 @@ export default {
       // console.log(this.isOpen);
       var b = document.querySelectorAll('body')[0]
     },
-    handleScroll() {
-      //改变元素#searchBar的top值
-      var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
-      console.log(document.querySelector('#left-nav').offsetTop)
+    // handleScroll() {
+    //   //改变元素#searchBar的top值
+    //   var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
+    //   console.log(document.querySelector('#left-nav').offsetTop)
 
-      var offsetTop = document.querySelector('#left-nav').offsetTop
+    //   var offsetTop = document.querySelector('#left-nav').offsetTop
 
-      if (scrollTop <= 0) {
-        offsetTop = 0 + Number(scrollTop)
-        document.querySelector('#left-nav').style.top = offsetTop + 'px'
-      }
-    },
+    //   if (scrollTop <= 0) {
+    //     offsetTop = 0 + Number(scrollTop)
+    //     document.querySelector('#left-nav').style.top = offsetTop + 'px'
+    //   }
+    // },
     blurSearchFor() {
       // console.log(this.state);
       this.state = ''
@@ -121,17 +115,17 @@ export default {
 <style scoped>
 .nav {
   position: relative;
-  padding: 0 20px 0 0;
+  padding: 0 20px;
   display: flex;
   align-items: center;
   background-image: url('http://img.nanwayan.cn/72722834.jpg');
   background-position: 0 30%;
-  height: 200px;
+  height: 120px;
   background-size: cover;
   /* padding: 0 20px; */
   box-sizing: border-box;
   flex-shrink: 0;
-  opacity: 0.8;
+  /* opacity: 0.8; */
   transition: all 0.5s ease;
 }
 .left-nav {
@@ -172,6 +166,7 @@ export default {
   /* padding-right: 10%; */
   font-size: 26px;
   margin: auto;
+  overflow: hidden;
 }
 .link-home i {
   color: azure;
@@ -184,6 +179,27 @@ export default {
 .blog-name {
   font-weight: 700;
   color: azure;
+  position: relative;
+  overflow: hidden;
+}
+/* .blog-name::before {
+  content: '';
+  position: absolute;
+  width: 150px;
+  height: 10px;
+  background-color: rgba(255, 255, 255, 0.5);
+  -webkit-transform: rotate(-45deg);
+  transform: rotate(-45deg);
+  -webkit-animation: searchLights 1s ease-in 1s infinite;
+  animation: searchLights 1s ease-in 1s infinite;
+} */
+@keyframes searchLights {
+  0% {
+    transform: translateX(-100%) rotate(-45deg);
+  }
+  100% {
+    transform: translateX(100%) rotate(-45deg);
+  }
 }
 .search {
   margin-left: auto;

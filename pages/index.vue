@@ -6,8 +6,7 @@
           <div
             v-for="(item,index) in blogList"
             :key="item.id"
-            class="article_content wow"
-            :class="[index%2==0? 'fadeInLeft':'fadeInRight']"
+            class="article_content wow bounceInUp"
             ref="con"
           >
             <div class="artilcl">
@@ -49,6 +48,7 @@
               @current-change="currentchange"
               @size-change="handleSizeChange"
               style="text-align:center;"
+              class="wow fadeInUp"
             ></el-pagination>
           </div>
         </el-col>
@@ -174,13 +174,13 @@ export default {
   },
   watch: {
     blogList(val, pageNum) {
-      console.log('wo盖面', val)
+      // console.log('wo盖面', val)
 
       // 在页面mounted生命周期里面 根据环境实例化WOW
-      console.log('this.$refs.con', this)
+      // console.log('this.$refs.con', this)
       this.$nextTick(function() {
         if (process.browser) {
-          console.log('搜索')
+          // console.log('搜索')
 
           // 在页面mounted生命周期里面 根据环境实例化WOW
           new WOW({
@@ -222,12 +222,13 @@ export default {
   /* transform: translate3d(-100%, 0, 0); */
 }
 .artilcl {
-  flex: 0 030%;
+  flex: 0 0 30%;
+  padding-left: 10px;
 }
 .artilcl img {
   width: 100%;
   height: 100%;
-  max-height: 300px;
+  /* max-height: 300px; */
 }
 @keyframes move {
   0% {

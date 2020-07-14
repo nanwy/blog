@@ -31,15 +31,15 @@
   }
 
   .container1 {
-    width: 970px !important;
+    width: 100% !important;
   }
 
   .container .bloger {
-    transform: translateX(0);
+    transform: translateX(1%);
   }
 
   .container .article {
-    transform: translateX(300px);
+    transform: translateX(250px);
     overflow-y: hidden !important;
     overflow-x: hidden !important;
   }
@@ -75,6 +75,18 @@
     display: none;
   }
 
+  .father-comment {
+    transform: translate3d(-12.5%, 0, 0) !important;
+    width: 110% !important;
+  }
+
+  .son-comment {
+    transform: translate3d(-38%, 0, 0) !important;
+    width: 150% !important;
+
+
+  }
+
   .bloger {
     position: fixed;
     /* left: -300px; */
@@ -84,8 +96,30 @@
     transition: all 0.5s ease;
   }
 
+  .blog-name {
+    font-size: 22px !important;
+    font-weight: bolder;
+  }
+
   .container1 {
     width: 100% !important;
+  }
+
+  #bg-canvas {
+    background-image: none !important;
+  }
+
+  #bg-canvas:before {
+    content: "";
+    background-image: url('http://img.nanwayan.cn/bg.png') !important;
+    background-size: cover;
+    background-position: 50% 20%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: -1;
   }
 
   .yema /deep/ .el-pagination__sizes {
@@ -103,10 +137,21 @@
     line-height: 80px !important;
     transition: all 0.5s ease;
   }
+
+  .comment-author {
+    display: block !important;
+  }
+
+  .author-cls {
+    display: block !important;
+    width: 100% !important;
+  }
 }
 
 a {
   text-decoration: none;
+  color: inherit;
+  cursor: pointer;
 }
 
 * {
@@ -129,12 +174,19 @@ body {
   overflow-y: hidden !important;
 }
 
-.h1,
-.h2,
-.h3,
-.h4,
-.h5,
-.h6,
+ul,
+li {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
 p {
   margin: 0;
 }

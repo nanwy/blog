@@ -7,17 +7,12 @@
 
 <script>
 export default {
-  computed: {
-    key() {
-      console.log(this.$route.path);
-      return this.$route.path;
-    }
-  },
+  computed: {},
   created() {
     // console.log(this.$refs.nuxt);
   },
-  transition: "test"
-};
+  transition: 'test'
+}
 </script>
 
 <style scoped>

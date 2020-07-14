@@ -1,15 +1,47 @@
 <template>
   <div class="bloger" @touchmove.prevent @mousewheel.prevent>
+    <div class="photo-background"></div>
     <el-aside class="blog-aside">
       <el-col :span="24">
-        <el-card class="box-card" style="height:100vh" shadow="hover">
+        <el-card class="box-card" style="height:500px" shadow="hover">
           <div class="bloger-img">
             <img src="http://img.nanwayan.cn/1592539247967cc138bd2a23cbf2f1f75a333b9289381.png" alt />
           </div>
           <div class="blog-message">
-            <span class="bloger-name">南浮宫魅影</span>
+            <span class="aside-name">南浮宫魅影的Blog</span>
           </div>
+          <span style="color: #98a6ad;font-size:12px;margin-top:10px;">沉默不语,但仍奋力前行</span>
+          <ul>
+            <li>
+              <nuxt-link to="/" class="link-home">
+                <i class="el-icon-s-home"></i>
+                <span class="aside-name">首页</span>
+              </nuxt-link>
+            </li>
+            <li>
+              <nuxt-link to="/liveMessage" class="link-home">
+                <i class="el-icon-edit-outline"></i>
+                <span class="aside-name">留言板</span>
+              </nuxt-link>
+            </li>
+            <li>
+              <nuxt-link to="/" class="link-home">
+                <i class="el-icon-paperclip"></i>
+                <span class="aside-name">友链</span>
+              </nuxt-link>
+            </li>
+            <li>
+              <nuxt-link to="/" class="link-home">
+                <i class="el-icon-info"></i>
+                <span class="aside-name">关于我</span>
+              </nuxt-link>
+            </li>
+          </ul>
         </el-card>
+        <div class="footer">
+          <i class="el-icon-setting" style="margin-right:10px;"></i>
+          <a href="http://superadmin.nanwayan.cn/">后台管理</a>
+        </div>
       </el-col>
     </el-aside>
     <div class="hide-aside" @click="slide" v-if="isOpen"></div>
@@ -33,7 +65,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .hide-aside {
   position: fixed;
   top: 0;
@@ -45,8 +77,8 @@ export default {
 }
 .box-card {
   /* align-items: center; */
-  padding-top: 20px;
-  background: #e2ebf0;
+
+  /* background: #e2ebf0; */
 }
 .to {
   background-color: red;
@@ -56,12 +88,52 @@ export default {
 }
 .bloger {
   width: 225px;
-  position: fixed;
-  top: 200px;
+  margin-top: 10px;
+  /* position: fixed; */
+  /* top: 200px; */
   /* right: 0; */
   /* left: 0; */
-  bottom: 0;
+  /* bottom: 0; */
+  background-color: #fff;
   transition: all 0.5s ease;
+  background-size: auto 225px;
+  /* background-attachment: fixed; */
+  height: 500px;
+  border-radius: 10px;
+  /* overflow: hidden; */
+
+  ul {
+    margin-top: 10px;
+    margin-left: -10px;
+    li {
+      margin-top: 10px;
+    }
+    .link-home {
+      font-size: 20px;
+      color: #ce98b0;
+      .aside-name {
+        color: #000;
+        margin-left: 10px;
+      }
+    }
+  }
+  .footer {
+    position: relative;
+    // margin: auto;
+    left: 50%;
+    font-size: 15px;
+    transform: translateX(-25%);
+    top: -126px;
+    bottom: 0px;
+    color: #000;
+  }
+}
+.photo-background {
+  height: 100px;
+  background-image: url('http://img.nanwayan.cn/pink.jpg');
+  background-size: cover;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
 }
 .blog-aside {
   width: 225px !important;
@@ -71,10 +143,13 @@ export default {
   z-index: 21;
 }
 .bloger-img {
-  width: 80%;
+  position: absolute;
+  width: 50%;
   height: 0;
-  padding-top: 80%;
-  position: relative;
+  top: -80px;
+  margin-top: 20px;
+  padding-top: 50%;
+  /* position: relative; */
   border-radius: 50%;
   overflow: hidden;
 }
@@ -87,9 +162,11 @@ export default {
 }
 .blog-message {
   text-align: center;
+  padding-top: 80px;
 }
 .el-aside /deep/ .el-card {
   border: none;
+  background-color: transparent;
 }
 .el-aside /deep/ .el-card.is-hover-shadow:hover {
   box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);

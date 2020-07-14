@@ -3,7 +3,19 @@
   animation: bounce-in .5s;
   /* font-size: 12px; */
 /* } */
+.hide-enter-active {
+  transition: all 0.5s;
+}
 
+.hide-leave-active {
+  display: none
+}
+
+.hide-enter,
+.hide-leave-to {
+  opacity: 0;
+
+}
 
 .test-enter {
   animation: bounce-in 0.5s;
@@ -29,7 +41,12 @@
   }
 }
 
-@keyframes bounce {
+
+.bounces {
+  animation: bounces 0.5s;
+}
+
+@keyframes bounces {
 
   0%,
   20% {
