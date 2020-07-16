@@ -104,7 +104,7 @@ export default {
   },
   async asyncData({ store, params }) {
     // if (!process.server) return;
-    await store.dispatch('article/bloglist', {
+    await store.dispatch('article/blogList', {
       pageNum: store.state.article.pageNum,
       pageSize: 5
     })
@@ -148,7 +148,7 @@ export default {
       }
       // console.log('dian吉',this.$store.state.article.count / this.$store.state.article.pageSize / 2);
       // this.$store.commit("article/nowpage", pageNum);
-      this.$store.dispatch('article/bloglist', {
+      this.$store.dispatch('article/blogList', {
         pageNum
       })
       scrollTo({ top: 0, behavior: 'instant' })

@@ -8,6 +8,7 @@
           <!-- 侧边布局 -->
           <vaside />
           <!-- 主布局 -->
+
           <transition name="el-zoom-in-center">
             <el-main class="bg-light main1">
               <!-- 面包屑导航 -->
@@ -60,7 +61,9 @@ export default {
       isShow: true,
       dialogVisible: false,
       second: 3,
-      timer: null
+      timer: null,
+      // currentSong: '',
+      currentUrl: ''
     }
   },
   components: {
@@ -100,6 +103,12 @@ export default {
     //   initAnimation()
     //   addListeners()
     // }
+    // console.log(
+    //   'songs: ',
+    //   this.$store.state.music.playList,
+    //   this.$store.state.music.playList.songs[this.$store.state.music.currentIndex]
+    // )
+
     color(window)
   },
   comments: {},
@@ -111,6 +120,12 @@ export default {
     show() {
       this.isShow = !this.isShow
       // console.log('点击', this.isShow)
+    },
+    async getSong() {
+      var id = this.$store.state.music.playList.songs[this.$store.state.music.currentIndex].id
+      console.log('id: ', id)
+      await this.$store.dispatch('music/startSong', { id })
+      console.log('this.$store.state.music.currentSong', this.$store.state.music.currentSong.data[0].url)
     }
   },
   computed: {

@@ -21,9 +21,7 @@
     transition: all 0.5s ease;
   }
 
-  .rbloger {
-    display: none;
-  }
+
 
   .article {
     transform: translateX(0);
@@ -48,6 +46,25 @@
     width: 35%;
   }
 
+  .rbloger {
+    position: fixed;
+    right: 0;
+    top: 120px;
+    transform: translateX(250px);
+    transition: all .5s;
+    height: 100px !important;
+  }
+
+  .isOpen {
+    transform: translateX(0) !important;
+
+  }
+
+  .ismeun {
+    transform: translateX(300px);
+    /* transition: all .5s !important; */
+  }
+
   .menu {
     display: block !important;
   }
@@ -70,6 +87,8 @@
   .article_content {
     display: block !important;
   }
+
+
 
   .time {
     display: none;

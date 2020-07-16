@@ -1,4 +1,9 @@
 
+const path = require('path')
+/* eslint-disable */
+const resolve = (dir) => {
+  return path.join(__dirname, dir)
+}
 export default {
   mode: 'universal',
   /*
@@ -12,7 +17,8 @@ export default {
       { hid: 'description', name: 'description', content: process.env.npm_package_description || '' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+      { rel: 'icon1', type: 'image/x-icon', href: '/favicon.ico' },
+      { rel: 'icon', href: '//at.alicdn.com/t/font_1751579_ggf3023k8fw.css' },
     ]
   },
   /*
@@ -26,7 +32,8 @@ export default {
     // 'element-ui/lib/theme-chalk/index.css',
     '~/assets/css/index.css',
     '~assets/css/main.css',
-    '~assets/css/animate.compat.css'
+    '~assets/css/animate.compat.css',
+    '~assets/css/icon/iconfont.css'
   ],
   /*
   ** Plugins to load before mounting the App
@@ -64,6 +71,12 @@ export default {
       pathRewrite: {
         '^/api': 'api'
       }
+    },
+    '/music': {
+      target: 'http://59.110.124.156:3000',
+      pathRewrite: {
+        '^/music': ''
+      }
     }
   },
   /*
@@ -74,6 +87,11 @@ export default {
     ** You can extend webpack config here
     */
     extend(config, ctx) {
+      if (ctx.isDev && ctx.isClient) {
+        config.module.rules.push()
+      }
+      config.resolve.alias['@'] = path.resolve(__dirname, 'components')
+
     },
     analyze: true,
     assetFilter: function (assetFilename) {

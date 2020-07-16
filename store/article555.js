@@ -78,6 +78,9 @@ export const mutations = {
   }
 }
 export const actions = {
+  async nuxtServerInit({ dispatch }) {
+    await dispatch('core/load')
+  },
   async bloglist({ commit, state }, data) {
     var { pageNum } = data
     console.log(state.pageNum);

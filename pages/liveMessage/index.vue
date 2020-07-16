@@ -1,7 +1,11 @@
 <template>
   <div class="message">
-    <h2>留言板</h2>
-    <h3>本小站还在开发中,见谅</h3>
+    <div class="title">
+      <h2>留言板</h2>
+      <h3>这是一个留言板,留下您想说的话吧~ε=(´ο｀*)))</h3>
+      <h3>本小站还在开发中,见谅</h3>
+    </div>
+
     <comment :comments="comments" />
   </div>
 </template>
@@ -34,8 +38,13 @@ export default {
 .message {
   background-color: #fff;
   border-radius: 5px;
-  h2 {
-    padding: 5px;
+  // background-image: url('http://img.nanwayan.cn/72722834.jpg');
+  .title {
+    text-align: center;
+
+    h2 {
+      padding: 5px;
+    }
   }
 }
 </style>

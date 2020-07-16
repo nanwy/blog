@@ -9,6 +9,7 @@
         @blur="moveLeave"
         resize:none
         :rows="5"
+        ref="input"
       ></el-input>
       <p style="text-align:right;padding:5px 20px 5px 0;">
         <el-button type="primary" size="small" @click="restart">还原</el-button>
@@ -103,9 +104,13 @@
 
 <script>
 import { formatDate } from '../../utils/utils'
+// let scrollTo
 if (process.browser) {
   // 在这里根据环境引入wow.js
   var { WOW } = require('wowjs')
+  var scrollTo = require('../../utils/scroll.js').scrollTo
+}
+if (process.client) {
 }
 export default {
   data() {
@@ -114,7 +119,7 @@ export default {
       count: 0,
       toname: '',
       parent_id: -1,
-      input: '',
+      input: null,
       placeholder: '来发条评论吧!',
       originMes: [
         { title: '昵称*', name: '', placeholder: '留下您的名称' },
@@ -130,7 +135,7 @@ export default {
     }
   },
   created() {
-    console.log(this.comments)
+    console.log('this.comments', scrollTo)
     this.comment = this.comments
     // console.log(this.$route.params.id)
   },
@@ -149,6 +154,7 @@ export default {
     },
     showinput(com, chl) {
       // this.isShow = index
+
       console.log(this.toname)
       if (chl) {
         this.toname = chl.name
@@ -162,7 +168,7 @@ export default {
       this.parent_id = com.id
       console.log('this.toname: ', this.toname, this.parent_id)
       console.log(this.$refs.comment.offsetTop - 50)
-      scrollTo({ top: this.$refs.comment.offsetTop - 50, behavior: 'smooth' })
+      scrollTo(this.$refs.comment.offsetTop - 50, 800, this.$refs.input.focus)
     },
     moveLeave() {
       console.log(!this.toname)
@@ -175,35 +181,50 @@ export default {
     },
     async addComment(comments) {
       // console.log(this.originMes[0].name)
-      if (this.$route.params.id) {
-        var article_id = this.$route.params.id
+
+      console.log('!this.input: ', this.input != null, this.input)
+
+      if (this.input != null) {
+        if (this.$route.params.id) {
+          var article_id = this.$route.params.id
+        } else {
+          var article_id = -1
+        }
+
+        var content = this.input
+        var name = this.originMes[0].name
+        var img = this.originMes[1].name
+        var toname = this.toname
+        var parent_id = this.parent_id
+        console.log('parent_id: ', parent_id, toname)
+
+        var res = await this.$axios.$post('/api/comment/new', {
+          content,
+          name,
+          article_id,
+          img,
+          toname,
+          parent_id
+        })
+        // console.log('res: ', res)
+        if (!res.errno) {
+          this.$axios.$get(`api/comment/detail?id=${article_id}`).then(res => {
+            this.comment = res
+            this.input = ''
+            this.originMes[0].name = ''
+            this.originMes[1].name = ''
+            this.$message({
+              message: "发表成功(〃'▽'〃)",
+              type: 'success'
+            })
+            // console.log(this.comments)
+          })
+        }
       } else {
-        var article_id = -1
-      }
-
-      var content = this.input
-      var name = this.originMes[0].name
-      var img = this.originMes[1].name
-      var toname = this.toname
-      var parent_id = this.parent_id
-      console.log('parent_id: ', parent_id, toname)
-
-      var res = await this.$axios.$post('/api/comment/new', {
-        content,
-        name,
-        article_id,
-        img,
-        toname,
-        parent_id
-      })
-      // console.log('res: ', res)
-      if (!res.errno) {
-        this.$axios.$get(`api/comment/detail?id=${article_id}`).then(res => {
-          this.comment = res
-          this.input = ''
-          this.originMes[0].name = ''
-          this.originMes[1].name = ''
-          // console.log(this.comments)
+        console.log('jinru')
+        this.$message({
+          message: '您还没输入内容呢~',
+          type: 'warning'
         })
       }
     },
