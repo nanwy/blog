@@ -16,4 +16,7 @@ export default {
 </script>
 
 <style scoped>
+.article {
+  padding-bottom: 50px;
+}
 </style>

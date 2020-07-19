@@ -24,7 +24,18 @@
         @focus="blurSearchFor"
       ></el-autocomplete>
     </div>
-    <!-- <span id="pause" @click="show">切换canvas动画</span> -->
+    <span id="pause" @click="dialogVisible = true">登录</span>
+    <div class="dialog">
+      <el-dialog title="登录" :modal-append-to-body="false" :visible.sync="dialogVisible" width="30%">
+        账号：
+        <el-input placeholder="请输入账号" v-model="uname"></el-input>密码：
+        <el-input placeholder="请输入密码" v-model="upwd" show-password></el-input>
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="dialogVisible = false">取消</el-button>
+          <el-button type="success" @click="login">确定</el-button>
+        </span>
+      </el-dialog>
+    </div>
   </div>
 </template>
 
@@ -35,7 +46,10 @@ export default {
       state: '',
       time: null,
       isOpen: false,
-      isShow: true
+      isShow: true,
+      uname: '',
+      upwd: '',
+      dialogVisible: false
     }
   },
   created() {
@@ -53,6 +67,19 @@ export default {
       this.$store.commit('article/isOpen', this.isOpen)
       // console.log(this.isOpen);
       var b = document.querySelectorAll('body')[0]
+    },
+    async login() {
+      if (this.uname == '' || this.upwd == '') {
+        this.$message({
+          message: "发表成功(〃'▽'〃)",
+          type: 'success'
+        })
+      } else {
+        await this.$store.dispatch('user/login', {
+          username: this.uname,
+          password: this.upwd
+        })
+      }
     },
     // handleScroll() {
     //   //改变元素#searchBar的top值
@@ -112,7 +139,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .nav {
   position: relative;
   padding: 0 20px;
@@ -157,6 +184,7 @@ export default {
   border-radius: 10px;
   padding: 2px;
   cursor: pointer;
+  opacity: 0;
 }
 .link-home {
   text-align: center;

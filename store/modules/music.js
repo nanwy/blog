@@ -59,7 +59,7 @@ const actions = {
   async setSongAll({
     commit, state
   }, data) {
-    const res = await this.$axios.$get('/music/playlist/detail?id=3070608947')
+    const res = await this.$axios.$get('/music/playlist/detail?id=5069871738')
     // console.log(res);
     var ids = []
     for (let i = 0; i < res.playlist.trackIds.length; i++) {
@@ -85,7 +85,7 @@ const actions = {
 
   },
   async startSong({ commit }, data) {
-    console.log(data);
+    // console.log(data);
     let { id } = data
     const res = await this.$axios.$get(`/music/song/url?id=${id}`)
     // commit('SET_CURRENT_INDEX', index)
@@ -98,6 +98,7 @@ const actions = {
 
     commit('SET_CURRENT_INDEX', index)
   }
+
 }
 export default {
   namespaced: true,

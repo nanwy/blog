@@ -77,8 +77,8 @@ export default {
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  right: 30px;
-  bottom: 70px;
+  right: 12px;
+  bottom: 50px;
   box-shadow: 0px 0px 1px 5px rgba(0, 0, 0, 0.1);
   opacity: 0;
   transition: all 1s;

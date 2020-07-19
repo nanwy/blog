@@ -1,5 +1,5 @@
 <template>
-  <div class="rbloger" :class="{'isOpen':isShow}">
+  <div class="rbloger" :class="{'isOpen':isShow,'hidden':isHidden}">
     <el-aside class="blog-aside">
       <el-col :span="24">
         <div class="bottom-bar">
@@ -10,11 +10,7 @@
           ></div>
           <div class="item-info">
             <div class="name">{{currentSong.name}}</div>
-
-            <div class="is-lyric-wrapper">
-              <span class="mini-lyric">{{}}</span>
-            </div>
-            <span class="songer">{{currentSong.name}}</span>
+            <!-- <span class="songer">{{currentSong.ar[0].name}} -{{ currentSong.al.name}}</span> -->
           </div>
           <!-- <el-button type="primary" @click="togglePlaying">播放</el-button> -->
           <div class="control">
@@ -29,31 +25,65 @@
             <i class="iconfont iconxiayishou" @click="nextSong"></i>
             <i class="iconcaidan iconfont control-iconfont" @click="showMenu"></i>
           </div>
+          <div class="is-lyric-wrapper">
+            <span class="mini-lyric">{{miniLyric}}</span>
+          </div>
         </div>
-        <div class="song-bank" :class="{'ismeun':isMeun}">
-          <div class="list-item" v-for="(item,index) in songs" @click="select(index)">
-            <span class="num">{{index+1}}</span>
-            <div class="song-detail">
-              <div class="song-name">{{item.name}}</div>
-              <div class="creator">
-                <!-- <span v-if="maxbr" class="maxbr">SQ</span> -->
-                {{item.ar[0].name}}-{{item.al.name}}
+        <div class="song-bank" ref="scroll" :class="{'ismeun':isMeun}" v-if="currentLyric">
+          <div class="lyric-wrapper" v-show="isLyric">
+            <p class="time" @click="isLyric = false">点击切换歌曲列表</p>
+            <p
+              ref="lyricLine"
+              class="text"
+              :class="{'active':currentLineNum === index}"
+              v-for="(line,index) in currentLyric.lines"
+              :key="index"
+            >{{line.txt}}</p>
+          </div>
+          <div v-show="!isLyric">
+            <p class="time" @click="isLyric = true">点击切换歌词</p>
+            <div
+              class="list-item"
+              v-for="(item,index) in songs"
+              @click="select(index)"
+              :class="{'active':$store.state.music.currentIndex === index}"
+            >
+              <span class="num">{{index+1}}</span>
+              <div class="song-detail">
+                <div class="song-name">{{item.name}}</div>
+                <div class="creator">
+                  <!-- <span v-if="maxbr" class="maxbr">SQ</span> -->
+                  {{item.ar[0].name}}-{{item.al.name}}
+                </div>
               </div>
-            </div>
-            <div class="more">
-              <i class="iconcaidan1 iconfont"></i>
+              <div class="more">
+                <i class="iconcaidan1 iconfont"></i>
+              </div>
             </div>
           </div>
         </div>
       </el-col>
     </el-aside>
     <div class="hide-aside"></div>
-    <audio :src="currentUrl" ref="audio" @timeupdate="updateTime" @ended="end"></audio>
+    <audio
+      :src="currentUrl"
+      ref="audio"
+      @timeupdate="updateTime"
+      @ended="end"
+      @play="ready"
+      @error="error"
+    ></audio>
   </div>
 </template>
 
 <script>
 import RoundCircle from '@/music/progress-circle'
+import Lyric from '@/../utils/lyric'
+if (process.browser) {
+  // 在这里根据环境引入wow.js
+  var { WOW } = require('wowjs')
+  var scrollTo = require('@/../utils/scroll.js').scrollTo
+}
 export default {
   data() {
     return {
@@ -62,7 +92,16 @@ export default {
       currentTime: 0,
       isShow: false,
       playList: [],
-      isMeun: true
+      isMeun: true,
+      isHidden: true,
+      currentLyric: '',
+      songReady: false,
+      currentLineNum: 0,
+      lineEl: 0,
+      isLyric: false,
+      forindex: 0,
+      prevIndex: 0,
+      miniLyric: ''
       // playing: false
     }
   },
@@ -73,8 +112,19 @@ export default {
     this.getSong()
     // console.log(this.songs)
     this.playList = this.$store.state.music.playList.songs
+    console.log('Lyric: ', Lyric)
   },
   watch: {
+    currentSong(val, oldval) {
+      if (val.id === oldval.id) {
+        return
+      }
+      if (this.currentLyric) {
+        this.currentLyric.stop()
+      }
+      console.log('val: ', val)
+      this.playSong(val.id)
+    },
     playing(val) {
       // console.log(this.percent);
 
@@ -93,49 +143,154 @@ export default {
     },
     showMenu() {
       this.isMeun = !this.isMeun
+      if (!this.isHidden) {
+        setTimeout(() => {
+          this.isHidden = !this.isHidden
+        }, 500)
+        return
+      }
+
+      this.isHidden = !this.isHidden
     },
     showClick() {
       this.isShow = !this.isShow
+      console.log('this.isMeun: ', this.isMeun)
+      if (!this.isMeun) {
+        this.isMeun = true
+        setTimeout(() => {
+          this.isHidden = true
+        }, 500)
+      }
     },
     async select(index) {
       console.log(index)
+      this.forindex = index
       await this.$store.dispatch('music/changeIndex', { index })
-      var id = this.$store.state.music.playList.songs[this.$store.state.music.currentIndex].id
+    },
+    async playSong(id) {
+      var res = await this.$axios.$get(`music/check/music?id=${id}`)
+      console.log('res: ', res)
+      if (!res.success) {
+        this.songReady = true
+        this.nextSong()
+        return
+      }
+      // var id = this.$store.state.music.playList.songs[this.$store.state.music.currentIndex].id
       await this.$store.dispatch('music/startSong', { id })
-      console.log('this.$store.state.music.currentSong', this.$store.state.music.currentIndex)
 
       this.currentUrl = this.$store.state.music.currentSong.data[0].url
-      console.log(
-        'this.$store.state.music.currentSong',
-        this.$store.state.music.currentSong.data[0].url,
-        this.currentUrl
-      )
+      console.log('this.currentSong.url == null: ', !this.currentUrl)
+      // console.log('this.$store.state.music.currentSong', this.$store.state.music.currentIndex)
+      if (!this.currentUrl) {
+        console.log('jinru ')
+        this.songReady = true
+        if (this.forindex > this.prevIndex) {
+          this.nextSong()
+        } else {
+          this.prevSong()
+        }
+
+        return
+      }
+      // console.log(
+      //   'this.$store.state.music.currentSong',
+      //   this.$store.state.music.currentSong.data[0].url,
+      //   this.currentUrl
+      // )
+      console.log('当前', this.forindex, 'shangyis', this.prevIndex)
       this.currentSongDt = this.$store.state.music.playList.songs[this.$store.state.music.currentIndex].dt
       setTimeout(() => {
         this.toPlay()
+        this.getlyric(id)
       }, 500)
+      if (!this.playing) {
+        console.log('暂停')
+        this.togglePlaying()
+      }
     },
     async getSong() {
       var id = this.$store.state.music.playList.songs[this.$store.state.music.currentIndex].id
       var index = 0
       console.log('id: ', id)
+      var res = await this.$axios.$get(`music/check/music?id=${id}`)
+      console.log('res: ', res)
       await this.$store.dispatch('music/startSong', { id })
 
       this.currentUrl = this.$store.state.music.currentSong.data[0].url
       this.currentSongDt = this.$store.state.music.playList.songs[this.$store.state.music.currentIndex].dt
+      // this.getlyric(id)
+      var res = await this.$axios.$get(`/music/lyric?id=${id}`)
+      this.currentLyric = new Lyric(res.lrc.lyric, this.handleLyric)
       var that = this
       // setTimeout(() => {
       // that.togglePlaying()
       // }, 1000)
     },
+    async getlyric(id) {
+      var res = await this.$axios.$get(`/music/lyric?id=${id}`)
+      if (res.nolyric) {
+        // 当前歌曲没有歌词
+        this.noLyric = true
+        this.miniLyric = '纯音乐，请欣赏'
+        let currentLyric = '[00:00.00]纯音乐，请欣赏'
+        this.currentLyric = new Lyric(currentLyric, this.handleLyric)
+        if (this.playing) {
+          this.currentLyric.play()
+        }
+
+        return
+      }
+      if (res.uncollected) {
+        this.noLyric = true
+        this.miniLyric = '暂时没有歌词'
+        let currentLyric = '[00:00.00]纯音乐，请欣赏'
+        this.currentLyric = new Lyric(currentLyric, this.handleLyric)
+        if (this.playing) {
+          this.currentLyric.play()
+        }
+
+        return
+      }
+      this.noLyric = false
+      this.currentLyric = new Lyric(res.lrc.lyric, this.handleLyric)
+      console.log('this.currentLyric : ', this.currentLyric)
+      if (this.playing) {
+        this.currentLyric.play()
+      }
+
+      // this.currentLyric = new Lyric(res.lrc.lyric, this.handleLyric)
+      console.log('currentLyric: ', this.currentLyric)
+    },
+    handleLyric({ lineNum, txt }) {
+      this.currentLineNum = lineNum
+      console.log('lineNum: ', txt)
+      // if (this.isTouchLyric) {
+      //   return
+      // }
+      if (lineNum > 1 && this.isLyric) {
+        this.lineEl = this.$refs.lyricLine[lineNum - 1]
+        console.log('this.lineEl: ', this.lineEl, this.$refs.scroll)
+        scrollTo(this.$refs.scroll, this.$refs.scroll, this.lineEl.offsetTop - 200, 1000)
+        // this.onTimeY = this.lineEl.offsetTop - 100
+        // this.$refs.scroll.refresh()
+        // console.log(lineEl.offsetTop);
+      }
+      this.miniLyric = txt
+    },
     toPlay() {
-      console.log(this.$refs.audio)
+      // console.log(this.$refs.audio)
       this.$refs.audio.play()
     },
     togglePlaying() {
-      console.log('暂停')
+      // console.log('暂停')
+      if (!this.songReady) {
+        return
+      }
+      if (this.currentLyric) {
+        this.currentLyric.togglePlay()
+      }
       this.$store.commit('music/SET_PLAY_STATE', !this.playing)
-      console.log(this.playing)
+      // console.log(this.playing)
     },
     updateTime(e) {
       this.currentTime = e.target.currentTime
@@ -145,20 +300,29 @@ export default {
     //上一首
     prevSong() {
       // this.$refs.scroll.scrollTo(0, 0, 0)
-      // this.currentLyric.seek(0)
-      // if (!this.songReady) {
-      //   return
-      // }
+      this.currentLyric.seek(0)
+      if (!this.songReady) {
+        return
+      }
       let prev = this.$store.state.music.currentIndex - 1
+      this.prevIndex = prev + 1
       if (prev === -1) {
         prev = this.songs.length - 1
         // console.log(this.playList.length);
       }
-      if (!this.playing) {
-        this.setTogglePlaying(!this.playing)
-      }
+      setTimeout(() => {
+        if (!this.playing) {
+          this.togglePlaying()
+        }
+      }, 500)
       this.select(prev)
-      // this.songReady = false
+      this.songReady = false
+    },
+    ready() {
+      this.songReady = true
+    },
+    error() {
+      this.songReady = true
     },
     end() {
       // if (this.mode === playMode.loop) {
@@ -175,25 +339,28 @@ export default {
     },
     nextSong() {
       // this.$refs.scroll.scrollTo(0, 0, 0)
-      // this.currentLyric.seek(0)
+      this.currentLyric.seek(0)
 
-      // if (!this.songReady) {
-      //   return
-      // }
+      if (!this.songReady) {
+        return
+      }
+      console.log('下一首')
       if (this.songs.length === 1) {
         this.loop()
         return
       } else {
         let index = this.$store.state.music.currentIndex + 1
+        this.prevIndex = index - 1
         if (index === this.songs.length) {
           index = 0
         }
         this.select(index)
         if (!this.playing) {
+          console.log('暂停')
           this.togglePlaying()
         }
       }
-      // this.songReady = false
+      this.songReady = false
     }
   },
   computed: {
@@ -220,6 +387,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.active {
+  color: red !important;
+  // font-size: 18px;
+}
+.mini-lyric {
+  display: none;
+}
 .hide-aside {
   position: fixed;
   top: 0;
@@ -244,7 +418,7 @@ export default {
   background-color: #fff;
   /* width: 225px; */
   /* position: fixed; */
-
+  // overflow: hidden;
   /* top: 200px; */
   /* right: 0; */
   /* left: 0; */
@@ -390,19 +564,28 @@ export default {
   background-color: #fff;
   display: flex;
   align-items: center;
-
+  flex-wrap: wrap;
   .item-info {
     margin-left: 5px;
-    flex: 0 0 30%;
+    flex-grow: 1;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    font-size: 12px;
+    .name {
+      width: 50px;
+
+      margin: 0;
+    }
     .songer::after {
       content: '/';
     }
     .songer:last-child::after {
       content: '';
     }
+  }
+  .is-lyric-wrapper {
+    padding-top: 5px;
     .mini-lyric {
       font-size: 12px;
       font-family: KaiTi;

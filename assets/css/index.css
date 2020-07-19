@@ -4,6 +4,10 @@
     transition: all 0.5s ease;
   }
 
+  .dialog .el-dialog {
+    width: 50% !important;
+  }
+
   .left-nav {
     position: relative !important;
     background-image: none !important;
@@ -20,8 +24,6 @@
     transform: translateX(-100%);
     transition: all 0.5s ease;
   }
-
-
 
   .article {
     transform: translateX(0);
@@ -51,18 +53,24 @@
     right: 0;
     top: 120px;
     transform: translateX(250px);
-    transition: all .5s;
-    height: 100px !important;
+    transition: all 0.5s;
+    height: 119px !important;
   }
 
   .isOpen {
     transform: translateX(0) !important;
-
+    overflow: initial;
+    transition: all 0.5s;
   }
 
   .ismeun {
     transform: translateX(300px);
+
     /* transition: all .5s !important; */
+  }
+
+  .hidden {
+    overflow: hidden !important;
   }
 
   .menu {
@@ -88,7 +96,13 @@
     display: block !important;
   }
 
+  .dialog .el-dialog {
+    width: 80% !important;
+  }
 
+  .mini-lyric {
+    display: block !important;
+  }
 
   .time {
     display: none;
@@ -102,8 +116,6 @@
   .son-comment {
     transform: translate3d(-38%, 0, 0) !important;
     width: 150% !important;
-
-
   }
 
   .bloger {
@@ -129,7 +141,7 @@
   }
 
   #bg-canvas:before {
-    content: "";
+    content: '';
     background-image: url('http://img.nanwayan.cn/bg.png') !important;
     background-size: cover;
     background-position: 50% 20%;
@@ -208,4 +220,8 @@ h5,
 h6,
 p {
   margin: 0;
+}
+
+.el-popup-parent--hidden {
+  padding-right: 0px !important;
 }

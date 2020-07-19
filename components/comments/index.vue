@@ -33,8 +33,9 @@
       <div class="comments-detail">
         <el-avatar :src="com.img" :size="40"></el-avatar>
         <div class="author">
-          <div class="author-name">{{com.name}}</div>
-          <div>{{com.content}}</div>
+          <span v-if="com.name == '南浮宫魅影'" class="rank">博主</span>
+          <span class="author-name">{{com.name}}</span>
+          <div class="content">{{com.content}}</div>
           <span class="createtime">
             <i class="el-icon-date"></i>
             {{formatDate(com.createtime)}}
@@ -66,12 +67,13 @@
       <div class="comments-detail" style="margin-left:80px;" v-for="chl in com.children">
         <el-avatar :src="chl.img"></el-avatar>
         <div class="author">
-          <div class="author-name">
+          <span v-if="chl.name == '南浮宫魅影'" class="rank">博主</span>
+          <span class="author-name">
             {{chl.name}}
             <span style="color:#000;font-size:12px;">回复</span>
             {{chl.toname}}
-          </div>
-          <div>{{chl.content}}</div>
+          </span>
+          <div class="content">{{chl.content}}</div>
           <span class="createtime">
             <i class="el-icon-date"></i>
             {{formatDate(chl.createtime)}}
@@ -167,8 +169,9 @@ export default {
 
       this.parent_id = com.id
       console.log('this.toname: ', this.toname, this.parent_id)
-      console.log(this.$refs.comment.offsetTop - 50)
-      scrollTo(this.$refs.comment.offsetTop - 50, 800, this.$refs.input.focus)
+      var body = document.body
+      console.log(document.documentElement)
+      scrollTo(body, document.documentElement, this.$refs.comment.offsetTop - 50, 800, this.$refs.input.focus)
     },
     moveLeave() {
       console.log(!this.toname)
@@ -181,10 +184,21 @@ export default {
     },
     async addComment(comments) {
       // console.log(this.originMes[0].name)
-
-      console.log('!this.input: ', this.input != null, this.input)
+      var user = await this.$axios.$get('api/user/userinfo')
+      // console.log(
+      //   '!this.input: ',
+      //   user,
+      //   (this.originMes[0].name = '南浮宫魅影') && this.$store.state.user.name !== 'zhangsan'
+      // )
 
       if (this.input != null) {
+        if ((this.originMes[0].name = '南浮宫魅影') && user.errno === -1) {
+          this.$message({
+            message: '不可以使用博主的昵称哦~',
+            type: 'warning'
+          })
+          return
+        }
         if (this.$route.params.id) {
           var article_id = this.$route.params.id
         } else {
@@ -210,7 +224,7 @@ export default {
         if (!res.errno) {
           this.$axios.$get(`api/comment/detail?id=${article_id}`).then(res => {
             this.comment = res
-            this.input = ''
+            this.input = null
             this.originMes[0].name = ''
             this.originMes[1].name = ''
             this.$message({
@@ -238,6 +252,18 @@ export default {
 </script>
 
 <style lang='scss' scoped>
+.rank {
+  // margin-left: -36px;
+  // margin-right: 15px;
+  padding: 1.5px 4px;
+  border-radius: 2px;
+  background: #00a4ff;
+  color: #fff;
+  content: '作者';
+  font-size: 11px;
+  top: -1px;
+  position: relative;
+}
 .comment {
   margin-top: 10px;
   background-color: #fff;
@@ -280,6 +306,10 @@ export default {
     }
   }
 }
+.content {
+  padding: 5px 0;
+  font-size: 12px;
+}
 .comments {
   margin-top: 5px;
   border-radius: 5px;
@@ -301,6 +331,7 @@ export default {
       .author-name {
         color: pink;
       }
+
       .createtime {
         color: #b3b3b3;
         font-size: 12px;

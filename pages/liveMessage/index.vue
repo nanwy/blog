@@ -23,9 +23,12 @@ export default {
   components: {
     comment
   },
+  created() {
+    this.$store.commit('article/isOpen', false)
+  },
   async asyncData({ $axios }) {
     var res1 = await $axios.$get(`api/comment/detail?id=-1`)
-    console.log('res: ', res1)
+    // console.log('res: ', res1)
     return { comments: res1 }
 
     // console.log(res)

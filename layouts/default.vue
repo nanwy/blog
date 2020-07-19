@@ -35,6 +35,7 @@
         </el-container>
       </div>
     </el-container>
+    <vfooter />
   </div>
 </template>
 
@@ -43,7 +44,7 @@ import nheader from './header'
 import vaside from './aside'
 import vasider from './asider'
 import vmain from './main'
-
+import vfooter from './footer'
 // if (process.browser) {
 //   require('../plugins/TweenLite.min')
 //   require('../plugins/EasePack.min')
@@ -71,7 +72,8 @@ export default {
     vmain,
     vaside,
     backtop,
-    vasider
+    vasider,
+    vfooter
   },
   mounted() {
     // this.show()

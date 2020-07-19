@@ -3,7 +3,7 @@
     <div class="photo-background"></div>
     <el-aside class="blog-aside">
       <el-col :span="24">
-        <el-card class="box-card" style="height:500px" shadow="hover">
+        <el-card class="box-card" style="height:400px" shadow="hover">
           <div class="bloger-img">
             <img src="http://img.nanwayan.cn/1592539247967cc138bd2a23cbf2f1f75a333b9289381.png" alt />
           </div>
@@ -25,13 +25,13 @@
               </nuxt-link>
             </li>
             <li>
-              <nuxt-link to="/" class="link-home">
+              <nuxt-link to="/link" class="link-home">
                 <i class="el-icon-paperclip"></i>
                 <span class="aside-name">友链</span>
               </nuxt-link>
             </li>
             <li>
-              <nuxt-link to="/" class="link-home">
+              <nuxt-link to="/about" class="link-home">
                 <i class="el-icon-info"></i>
                 <span class="aside-name">关于我</span>
               </nuxt-link>
@@ -123,7 +123,7 @@ export default {
     left: 50%;
     font-size: 15px;
     transform: translateX(-25%);
-    top: -126px;
+    top: -20px;
     bottom: 0px;
     color: #000;
   }

@@ -1,60 +1,58 @@
 <template>
-  <transition name="page">
-    <div class="main">
-      <el-row :gutter="24">
-        <el-col :span="24" v-if="blogList">
-          <div
-            v-for="(item,index) in blogList"
-            :key="item.id"
-            class="article_content wow bounceInUp"
-            ref="con"
-          >
-            <div class="artilcl">
-              <nuxt-link :to="'/article/'+item.id" tag="h2" class="overtext">
-                <img v-lazy="item.img" class="image" />
-              </nuxt-link>
-            </div>
+  <div class="main">
+    <el-row :gutter="24">
+      <el-col :span="24" v-if="blogList">
+        <div
+          v-for="(item,index) in blogList"
+          :key="item.id"
+          class="article_content wow bounceInUp"
+          ref="con"
+        >
+          <div class="artilcl">
+            <nuxt-link :to="'/article/'+item.id" tag="h2">
+              <img v-lazy="item.img" class="image" />
+            </nuxt-link>
+          </div>
 
-            <div class="jianjie">
-              <nuxt-link :to="'/article/'+item.id" tag="h2" class="overtext">
-                <span class="isTop" v-if="item.stay_at_top">置顶</span>
-                <span>{{item.title}}</span>
-              </nuxt-link>
-              <div class="article_b">
-                <div class="overtext article-content">{{item.content}}</div>
-                <div class="bottom clearfix">
-                  <p class="author">
-                    <i class="el-icon-s-custom"></i>
-                    {{item.author}}
-                  </p>
-                  <span class="createtime">
-                    <i class="el-icon-date"></i>
-                    {{formatDate(item.createtime)}}
-                  </span>
-                  <span>{{item.views}}次观看</span>
-                </div>
+          <div class="description">
+            <nuxt-link :to="'/article/'+item.id" tag="h2" class="overtext">
+              <span class="isTop" v-if="item.stay_at_top">置顶</span>
+              <span>{{item.title}}</span>
+            </nuxt-link>
+            <div class="article_b">
+              <div class="overtext article-content">{{item.content}}</div>
+              <div class="bottom clearfix">
+                <p class="author">
+                  <i class="el-icon-s-custom"></i>
+                  {{item.author}}
+                </p>
+                <span class="createtime">
+                  <i class="el-icon-date"></i>
+                  {{formatDate(item.createtime)}}
+                </span>
+                <span>{{item.views}}次观看</span>
               </div>
             </div>
           </div>
-          <div class="yema" :class="{'left':center}">
-            <el-pagination
-              background
-              layout=" sizes, prev, pager, next"
-              :total="total"
-              :page-size="5"
-              :pager-count="5"
-              :current-page="pageNum"
-              :page-sizes="[3,5,7]"
-              @current-change="currentchange"
-              @size-change="handleSizeChange"
-              style="text-align:center;"
-              class="wow fadeInUp"
-            ></el-pagination>
-          </div>
-        </el-col>
-      </el-row>
-    </div>
-  </transition>
+        </div>
+        <div class="yema" :class="{'left':center}">
+          <el-pagination
+            background
+            layout=" sizes, prev, pager, next"
+            :total="total"
+            :page-size="5"
+            :pager-count="5"
+            :current-page="pageNum"
+            :page-sizes="[3,5,7]"
+            @current-change="currentchange"
+            @size-change="handleSizeChange"
+            style="text-align:center;"
+            class="wow fadeInUp"
+          ></el-pagination>
+        </div>
+      </el-col>
+    </el-row>
+  </div>
 </template>
   
 <script>
@@ -79,8 +77,8 @@ export default {
     let res = this.$store.state.article.list.map(function(top) {
       return top.stay_at_top
     })
-    console.log(this.$store.state.article.pageNum)
-
+    // console.log(this.$store.state.article.pageNum)
+    this.$store.commit('article/isOpen', false)
     // this._getBlogList();
   },
 
@@ -99,9 +97,7 @@ export default {
       }).init()
     }
   },
-  activated() {
-    console.log('zhixing')
-  },
+
   async asyncData({ store, params }) {
     // if (!process.server) return;
     await store.dispatch('article/blogList', {
@@ -123,9 +119,9 @@ export default {
       return formatDate(time)
     },
     handleSizeChange(pageSize) {
-      console.log(pageSize)
+      // console.log(pageSize)
       this.$store.commit('article/pageSize', pageSize)
-      console.log(this.$store.state.article.pageSize)
+      // console.log(this.$store.state.article.pageSize)
       this.$store.dispatch('article/bloglist', {
         pageNum: this.$store.state.article.pageNum
       })
@@ -133,9 +129,9 @@ export default {
     currentchange(pageNum) {
       // console.log(pageNum,pageSize);
 
-      console.log(this.$refs.con[0])
+      // console.log(this.$refs.con[0])
       this.anim = true
-      console.log(this.anim)
+      // console.log(this.anim)
 
       if (
         pageNum >= Math.abs(this.$store.state.article.count / this.$store.state.article.pageSize / 2 - 1) &&
@@ -201,9 +197,10 @@ export default {
 </script>
 
 <style scoped>
-.jianjie {
+.description {
   box-sizing: border-box;
-  padding: 10px;
+  padding-left: 10px;
+  padding-bottom: 10px;
   max-width: 100%;
 }
 .main::-webkit-scrollbar {
@@ -213,7 +210,7 @@ export default {
   display: flex;
   border-radius: 4px;
   /* border: 1px solid #ebeef5; */
-  background-color: #f7f8f8;
+  background-color: #fff;
   overflow: hidden;
   color: #303133;
   transition: 0.3s;
@@ -223,11 +220,14 @@ export default {
 }
 .artilcl {
   flex: 0 0 30%;
-  padding-left: 10px;
+  /* padding-left: 10px; */
 }
 .artilcl img {
   width: 100%;
   height: 100%;
+  padding: 10px;
+  vertical-align: middle;
+  box-sizing: border-box;
   /* max-height: 300px; */
 }
 @keyframes move {
@@ -248,7 +248,10 @@ export default {
 .overtext {
   overflow: hidden;
   text-overflow: ellipsis;
-  white-space: nowrap;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  white-space: normal;
+  -webkit-box-orient: vertical;
 }
 .yema {
   /* width: 80%; */

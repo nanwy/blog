@@ -1,33 +1,31 @@
 <template>
-  <transition name="test">
-    <div class="detail_content" v-if="res">
-      <div class="article-content">
-        <div class="title">
-          <h1 class="wow swing">{{res.title}}</h1>
-          <div class="bottom clearfix wow bounces">
-            <span class="author">
-              <i class="el-icon-s-custom"></i>
-              {{res.author}}
-            </span>
-            <span class="createtime">
-              <i class="el-icon-date"></i>
-              {{formatDate(res.createtime)}}
-            </span>
-            <span>
-              <i class="el-icon-view"></i>
-              {{res.views}}次观看
-            </span>
-          </div>
-        </div>
-        <!-- <img v-lazy="res.img" alt /> -->
-        <div class="post-content wow bounceInRight">
-          <markdown :md="res.content"></markdown>
+  <div class="detail_content" v-if="res">
+    <div class="article-content">
+      <div class="title">
+        <h1 class="wow swing">{{res.title}}</h1>
+        <div class="bottom clearfix wow bounces">
+          <span class="author">
+            <i class="el-icon-s-custom"></i>
+            {{res.author}}
+          </span>
+          <span class="createtime">
+            <i class="el-icon-date"></i>
+            {{formatDate(res.createtime)}}
+          </span>
+          <span>
+            <i class="el-icon-view"></i>
+            {{res.views}}次观看
+          </span>
         </div>
       </div>
-      <h1>评论</h1>
-      <comment :comments="comments" />
+      <!-- <img v-lazy="res.img" alt /> -->
+      <div class="post-content wow bounceInRight">
+        <markdown :md="res.content"></markdown>
+      </div>
     </div>
-  </transition>
+    <h1>评论</h1>
+    <comment :comments="comments" />
+  </div>
 </template>
 
 <script>
@@ -79,11 +77,11 @@ export default {
   },
   async asyncData({ $axios, store, params }) {
     var id = params.id
-    console.log(id)
+    // console.log(id)
 
     await store.dispatch('article/getBlogDetail', { id })
     var res1 = await $axios.$get(`api/comment/detail?id=${id}`)
-    console.log('res: ', res1)
+    // console.log('res: ', res1)
     return { comments: res1 }
 
     // console.log(res)
@@ -128,7 +126,7 @@ export default {
         parent_id,
         toname
       })
-      console.log('res: ', res)
+      // console.log('res: ', res)
       if (!res.errno) {
         this.$axios.$get(`api/comment/detail?id=${article_id}`).then(res => {
           this.comments = res
@@ -170,7 +168,7 @@ export default {
       // this.isShow = -1
     }
   },
-  transition: 'test'
+  transition: 'page'
 }
 </script>
 
