@@ -107,13 +107,13 @@ export default {
     margin-left: -10px;
     li {
       margin-top: 10px;
-    }
-    .link-home {
-      font-size: 20px;
-      color: #ce98b0;
-      .aside-name {
-        color: #000;
-        margin-left: 10px;
+      .link-home {
+        font-size: 20px;
+        color: #ce98b0;
+        .aside-name {
+          color: #000;
+          margin-left: 10px;
+        }
       }
     }
   }

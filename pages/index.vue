@@ -248,10 +248,10 @@ export default {
 .overtext {
   overflow: hidden;
   text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  white-space: normal;
-  -webkit-box-orient: vertical;
+  /* display: -webkit-box;
+  -webkit-line-clamp: 2; */
+  white-space: nowrap;
+  /* -webkit-box-orient: vertical; */
 }
 .yema {
   /* width: 80%; */

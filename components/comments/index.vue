@@ -71,6 +71,7 @@
           <span class="author-name">
             {{chl.name}}
             <span style="color:#000;font-size:12px;">回复</span>
+            <span v-if="chl.toname == '南浮宫魅影'" class="rank">博主</span>
             {{chl.toname}}
           </span>
           <div class="content">{{chl.content}}</div>
@@ -126,7 +127,7 @@ export default {
       originMes: [
         { title: '昵称*', name: '', placeholder: '留下您的名称' },
         { title: '联系方式', name: '', placeholder: '输入QQ可快速获得头像噢' },
-        { title: '友链', name: '', placeholder: '先不要填写' }
+        { title: '友链', name: '', placeholder: '可以填写您的博客链接噢' }
       ]
     }
   },
@@ -185,14 +186,10 @@ export default {
     async addComment(comments) {
       // console.log(this.originMes[0].name)
       var user = await this.$axios.$get('api/user/userinfo')
-      // console.log(
-      //   '!this.input: ',
-      //   user,
-      //   (this.originMes[0].name = '南浮宫魅影') && this.$store.state.user.name !== 'zhangsan'
-      // )
 
       if (this.input != null) {
-        if ((this.originMes[0].name = '南浮宫魅影') && user.errno === -1) {
+        console.log(this.originMes[0].name)
+        if (this.originMes[0].name == '南浮宫魅影' && user.errno === -1) {
           this.$message({
             message: '不可以使用博主的昵称哦~',
             type: 'warning'
@@ -210,17 +207,27 @@ export default {
         var img = this.originMes[1].name
         var toname = this.toname
         var parent_id = this.parent_id
+        var link = this.originMes[2].name
         console.log('parent_id: ', parent_id, toname)
 
-        var res = await this.$axios.$post('/api/comment/new', {
-          content,
-          name,
-          article_id,
-          img,
-          toname,
-          parent_id
-        })
-        // console.log('res: ', res)
+        try {
+          var res = await this.$axios.$post('/api/comment/new', {
+            content,
+            name,
+            article_id,
+            img,
+            toname,
+            parent_id,
+            link
+          })
+        } catch (error) {
+          this.$message({
+            message: '太多次了哦,请不要这样',
+            type: 'error'
+          })
+          console.log(error)
+        }
+        console.log('res: ', res)
         if (!res.errno) {
           this.$axios.$get(`api/comment/detail?id=${article_id}`).then(res => {
             this.comment = res

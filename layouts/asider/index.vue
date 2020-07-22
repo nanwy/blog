@@ -29,7 +29,7 @@
             <span class="mini-lyric">{{miniLyric}}</span>
           </div>
         </div>
-        <div class="song-bank" ref="scroll" :class="{'ismeun':isMeun}" v-if="currentLyric">
+        <div class="song-bank" ref="scroll" :class="{'ismeun':isMeun}">
           <div class="lyric-wrapper" v-show="isLyric">
             <p class="time" @click="isLyric = false">点击切换歌曲列表</p>
             <p
@@ -119,8 +119,13 @@ export default {
       if (val.id === oldval.id) {
         return
       }
+      console.log('this.currentLyric: ', this.currentLyric)
       if (this.currentLyric) {
+        console.log('需要停止')
         this.currentLyric.stop()
+      }
+      if (this.currentLyric) {
+        this.currentLyric = ''
       }
       console.log('val: ', val)
       this.playSong(val.id)
@@ -165,6 +170,7 @@ export default {
     async select(index) {
       console.log(index)
       this.forindex = index
+
       await this.$store.dispatch('music/changeIndex', { index })
     },
     async playSong(id) {
@@ -221,7 +227,11 @@ export default {
       // this.getlyric(id)
       var res = await this.$axios.$get(`/music/lyric?id=${id}`)
       this.currentLyric = new Lyric(res.lrc.lyric, this.handleLyric)
-      var that = this
+      console.log('this.currentLyric: ', this.currentLyric)
+      if (this.playing) {
+        this.currentLyric.play()
+      }
+      // this.currentLyric.togglePlay()
       // setTimeout(() => {
       // that.togglePlaying()
       // }, 1000)
@@ -262,6 +272,9 @@ export default {
       console.log('currentLyric: ', this.currentLyric)
     },
     handleLyric({ lineNum, txt }) {
+      if (!this.songReady) {
+        return
+      }
       this.currentLineNum = lineNum
       console.log('lineNum: ', txt)
       // if (this.isTouchLyric) {
@@ -270,7 +283,7 @@ export default {
       if (lineNum > 1 && this.isLyric) {
         this.lineEl = this.$refs.lyricLine[lineNum - 1]
         console.log('this.lineEl: ', this.lineEl, this.$refs.scroll)
-        scrollTo(this.$refs.scroll, this.$refs.scroll, this.lineEl.offsetTop - 200, 1000)
+        scrollTo(this.$refs.scroll, this.$refs.scroll, this.lineEl.offsetTop, 1000)
         // this.onTimeY = this.lineEl.offsetTop - 100
         // this.$refs.scroll.refresh()
         // console.log(lineEl.offsetTop);
@@ -283,6 +296,7 @@ export default {
     },
     togglePlaying() {
       // console.log('暂停')
+      console.log(this.currentLyric)
       if (!this.songReady) {
         return
       }
@@ -423,17 +437,18 @@ export default {
   /* right: 0; */
   /* left: 0; */
   // bottom: 0;
+  border-radius: 10px;
   margin-top: 10px;
-  height: 600px;
+  height: 500px;
   transition: all 0.5s ease;
   .song-bank {
     background-color: #f4f4f4;
     transition: all 0.5s linear;
     z-index: 9999;
     // position: fixed;
-
+    border-radius: 10px;
     box-shadow: 0 0 4px #a8a8a8;
-    height: 300px;
+    height: 400px;
     overflow: hidden;
     // top: 0;
 
@@ -558,7 +573,7 @@ export default {
   // right: 0;
   // bottom: 0;
   z-index: 10;
-
+  border-radius: 10px;
   width: 100%;
   // height: 500px;
   background-color: #fff;
@@ -586,6 +601,9 @@ export default {
   }
   .is-lyric-wrapper {
     padding-top: 5px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
     .mini-lyric {
       font-size: 12px;
       font-family: KaiTi;

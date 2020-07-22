@@ -59,7 +59,8 @@ const actions = {
   async setSongAll({
     commit, state
   }, data) {
-    const res = await this.$axios.$get('/music/playlist/detail?id=5069871738')
+    // const res = await this.$axios.$get('/music/playlist/detail?id=5069871738')
+    const res = await this.$axios.$get('/music/playlist/detail?id=4943654842')
     // console.log(res);
     var ids = []
     for (let i = 0; i < res.playlist.trackIds.length; i++) {

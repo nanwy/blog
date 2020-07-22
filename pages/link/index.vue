@@ -61,7 +61,7 @@ export default {
   methods: {
     async login() {
       if (this.link != '' && this.name != '' && this.description != '' && this.avatar != '') {
-        var name = this.uame
+        var name = this.name
         var link = this.link
         var description = this.description
         var avatar = this.avatar

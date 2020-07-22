@@ -118,6 +118,10 @@
     width: 150% !important;
   }
 
+  .song-bank {
+    height: 300px !important;
+  }
+
   .bloger {
     position: fixed;
     /* left: -300px; */
