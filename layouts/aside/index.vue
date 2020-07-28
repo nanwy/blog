@@ -1,5 +1,5 @@
 <template>
-  <div class="bloger" @touchmove.prevent @mousewheel.prevent>
+  <div class="bloger">
     <div class="photo-background"></div>
     <el-aside class="blog-aside">
       <el-col :span="24">
@@ -11,6 +11,20 @@
             <span class="aside-name">南浮宫魅影的Blog</span>
           </div>
           <span style="color: #98a6ad;font-size:12px;margin-top:10px;">沉默不语,但仍奋力前行</span>
+          <div class="search">
+            <el-autocomplete
+              v-model="state"
+              value-key="title"
+              suffix-icon="el-icon-search"
+              :fetch-suggestions="querySearchAsync"
+              size="small"
+              placeholder="来调戏人家"
+              @select="handleSelect"
+              :trigger-on-focus="false"
+              :debounce="300"
+              @focus="blurSearchFor"
+            ></el-autocomplete>
+          </div>
           <ul>
             <li>
               <nuxt-link to="/" class="link-home">
@@ -50,18 +64,41 @@
 
 <script>
 export default {
+  data() {
+    return {
+      state: '',
+    }
+  },
   methods: {
     slide() {
       // console.log('dianji')
       // document.body.removeAttribute('class', 'ban')
       this.$store.commit('article/isOpen', false)
-    }
+    },
+    blurSearchFor() {
+      // console.log(this.state);
+      this.state = ''
+    },
+    handleSelect(item) {
+      // console.log(item);
+      let id = item.id
+      this.$router.push(`/article/${id}`)
+      this.$store.commit('article/isOpen', false)
+    },
+    async querySearchAsync(key, cb) {
+      if (key) {
+        const { data: res } = await this.$axios.$get(`/api/blog/list?keyword=${key}`)
+        // console.log(res);
+
+        cb(res)
+      }
+    },
   },
   computed: {
     isOpen() {
       return this.$store.state.article.isOpen
-    }
-  }
+    },
+  },
 }
 </script>
 
@@ -71,7 +108,7 @@ export default {
   top: 0;
   left: 0;
   width: 100vw;
-  height: 100vh;
+  height: 1000%;
   z-index: 15;
   display: none;
 }
@@ -128,6 +165,18 @@ export default {
     color: #000;
   }
 }
+.search {
+  margin: 5px;
+}
+.search /deep/ .el-input__inner {
+  background-color: rgba(255, 255, 2555, 0.8);
+  /* color: red; */
+}
+.search /deep/ .el-input__inner::placeholder {
+  /* background-color: rgba(255, 255, 2555, 0.8); */
+  color: #a6c1ee;
+}
+
 .photo-background {
   height: 100px;
   background-image: url('http://img.nanwayan.cn/pink.jpg');

@@ -69,7 +69,7 @@ const actions = {
     ids = ids.toString()
     //获取每首歌详情
     const song = await this.$axios.$get(`/music/song/detail?ids=${ids}`)
-    console.log(song[0]);
+    // console.log(song[0]);
     commit('SET_PLAY_LIST', song)
     // if (state.playMode === playMode.random) {
     //   let newList = shuffle(list)

@@ -220,4 +220,9 @@ export default {
     }
   }
 }
+blockquote {
+  border-left: 3px solid green;
+  background-color: #ccc;
+  margin-left: 4em;
+}
 </style>

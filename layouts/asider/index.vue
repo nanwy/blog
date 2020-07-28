@@ -15,12 +15,8 @@
           <!-- <el-button type="primary" @click="togglePlaying">播放</el-button> -->
           <div class="control">
             <i class="iconfont iconshangyishou2" @click="prevSong"></i>
-            <round-circle :radius="32" :percent="percent">
-              <i
-                @click.stop="togglePlaying"
-                :class="playIcon"
-                class="play iconfont control-iconfont"
-              ></i>
+            <round-circle :radius="32" :percent="percent" @click.native="togglePlaying">
+              <i :class="playIcon" class="play iconfont control-iconfont"></i>
             </round-circle>
             <i class="iconfont iconxiayishou" @click="nextSong"></i>
             <i class="iconcaidan iconfont control-iconfont" @click="showMenu"></i>
@@ -28,10 +24,10 @@
           <div class="is-lyric-wrapper">
             <span class="mini-lyric">{{miniLyric}}</span>
           </div>
+          <p class="time" @click="isLyric = !isLyric">{{changeLyric}}</p>
         </div>
         <div class="song-bank" ref="scroll" :class="{'ismeun':isMeun}">
           <div class="lyric-wrapper" v-show="isLyric">
-            <p class="time" @click="isLyric = false">点击切换歌曲列表</p>
             <p
               ref="lyricLine"
               class="text"
@@ -41,7 +37,6 @@
             >{{line.txt}}</p>
           </div>
           <div v-show="!isLyric">
-            <p class="time" @click="isLyric = true">点击切换歌词</p>
             <div
               class="list-item"
               v-for="(item,index) in songs"
@@ -101,33 +96,33 @@ export default {
       isLyric: false,
       forindex: 0,
       prevIndex: 0,
-      miniLyric: ''
+      miniLyric: '',
       // playing: false
     }
   },
   components: {
-    RoundCircle
+    RoundCircle,
   },
   created() {
     this.getSong()
     // console.log(this.songs)
     this.playList = this.$store.state.music.playList.songs
-    console.log('Lyric: ', Lyric)
+    // console.log('Lyric: ', Lyric)
   },
   watch: {
     currentSong(val, oldval) {
       if (val.id === oldval.id) {
         return
       }
-      console.log('this.currentLyric: ', this.currentLyric)
+      // console.log('this.currentLyric: ', this.currentLyric)
       if (this.currentLyric) {
-        console.log('需要停止')
+        // console.log('需要停止')
         this.currentLyric.stop()
       }
       if (this.currentLyric) {
         this.currentLyric = ''
       }
-      console.log('val: ', val)
+      // console.log('val: ', val)
       this.playSong(val.id)
     },
     playing(val) {
@@ -136,9 +131,9 @@ export default {
       this.$nextTick(() => {
         const audio = this.$refs.audio
         val ? audio.play() : audio.pause()
-        console.log(this.$refs.audio)
+        // console.log(this.$refs.audio)
       })
-    }
+    },
   },
   methods: {
     slide() {
@@ -159,7 +154,7 @@ export default {
     },
     showClick() {
       this.isShow = !this.isShow
-      console.log('this.isMeun: ', this.isMeun)
+      // console.log('this.isMeun: ', this.isMeun)
       if (!this.isMeun) {
         this.isMeun = true
         setTimeout(() => {
@@ -168,14 +163,14 @@ export default {
       }
     },
     async select(index) {
-      console.log(index)
+      // console.log(index)
       this.forindex = index
 
       await this.$store.dispatch('music/changeIndex', { index })
     },
     async playSong(id) {
       var res = await this.$axios.$get(`music/check/music?id=${id}`)
-      console.log('res: ', res)
+      // console.log('res: ', res)
       if (!res.success) {
         this.songReady = true
         this.nextSong()
@@ -185,10 +180,10 @@ export default {
       await this.$store.dispatch('music/startSong', { id })
 
       this.currentUrl = this.$store.state.music.currentSong.data[0].url
-      console.log('this.currentSong.url == null: ', !this.currentUrl)
+      // console.log('this.currentSong.url == null: ', !this.currentUrl)
       // console.log('this.$store.state.music.currentSong', this.$store.state.music.currentIndex)
       if (!this.currentUrl) {
-        console.log('jinru ')
+        // console.log('jinru ')
         this.songReady = true
         if (this.forindex > this.prevIndex) {
           this.nextSong()
@@ -203,23 +198,23 @@ export default {
       //   this.$store.state.music.currentSong.data[0].url,
       //   this.currentUrl
       // )
-      console.log('当前', this.forindex, 'shangyis', this.prevIndex)
+      // console.log('当前', this.forindex, 'shangyis', this.prevIndex)
       this.currentSongDt = this.$store.state.music.playList.songs[this.$store.state.music.currentIndex].dt
       setTimeout(() => {
         this.toPlay()
         this.getlyric(id)
+        if (!this.playing) {
+          // console.log('暂停')
+          this.togglePlaying()
+        }
       }, 500)
-      if (!this.playing) {
-        console.log('暂停')
-        this.togglePlaying()
-      }
     },
     async getSong() {
       var id = this.$store.state.music.playList.songs[this.$store.state.music.currentIndex].id
       var index = 0
-      console.log('id: ', id)
+      // console.log('id: ', id)
       var res = await this.$axios.$get(`music/check/music?id=${id}`)
-      console.log('res: ', res)
+      // console.log('res: ', res)
       await this.$store.dispatch('music/startSong', { id })
 
       this.currentUrl = this.$store.state.music.currentSong.data[0].url
@@ -227,7 +222,7 @@ export default {
       // this.getlyric(id)
       var res = await this.$axios.$get(`/music/lyric?id=${id}`)
       this.currentLyric = new Lyric(res.lrc.lyric, this.handleLyric)
-      console.log('this.currentLyric: ', this.currentLyric)
+      // console.log('this.currentLyric: ', this.currentLyric)
       if (this.playing) {
         this.currentLyric.play()
       }
@@ -263,27 +258,27 @@ export default {
       }
       this.noLyric = false
       this.currentLyric = new Lyric(res.lrc.lyric, this.handleLyric)
-      console.log('this.currentLyric : ', this.currentLyric)
+      // console.log('this.currentLyric : ', this.currentLyric)
       if (this.playing) {
         this.currentLyric.play()
       }
 
       // this.currentLyric = new Lyric(res.lrc.lyric, this.handleLyric)
-      console.log('currentLyric: ', this.currentLyric)
+      // console.log('currentLyric: ', this.currentLyric)
     },
     handleLyric({ lineNum, txt }) {
       if (!this.songReady) {
         return
       }
       this.currentLineNum = lineNum
-      console.log('lineNum: ', txt)
+      // console.log('lineNum: ', txt)
       // if (this.isTouchLyric) {
       //   return
       // }
-      if (lineNum > 1 && this.isLyric) {
+      if (lineNum > 4 && this.isLyric) {
         this.lineEl = this.$refs.lyricLine[lineNum - 1]
-        console.log('this.lineEl: ', this.lineEl, this.$refs.scroll)
-        scrollTo(this.$refs.scroll, this.$refs.scroll, this.lineEl.offsetTop, 1000)
+        // console.log('this.lineEl: ', this.lineEl, this.$refs.scroll)
+        scrollTo(this.$refs.scroll, this.$refs.scroll, this.lineEl.offsetTop - 100, 1000)
         // this.onTimeY = this.lineEl.offsetTop - 100
         // this.$refs.scroll.refresh()
         // console.log(lineEl.offsetTop);
@@ -296,7 +291,8 @@ export default {
     },
     togglePlaying() {
       // console.log('暂停')
-      console.log(this.currentLyric)
+      // console.log(this.currentLyric)
+      // console.log('this.songReady: ', this.songReady)
       if (!this.songReady) {
         return
       }
@@ -324,11 +320,10 @@ export default {
         prev = this.songs.length - 1
         // console.log(this.playList.length);
       }
-      setTimeout(() => {
-        if (!this.playing) {
-          this.togglePlaying()
-        }
-      }, 500)
+      if (!this.playing) {
+        this.togglePlaying()
+      }
+
       this.select(prev)
       this.songReady = false
     },
@@ -358,7 +353,7 @@ export default {
       if (!this.songReady) {
         return
       }
-      console.log('下一首')
+      // console.log('下一首')
       if (this.songs.length === 1) {
         this.loop()
         return
@@ -370,12 +365,12 @@ export default {
         }
         this.select(index)
         if (!this.playing) {
-          console.log('暂停')
+          // console.log('暂停')
           this.togglePlaying()
         }
       }
       this.songReady = false
-    }
+    },
   },
   computed: {
     isOpen() {
@@ -395,8 +390,11 @@ export default {
     },
     playIcon() {
       return this.playing ? 'iconzantingtingzhi' : 'iconbofang1 border-round'
-    }
-  }
+    },
+    changeLyric() {
+      return this.isLyric ? '点击切换歌曲列表' : '点击切换歌词'
+    },
+  },
 }
 </script>
 
@@ -441,6 +439,7 @@ export default {
   margin-top: 10px;
   height: 500px;
   transition: all 0.5s ease;
+
   .song-bank {
     background-color: #f4f4f4;
     transition: all 0.5s linear;
@@ -449,7 +448,7 @@ export default {
     border-radius: 10px;
     box-shadow: 0 0 4px #a8a8a8;
     height: 400px;
-    overflow: hidden;
+    overflow: auto;
     // top: 0;
 
     // bottom: 0;
@@ -464,6 +463,17 @@ export default {
     overflow-y: scroll;
 
     overflow-x: hidden;
+
+    .lyric-wrapper {
+      // margin: 0 auto;
+      // padding-top: 500px;
+      .text {
+        line-height: 32px;
+        text-align: center;
+        color: #a9a9a9;
+        transition: all 0.5s;
+      }
+    }
     .music-content {
       position: relative;
       background-color: #fff;
@@ -580,6 +590,25 @@ export default {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
+  .time {
+    padding: 0.2em 0.6em 0.3em;
+    cursor: pointer;
+    font-size: 75%;
+    font-weight: 700;
+    line-height: 1;
+    color: #fff;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: 0.25em;
+    font-weight: 700;
+    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.2);
+    color: #dcf2f8;
+    background-color: #23b7e5;
+    position: absolute;
+    top: 75px;
+    right: 5px;
+  }
   .item-info {
     margin-left: 5px;
     flex-grow: 1;

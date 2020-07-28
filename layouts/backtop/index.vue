@@ -35,11 +35,11 @@ export default {
   mounted() {
     this.handleResize()
     window.addEventListener('scroll', this.headershow)
-    window.addEventListener('resize', this.handleResize)
+    // window.addEventListener('resize', this.handleResize)
   },
   destroyed() {
     window.removeEventListener('scroll', this.headershow)
-    window.addEventListener('resize', this.handleResize)
+    // window.addEventListener('resize', this.handleResize)
   },
   computed: {}
 }

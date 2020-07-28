@@ -64,6 +64,7 @@ export function color(window, undefined) {
         // console.log(fuArr[i].scale);
         fuArr[i].di.style.position = "absolute";
         fuArr[i].di.style.transform = "scale(" + fuArr[i].scale + ")";
+        fuArr[i].di.style.zIndex = "999";
       }
 
       /*  console.log(fuArr[i].di.top);

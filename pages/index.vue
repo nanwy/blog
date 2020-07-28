@@ -112,9 +112,9 @@ export default {
     }
   },
   methods: {
-    _getBlogList() {
-      this.$store.dispatch('article/bloglist')
-    },
+    // _getBlogList() {
+    //   this.$store.dispatch('article/bloglist')
+    // },
     formatDate(time) {
       return formatDate(time)
     },
@@ -122,6 +122,7 @@ export default {
       // console.log(pageSize)
       this.$store.commit('article/pageSize', pageSize)
       // console.log(this.$store.state.article.pageSize)
+      console.log('pagesize', pageSize)
       this.$store.dispatch('article/bloglist', {
         pageNum: this.$store.state.article.pageNum
       })

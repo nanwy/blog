@@ -5,25 +5,10 @@
     </div>
 
     <nuxt-link to="/" class="link-home">
-      <i class="el-icon-s-home"></i>
-      <span class="blog-name">南浮宫魅影</span>
+      <div class="blog-name">南浮宫魅影</div>
+      <span style="color: #fff;font-size:12px;margin-top:10px;">沉默不语,但仍奋力前行</span>
     </nuxt-link>
 
-    <div class="time">{{time}}</div>
-    <div class="search">
-      <el-autocomplete
-        v-model="state"
-        value-key="title"
-        suffix-icon="el-icon-search"
-        :fetch-suggestions="querySearchAsync"
-        size="small"
-        placeholder="来调戏人家"
-        @select="handleSelect"
-        :trigger-on-focus="false"
-        :debounce="300"
-        @focus="blurSearchFor"
-      ></el-autocomplete>
-    </div>
     <span id="pause" @click="dialogVisible = true">登录</span>
     <div class="dialog">
       <el-dialog title="登录" :modal-append-to-body="false" :visible.sync="dialogVisible" width="30%">
@@ -43,13 +28,12 @@
 export default {
   data() {
     return {
-      state: '',
       time: null,
       isOpen: false,
       isShow: true,
       uname: '',
       upwd: '',
-      dialogVisible: false
+      dialogVisible: false,
     }
   },
   created() {
@@ -63,7 +47,7 @@ export default {
     showMenu() {
       this.isOpen = !this.$store.state.article.isOpen
       console.log(this.isOpen)
-      scrollTo({ top: 0, behavior: 'smooth' })
+      // scrollTo({ top: 120, behavior: 'smooth' })
       this.$store.commit('article/isOpen', this.isOpen)
       // console.log(this.isOpen);
       var b = document.querySelectorAll('body')[0]
@@ -72,12 +56,12 @@ export default {
       if (this.uname == '' || this.upwd == '') {
         this.$message({
           message: "发表成功(〃'▽'〃)",
-          type: 'success'
+          type: 'success',
         })
       } else {
         await this.$store.dispatch('user/login', {
           username: this.uname,
-          password: this.upwd
+          password: this.upwd,
         })
       }
     },
@@ -93,23 +77,7 @@ export default {
     //     document.querySelector('#left-nav').style.top = offsetTop + 'px'
     //   }
     // },
-    blurSearchFor() {
-      // console.log(this.state);
-      this.state = ''
-    },
-    handleSelect(item) {
-      // console.log(item);
-      let id = item.id
-      this.$router.push(`/article/${id}`)
-    },
-    async querySearchAsync(key, cb) {
-      if (key) {
-        const { data: res } = await this.$axios.$get(`/api/blog/list?keyword=${key}`)
-        // console.log(res);
 
-        cb(res)
-      }
-    },
     nowTime() {
       var date = new Date()
 
@@ -134,8 +102,8 @@ export default {
 
       var x = date.getDay() //获取星期
       this.time = year + '/' + month + '/' + day + '/' + hour + ':' + minute + ':' + second
-    }
-  }
+    },
+  },
 }
 </script>
 
@@ -147,24 +115,13 @@ export default {
   align-items: center;
   background-image: url('http://img.nanwayan.cn/72722834.jpg');
   background-position: 0 30%;
-  height: 120px;
+  height: 500px;
   background-size: cover;
   /* padding: 0 20px; */
   box-sizing: border-box;
   flex-shrink: 0;
   /* opacity: 0.8; */
   transition: all 0.5s ease;
-}
-.left-nav {
-  width: 225px;
-  height: 200px;
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  line-height: 200px;
-  transition: all 0.5s ease;
-  background-image: url('http://img.nanwayan.cn/20200707224825.png');
-  filter: brightness(85%);
 }
 .menu {
   width: 35px;
@@ -173,6 +130,7 @@ export default {
   color: azure;
   display: none;
   cursor: pointer;
+  // padding-top: 138px;
 }
 #pause {
   position: absolute;
@@ -192,7 +150,7 @@ export default {
   display: block;
   /* line-height: 50%; */
   /* padding-right: 10%; */
-  font-size: 26px;
+  font-size: 60px;
   margin: auto;
   overflow: hidden;
 }
@@ -230,16 +188,9 @@ export default {
   }
 }
 .search {
-  margin-left: auto;
+  // margin-left: auto;
 }
-.search /deep/ .el-input__inner {
-  background-color: rgba(255, 255, 2555, 0.8);
-  /* color: red; */
-}
-.search /deep/ .el-input__inner::placeholder {
-  /* background-color: rgba(255, 255, 2555, 0.8); */
-  color: #a6c1ee;
-}
+
 .ban {
   overflow-x: hidden !important;
   overflow-y: hidden !important;
