@@ -1,6 +1,7 @@
 <template>
   <div v-if="comments">
     <div class="comment wow fadeIn" ref="comment">
+      <h1 style="padding:5px;">评论</h1>
       <el-input
         class
         type="textarea"
@@ -127,15 +128,15 @@ export default {
       originMes: [
         { title: '昵称*', name: '', placeholder: '留下您的名称' },
         { title: '联系方式', name: '', placeholder: '输入QQ可快速获得头像噢' },
-        { title: '友链', name: '', placeholder: '可以填写您的博客链接噢' }
-      ]
+        { title: '友链', name: '', placeholder: '可以填写您的博客链接噢' },
+      ],
     }
   },
   props: {
     comments: {
       type: Array,
-      default: []
-    }
+      default: [],
+    },
   },
   created() {
     console.log('this.comments', scrollTo)
@@ -148,7 +149,7 @@ export default {
       // animateClass: 'animated',
       offset: 0,
       mobile: true,
-      live: false
+      live: false,
     }).init()
   },
   methods: {
@@ -192,7 +193,7 @@ export default {
         if (this.originMes[0].name == '南浮宫魅影' && user.errno === -1) {
           this.$message({
             message: '不可以使用博主的昵称哦~',
-            type: 'warning'
+            type: 'warning',
           })
           return
         }
@@ -218,25 +219,25 @@ export default {
             img,
             toname,
             parent_id,
-            link
+            link,
           })
         } catch (error) {
           this.$message({
             message: '太多次了哦,请不要这样',
-            type: 'error'
+            type: 'error',
           })
           console.log(error)
         }
         console.log('res: ', res)
         if (!res.errno) {
-          this.$axios.$get(`api/comment/detail?id=${article_id}`).then(res => {
+          this.$axios.$get(`api/comment/detail?id=${article_id}`).then((res) => {
             this.comment = res
             this.input = null
             this.originMes[0].name = ''
             this.originMes[1].name = ''
             this.$message({
               message: "发表成功(〃'▽'〃)",
-              type: 'success'
+              type: 'success',
             })
             // console.log(this.comments)
           })
@@ -245,7 +246,7 @@ export default {
         console.log('jinru')
         this.$message({
           message: '您还没输入内容呢~',
-          type: 'warning'
+          type: 'warning',
         })
       }
     },
@@ -253,8 +254,8 @@ export default {
       this.parent_id = ''
       this.toname = ''
       this.placeholder = '来说点什么吧!'
-    }
-  }
+    },
+  },
 }
 </script>
 

@@ -54,7 +54,7 @@
     top: 120px;
     transform: translateX(250px);
     transition: all 0.5s;
-    height: 119px !important;
+    height: 139px !important;
   }
 
   .isOpen {
@@ -213,12 +213,6 @@ body {
   overflow-y: hidden !important;
 }
 
-ul,
-li {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
 
 h1,
 h2,

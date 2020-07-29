@@ -21,9 +21,16 @@
             <i class="iconfont iconxiayishou" @click="nextSong"></i>
             <i class="iconcaidan iconfont control-iconfont" @click="showMenu"></i>
           </div>
+          <timer
+            :duration="currentSongDt"
+            :time="setTime(currentTime)"
+            :percent="percent"
+            @chengePercent="onChengePercent"
+          ></timer>
           <div class="is-lyric-wrapper">
             <span class="mini-lyric">{{miniLyric}}</span>
           </div>
+
           <p class="time" @click="isLyric = !isLyric">{{changeLyric}}</p>
         </div>
         <div class="song-bank" ref="scroll" :class="{'ismeun':isMeun}">
@@ -41,7 +48,7 @@
               class="list-item"
               v-for="(item,index) in songs"
               @click="select(index)"
-              :class="{'active':$store.state.music.currentIndex === index}"
+              :class="{'songs-active':currentIndex === index}"
             >
               <span class="num">{{index+1}}</span>
               <div class="song-detail">
@@ -73,6 +80,7 @@
 
 <script>
 import RoundCircle from '@/music/progress-circle'
+import Timer from '@/timebar'
 import Lyric from '@/../utils/lyric'
 if (process.browser) {
   // 在这里根据环境引入wow.js
@@ -97,11 +105,13 @@ export default {
       forindex: 0,
       prevIndex: 0,
       miniLyric: '',
+      allTime: '',
       // playing: false
     }
   },
   components: {
     RoundCircle,
+    Timer,
   },
   created() {
     this.getSong()
@@ -122,7 +132,8 @@ export default {
       if (this.currentLyric) {
         this.currentLyric = ''
       }
-      // console.log('val: ', val)
+      this.allTime = val.dt
+      console.log('val: ', val)
       this.playSong(val.id)
     },
     playing(val) {
@@ -199,7 +210,7 @@ export default {
       //   this.currentUrl
       // )
       // console.log('当前', this.forindex, 'shangyis', this.prevIndex)
-      this.currentSongDt = this.$store.state.music.playList.songs[this.$store.state.music.currentIndex].dt
+      this.currentSongDt = this.$store.state.music.playList.songs[this.currentIndex].dt
       setTimeout(() => {
         this.toPlay()
         this.getlyric(id)
@@ -210,7 +221,7 @@ export default {
       }, 500)
     },
     async getSong() {
-      var id = this.$store.state.music.playList.songs[this.$store.state.music.currentIndex].id
+      var id = this.$store.state.music.playList.songs[this.currentIndex].id
       var index = 0
       // console.log('id: ', id)
       var res = await this.$axios.$get(`music/check/music?id=${id}`)
@@ -218,7 +229,7 @@ export default {
       await this.$store.dispatch('music/startSong', { id })
 
       this.currentUrl = this.$store.state.music.currentSong.data[0].url
-      this.currentSongDt = this.$store.state.music.playList.songs[this.$store.state.music.currentIndex].dt
+      this.currentSongDt = this.$store.state.music.playList.songs[this.currentIndex].dt
       // this.getlyric(id)
       var res = await this.$axios.$get(`/music/lyric?id=${id}`)
       this.currentLyric = new Lyric(res.lrc.lyric, this.handleLyric)
@@ -226,6 +237,7 @@ export default {
       if (this.playing) {
         this.currentLyric.play()
       }
+
       // this.currentLyric.togglePlay()
       // setTimeout(() => {
       // that.togglePlaying()
@@ -314,7 +326,7 @@ export default {
       if (!this.songReady) {
         return
       }
-      let prev = this.$store.state.music.currentIndex - 1
+      let prev = this.currentIndex - 1
       this.prevIndex = prev + 1
       if (prev === -1) {
         prev = this.songs.length - 1
@@ -358,7 +370,7 @@ export default {
         this.loop()
         return
       } else {
-        let index = this.$store.state.music.currentIndex + 1
+        let index = this.currentIndex + 1
         this.prevIndex = index - 1
         if (index === this.songs.length) {
           index = 0
@@ -371,6 +383,35 @@ export default {
       }
       this.songReady = false
     },
+    onChengePercent(percent) {
+      let currentTime = this.currentSongDt * percent
+      this.$refs.audio.currentTime = (percent * this.currentSongDt) / 1000
+      // console.log(percent * this.currentSong.dt);
+      if (!this.playing) {
+        this.setTogglePlaying(!this.playing)
+      }
+      console.log(currentTime)
+
+      if (this.currentLyric) {
+        this.currentLyric.seek(currentTime)
+      }
+    },
+    setTime(interval) {
+      interval = interval | 0
+      let min = (interval / 60) | 0
+      let sec = this._pad(interval % 60)
+      min = '0' + min
+      // sec = '0' + sec
+      return `${min}:${sec}`
+    },
+    _pad(num, n = 2) {
+      let len = num.toString().length
+      while (len < n) {
+        num = '0' + num
+        len++
+      }
+      return num
+    },
   },
   computed: {
     isOpen() {
@@ -381,6 +422,9 @@ export default {
     },
     currentSong() {
       return this.$store.state.music.playList.songs[this.$store.state.music.currentIndex]
+    },
+    currentIndex() {
+      return this.$store.state.music.currentIndex
     },
     playing() {
       return this.$store.state.music.playing
@@ -399,9 +443,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.songs-active {
+  color: red !important;
+  border-left: 5px solid red;
+  // font-size: 18px;
+}
 .active {
   color: red !important;
-  // font-size: 18px;
 }
 .mini-lyric {
   display: none;
@@ -492,7 +540,7 @@ export default {
 
       .num {
         line-height: 27px;
-        color: #9a9191;
+        // color: #9a9191;
       }
       .song-detail {
         width: 300px;
@@ -633,6 +681,8 @@ export default {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    min-width: 20px;
+    min-height: 14px;
     .mini-lyric {
       font-size: 12px;
       font-family: KaiTi;

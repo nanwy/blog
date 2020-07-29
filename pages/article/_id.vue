@@ -21,9 +21,10 @@
       <!-- <img v-lazy="res.img" alt /> -->
       <div class="post-content wow bounceInRight">
         <markdown :md="res.content"></markdown>
+        <p style="text-align:right;font-size:12px;color:#666;">最后更新于{{formatDate(res.updatetime)}}</p>
       </div>
     </div>
-    <h1>评论</h1>
+
     <comment :comments="comments" />
   </div>
 </template>
@@ -46,12 +47,12 @@ export default {
       originMes: [
         { title: '昵称*', name: '', placeholder: '留下您的名称' },
         { title: '联系方式', name: '', placeholder: '输入QQ可快速获得头像噢' },
-        { title: '友链', name: '', placeholder: '先不要填写' }
+        { title: '友链', name: '', placeholder: '先不要填写' },
       ],
       originMes1: [
         { title: '昵称*', name: '', placeholder: '留下您的名称' },
         { title: '联系方式', name: '', placeholder: '输入QQ可快速获得头像噢' },
-        { title: '友链', name: '', placeholder: '先不要填写' }
+        { title: '友链', name: '', placeholder: '先不要填写' },
       ],
       comments: [],
 
@@ -59,12 +60,12 @@ export default {
       children_content: '',
       class: ['jackInTheBox'],
       toname: '',
-      parent_id: -1
+      parent_id: -1,
     }
   },
   components: {
     markdown,
-    comment
+    comment,
   },
   mounted() {
     new WOW({
@@ -72,7 +73,7 @@ export default {
       // animateClass: 'animated',
       offset: 0,
       mobile: true,
-      live: false
+      live: false,
     }).init()
   },
   async asyncData({ $axios, store, params }) {
@@ -98,13 +99,13 @@ export default {
   computed: {
     res() {
       return this.$store.state.article.data[0]
-    }
+    },
   },
   filters: {
     showDate(value) {
       // let createtime = new Date(value * 1000)
       return formatDate(value)
-    }
+    },
   },
   methods: {
     formatDate(time) {
@@ -124,11 +125,11 @@ export default {
         name,
         article_id,
         parent_id,
-        toname
+        toname,
       })
       // console.log('res: ', res)
       if (!res.errno) {
-        this.$axios.$get(`api/comment/detail?id=${article_id}`).then(res => {
+        this.$axios.$get(`api/comment/detail?id=${article_id}`).then((res) => {
           this.comments = res
           console.log(comments)
         })
@@ -166,9 +167,9 @@ export default {
       //   })
       // }
       // this.isShow = -1
-    }
+    },
   },
-  transition: 'page'
+  transition: 'page',
 }
 </script>
 

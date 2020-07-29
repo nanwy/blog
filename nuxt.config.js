@@ -10,11 +10,12 @@ export default {
   ** Headers of the page
   */
   head: {
-    title: process.env.npm_package_name || '',
+    title: '南浮宫魅影',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: process.env.npm_package_description || '' }
+      { hid: 'description', name: 'description', content: process.env.npm_package_description || '' },
+      { name: "google-site-verification", content: "IiL8m_unrgDOgOM5wmoTgCHZA-UDLh_PKnFCKWOZQw4" }
     ],
     link: [
       { rel: 'icon1', type: 'image/x-icon', href: '/favicon.ico' },
@@ -67,7 +68,7 @@ export default {
   proxy: {
     '/api': {
       // target: 'http://59.110.124.156:8000',
-      target: 'http://localhost:8000',
+      target: 'http://59.110.124.156:8000',
       pathRewrite: {
         '^/api': 'api'
       }
@@ -102,5 +103,6 @@ export default {
         ["component", { "libraryName": "element-ui", "styleLibraryName": "theme-chalk" }]
       ]
     },
+    extractCSS: { allChunks: true }
   }
 }

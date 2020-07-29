@@ -103,6 +103,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+ul,
+li {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
 .hide-aside {
   position: fixed;
   top: 0;
@@ -145,7 +151,7 @@ export default {
     li {
       margin-top: 10px;
       .link-home {
-        font-size: 20px;
+        font-size: 20px !important;
         color: #ce98b0;
         .aside-name {
           color: #000;

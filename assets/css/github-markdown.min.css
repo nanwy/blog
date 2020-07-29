@@ -540,6 +540,10 @@
   margin-top: 16px
 }
 
+.markdown-body li {
+  list-style: disc;
+}
+
 .markdown-body li+li {
   margin-top: .25em
 }
