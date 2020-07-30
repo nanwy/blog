@@ -94,7 +94,7 @@ export default {
       config.resolve.alias['@'] = path.resolve(__dirname, 'components')
 
     },
-    analyze: true,
+    // analyze: true,
     assetFilter: function (assetFilename) {
       return assetFilename.endsWith('.js');
     },

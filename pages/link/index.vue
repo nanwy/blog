@@ -125,6 +125,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+ul,
+li {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
 .message {
   background-color: #fff;
   border-radius: 5px;

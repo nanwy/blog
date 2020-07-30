@@ -27,8 +27,9 @@
             :percent="percent"
             @chengePercent="onChengePercent"
           ></timer>
-          <div class="is-lyric-wrapper">
-            <span class="mini-lyric">{{miniLyric}}</span>
+          <div class="is-lyric-wrapper" v-if="toggle">
+            <span class="mini-lyric" :data-after="nextTxt" :class="{'after':isAfter}">{{miniLyric}}</span>
+            <!-- <span class="mini-lyric">{{nextTxt}}</span> -->
           </div>
 
           <p class="time" @click="isLyric = !isLyric">{{changeLyric}}</p>
@@ -105,7 +106,10 @@ export default {
       forindex: 0,
       prevIndex: 0,
       miniLyric: '',
+      nextTxt: '',
+      isAfter: false,
       allTime: '',
+      toggle: false,
       // playing: false
     }
   },
@@ -118,6 +122,9 @@ export default {
     // console.log(this.songs)
     this.playList = this.$store.state.music.playList.songs
     // console.log('Lyric: ', Lyric)
+  },
+  mounted() {
+    this.handleResize()
   },
   watch: {
     currentSong(val, oldval) {
@@ -180,19 +187,30 @@ export default {
       await this.$store.dispatch('music/changeIndex', { index })
     },
     async playSong(id) {
-      var res = await this.$axios.$get(`music/check/music?id=${id}`)
-      // console.log('res: ', res)
-      if (!res.success) {
+      try {
+        var res = await this.$axios.$get(`music/check/music?id=${id}`)
+      } catch (error) {
         this.songReady = true
-        this.nextSong()
+        this.songReady = true
+        if (this.forindex > this.prevIndex) {
+          this.nextSong()
+        } else {
+          this.prevSong()
+          this.prevIndex -= 2
+        }
+
         return
       }
+
+      // console.log('res: ', res)
+
       // var id = this.$store.state.music.playList.songs[this.$store.state.music.currentIndex].id
       await this.$store.dispatch('music/startSong', { id })
 
       this.currentUrl = this.$store.state.music.currentSong.data[0].url
       // console.log('this.currentSong.url == null: ', !this.currentUrl)
       // console.log('this.$store.state.music.currentSong', this.$store.state.music.currentIndex)
+
       if (!this.currentUrl) {
         // console.log('jinru ')
         this.songReady = true
@@ -200,10 +218,12 @@ export default {
           this.nextSong()
         } else {
           this.prevSong()
+          this.prevIndex -= 2
         }
 
         return
       }
+      console.log('this.currentLyric: ', this.currentLyric)
       // console.log(
       //   'this.$store.state.music.currentSong',
       //   this.$store.state.music.currentSong.data[0].url,
@@ -211,14 +231,15 @@ export default {
       // )
       // console.log('当前', this.forindex, 'shangyis', this.prevIndex)
       this.currentSongDt = this.$store.state.music.playList.songs[this.currentIndex].dt
-      setTimeout(() => {
+      this.$nextTick(() => {
         this.toPlay()
         this.getlyric(id)
+        console.log('this.currentLyric: ', this.currentLyric)
         if (!this.playing) {
           // console.log('暂停')
           this.togglePlaying()
         }
-      }, 500)
+      })
     },
     async getSong() {
       var id = this.$store.state.music.playList.songs[this.currentIndex].id
@@ -278,7 +299,7 @@ export default {
       // this.currentLyric = new Lyric(res.lrc.lyric, this.handleLyric)
       // console.log('currentLyric: ', this.currentLyric)
     },
-    handleLyric({ lineNum, txt }) {
+    handleLyric({ lineNum, txt, nextTxt }) {
       if (!this.songReady) {
         return
       }
@@ -295,7 +316,17 @@ export default {
         // this.$refs.scroll.refresh()
         // console.log(lineEl.offsetTop);
       }
-      this.miniLyric = txt
+      this.isAfter = true
+      if (this.toggle) {
+        this.miniLyric = txt
+
+        // this.isAfter = false
+        // console.log('next', nextTxt)
+      }
+      setTimeout(() => {
+        this.isAfter = false
+        this.nextTxt = nextTxt
+      }, 500)
     },
     toPlay() {
       // console.log(this.$refs.audio)
@@ -322,7 +353,7 @@ export default {
     //上一首
     prevSong() {
       // this.$refs.scroll.scrollTo(0, 0, 0)
-      this.currentLyric.seek(0)
+      // this.currentLyric.seek(0)
       if (!this.songReady) {
         return
       }
@@ -360,7 +391,8 @@ export default {
     },
     nextSong() {
       // this.$refs.scroll.scrollTo(0, 0, 0)
-      this.currentLyric.seek(0)
+      console.log('this.currentLyric: ', this.currentLyric)
+      // this.currentLyric.seek(0)
 
       if (!this.songReady) {
         return
@@ -411,6 +443,10 @@ export default {
         len++
       }
       return num
+    },
+    handleResize() {
+      const { width } = document.documentElement.getBoundingClientRect()
+      this.toggle = width < 760
     },
   },
   computed: {
@@ -560,7 +596,7 @@ export default {
           overflow: hidden;
           -webkit-box-orient: vertical;
           white-space: nowrap;
-          color: #9a9191;
+          // color: #9a9191;
           font-size: 12px;
           // padding: 5px 0;
         }
@@ -677,12 +713,21 @@ export default {
     }
   }
   .is-lyric-wrapper {
-    padding-top: 5px;
+    margin-top: 5px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
     min-width: 20px;
     min-height: 14px;
+    max-height: 14px;
+    .after {
+      transform: translateY(-14px);
+      transition: transform 0.2s;
+    }
+    span::after {
+      display: block;
+      content: attr(data-after);
+    }
     .mini-lyric {
       font-size: 12px;
       font-family: KaiTi;

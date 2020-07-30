@@ -75,6 +75,7 @@ export default class Lyric {
     }
     this.handler({
       txt: this.lines[i].txt,
+      nextTxt: this.lines[i + 1].txt,
       lineNum: i
     })
   }

@@ -35,7 +35,7 @@ function move(obj, objfath, amount) {
 export function scrollTo(obj, objfath, to, duration = 500, callback) {
   const start = currentTo(obj, objfath)
   const change = to - start
-  console.log('触发');
+  // console.log('触发');
   // 增加时间量
   const increment = 20
   // 累计时间量

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="!toggle" :class="{minback:1,showminback:visible}" @click="handleTo">
+    <div :class="{minback:1,showminback:visible}" @click="handleTo">
       <span class="triangle">UP</span>
     </div>
   </div>
@@ -11,12 +11,12 @@ export default {
   data() {
     return {
       visible: false,
-      toggle: false
+      toggle: false,
     }
   },
   methods: {
     handleTo() {
-      console.log(scrollTo)
+      // console.log(scrollTo)
 
       scrollTo({ top: 0, behavior: 'smooth' })
     },
@@ -29,11 +29,11 @@ export default {
       const height = 50
       const offsetTop = window.pageYOffset || document.documentElement.scrollTop
       this.visible = offsetTop > height
-    }
+    },
   },
   created() {},
   mounted() {
-    this.handleResize()
+    // this.handleResize()
     window.addEventListener('scroll', this.headershow)
     // window.addEventListener('resize', this.handleResize)
   },
@@ -41,7 +41,7 @@ export default {
     window.removeEventListener('scroll', this.headershow)
     // window.addEventListener('resize', this.handleResize)
   },
-  computed: {}
+  computed: {},
 }
 </script>
 

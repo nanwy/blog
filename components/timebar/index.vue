@@ -114,6 +114,7 @@ export default {
   color: #000;
   align-items: center;
   width: 100%;
+  padding-top: 10px;
   // max-width: 85%;
   // margin: 0 auto;
   // padding: 20px 0;
@@ -126,10 +127,11 @@ export default {
     margin: 0 15px;
     background-color: #e4e4e4;
     max-width: 80%;
-    height: 1px;
+    height: 3px;
+    cursor: pointer;
     .line {
       width: 0;
-      height: 1px;
+      height: 3px;
       background-color: #a1a1a1;
       max-width: calc(100vw - 150px);
     }
