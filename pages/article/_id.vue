@@ -20,7 +20,7 @@
       </div>
       <!-- <img v-lazy="res.img" alt /> -->
       <div class="post-content wow bounceInRight">
-        <markdown :md="res.content"></markdown>
+        <article v-html="res.content_html" class="post_detail markdown-body" />
         <p style="text-align:right;font-size:12px;color:#666;">最后更新于{{formatDate(res.updatetime)}}</p>
       </div>
     </div>
@@ -32,8 +32,11 @@
 <script>
 // import api from "@/api/article.js";
 import { formatDate } from '../../utils/utils'
-import markdown from '../../components/markdown'
+// import markdown from '../../components/markdown'
 import comment from '../../components/comments'
+import '@/../assets/css/markdown.scss'
+import '@/../assets/css/hljs.scss'
+import hljs from 'highlight.js'
 if (process.browser) {
   // 在这里根据环境引入wow.js
   var { WOW } = require('wowjs')
@@ -64,7 +67,7 @@ export default {
     }
   },
   components: {
-    markdown,
+    // markdown,
     comment,
   },
   mounted() {
@@ -75,6 +78,7 @@ export default {
       mobile: true,
       live: false,
     }).init()
+    hljs.initHighlighting()
   },
   async asyncData({ $axios, store, params }) {
     var id = params.id
@@ -89,7 +93,7 @@ export default {
     // this.blog = res.data
   },
   created() {
-    console.log(this.comments, this.count)
+    // console.log(this.comments, this.count)
     // this.count = this.comments.length
     // var id = this.$route.params.id;
     // this.getBlogDetail(id)
@@ -115,7 +119,7 @@ export default {
     async add1(com, con) {
       var parent_id = con.id
       // console.log(parent_id)
-      console.log('‘子回复')
+      // console.log('‘子回复')
       var article_id = this.$route.params.id
       var content = this.children_content
       var name = this.originMes1[0].name
@@ -131,7 +135,7 @@ export default {
       if (!res.errno) {
         this.$axios.$get(`api/comment/detail?id=${article_id}`).then((res) => {
           this.comments = res
-          console.log(comments)
+          // console.log(comments)
         })
       }
       this.isShow = -1
@@ -140,7 +144,7 @@ export default {
       this.toname = com.name
 
       this.parent_id = com.id
-      console.log('this.toname: ', this.toname, this.parent_id)
+      // console.log('this.toname: ', this.toname, this.parent_id)
       // console.log('‘父回复')
       // var parent_id = com.id
       // console.log(parent_id)

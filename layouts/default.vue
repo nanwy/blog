@@ -64,7 +64,7 @@ export default {
       second: 3,
       timer: null,
       // currentSong: '',
-      currentUrl: ''
+      currentUrl: '',
     }
   },
   components: {
@@ -73,7 +73,7 @@ export default {
     vaside,
     backtop,
     vasider,
-    vfooter
+    vfooter,
   },
   mounted() {
     // this.show()
@@ -125,16 +125,16 @@ export default {
     },
     async getSong() {
       var id = this.$store.state.music.playList.songs[this.$store.state.music.currentIndex].id
-      console.log('id: ', id)
+      // console.log('id: ', id)
       await this.$store.dispatch('music/startSong', { id })
-      console.log('this.$store.state.music.currentSong', this.$store.state.music.currentSong.data[0].url)
-    }
+      // console.log('this.$store.state.music.currentSong', this.$store.state.music.currentSong.data[0].url)
+    },
   },
   computed: {
     isOpen() {
       return this.$store.state.article.isOpen
-    }
-  }
+    },
+  },
 }
 </script>
 

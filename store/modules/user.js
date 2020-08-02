@@ -24,7 +24,7 @@ export const mutations = {
 
 export const actions = {
   async login({ commit }, data) {
-    console.log(this);
+    // console.log(this);
     const res = await this.$axios.$post('/api/user/login', data)
     if (res.errno === 0) {
       Message({
@@ -34,7 +34,7 @@ export const actions = {
       })
     } else {
 
-      console.log('账号或密码错误！！')
+      // console.log('账号或密码错误！！')
       Message({
         message: '账号或密码错误！',
         type: 'error',
@@ -42,7 +42,7 @@ export const actions = {
       })
     }
     commit("setname", res.message)
-    console.log(res.message);
+    // console.log(res.message);
   },
   logout({ commit }) {
     commit("settoken", null)

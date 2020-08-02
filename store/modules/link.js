@@ -23,7 +23,7 @@ export const actions = {
   async getLink({ commit }, data) {
     const res = await this.$axios.$get('/api/link/detail')
     commit("setLink", res)
-    console.log(res);
+    // console.log(res);
   },
   logout({ commit }) {
     commit("settoken", null)

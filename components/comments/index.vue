@@ -139,7 +139,7 @@ export default {
     },
   },
   created() {
-    console.log('this.comments', scrollTo)
+    // console.log('this.comments', scrollTo)
     this.comment = this.comments
     // console.log(this.$route.params.id)
   },
@@ -159,24 +159,24 @@ export default {
     showinput(com, chl) {
       // this.isShow = index
 
-      console.log(this.toname)
+      // console.log(this.toname)
       if (chl) {
         this.toname = chl.name
         this.placeholder = `@${this.toname}:${chl.content}`
-        console.log('子回复')
+        // console.log('子回复')
       } else {
         this.toname = com.name
         this.placeholder = `@${this.toname}:${com.content}`
       }
 
       this.parent_id = com.id
-      console.log('this.toname: ', this.toname, this.parent_id)
+      // console.log('this.toname: ', this.toname, this.parent_id)
       var body = document.body
-      console.log(document.documentElement)
+      // console.log(document.documentElement)
       scrollTo(body, document.documentElement, this.$refs.comment.offsetTop - 50, 800, this.$refs.input.focus)
     },
     moveLeave() {
-      console.log(!this.toname)
+      // console.log(!this.toname)
       if (!this.input) {
         this.placeholder = '竟然什么都不说,555'
         if (this.toname) {
@@ -189,7 +189,7 @@ export default {
       var user = await this.$axios.$get('api/user/userinfo')
 
       if (this.input != null) {
-        console.log(this.originMes[0].name)
+        // console.log(this.originMes[0].name)
         if (this.originMes[0].name == '南浮宫魅影' && user.errno === -1) {
           this.$message({
             message: '不可以使用博主的昵称哦~',
@@ -209,7 +209,7 @@ export default {
         var toname = this.toname
         var parent_id = this.parent_id
         var link = this.originMes[2].name
-        console.log('parent_id: ', parent_id, toname)
+        // console.log('parent_id: ', parent_id, toname)
 
         try {
           var res = await this.$axios.$post('/api/comment/new', {
@@ -226,9 +226,9 @@ export default {
             message: '太多次了哦,请不要这样',
             type: 'error',
           })
-          console.log(error)
+          // console.log(error)
         }
-        console.log('res: ', res)
+        // console.log('res: ', res)
         if (!res.errno) {
           this.$axios.$get(`api/comment/detail?id=${article_id}`).then((res) => {
             this.comment = res
@@ -243,7 +243,7 @@ export default {
           })
         }
       } else {
-        console.log('jinru')
+        // console.log('jinru')
         this.$message({
           message: '您还没输入内容呢~',
           type: 'warning',

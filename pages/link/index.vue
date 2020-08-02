@@ -63,7 +63,7 @@ export default {
   },
   created() {
     this.$store.commit('article/isOpen', false)
-    console.log('this.friendLinks : ', this.friendLinks)
+    // console.log('this.friendLinks : ', this.friendLinks)
   },
   // async asyncData({ $axios }) {
   //   var res1 = await $axios.$get(`api/comment/detail?id=-1`)
@@ -108,7 +108,7 @@ export default {
           })
         }
       } else {
-        console.log('jinru')
+        // console.log('jinru')
         this.$message({
           message: '您还没输入内容呢~',
           type: 'warning',

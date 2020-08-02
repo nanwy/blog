@@ -22,7 +22,7 @@
     btn.onclick = function () {
 
       animateHeader = !animateHeader
-      console.log('动画', animateHeader);
+      // console.log('动画', animateHeader);
     }
     canvas.width = width;
     canvas.height = height;
@@ -96,12 +96,12 @@
 
   // Event handling
   function addListeners() {
-    console.log(!('ontouchstart' in window));
+    // console.log(!('ontouchstart' in window));
 
     if (!('ontouchstart' in window)) {
       window.addEventListener('mousemove', mouseMove);
     } else {
-      console.log('jinru');
+      // console.log('jinru');
 
       window.addEventListener('click', touchStart)
     }

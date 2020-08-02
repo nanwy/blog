@@ -33,7 +33,7 @@ const mutations = {
   },
   SET_PLAY_MODE(state, mode) {
     state.playMode = mode
-    console.log('改变了');
+    // console.log('改变了');
 
   },
   SET_CURRENT_INDEX(state, index) {

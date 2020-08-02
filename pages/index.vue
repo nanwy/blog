@@ -69,12 +69,12 @@ export default {
     return {
       // blogList: []
       center: false,
-      anim: false
+      anim: false,
     }
   },
   created() {
     // console.log(this.$store.state.article.list);
-    let res = this.$store.state.article.list.map(function(top) {
+    let res = this.$store.state.article.list.map(function (top) {
       return top.stay_at_top
     })
     // console.log(this.$store.state.article.pageNum)
@@ -83,17 +83,17 @@ export default {
   },
 
   mounted() {
-    console.log('mounted')
+    // console.log('mounted')
     if (process.browser) {
-      console.log('搜索')
-
+      // console.log('搜索')
+      //
       // 在页面mounted生命周期里面 根据环境实例化WOW
       new WOW({
         boxClass: 'wow',
         // animateClass: 'animated',
         offset: 0,
         mobile: true,
-        live: false
+        live: false,
       }).init()
     }
   },
@@ -102,14 +102,14 @@ export default {
     // if (!process.server) return;
     await store.dispatch('article/blogList', {
       pageNum: store.state.article.pageNum,
-      pageSize: 5
+      pageSize: 5,
     })
   },
   filters: {
     showDate(value) {
       let createtime = new Date(value * 1000)
       return formatDate(createtime)
-    }
+    },
   },
   methods: {
     // _getBlogList() {
@@ -124,7 +124,7 @@ export default {
       // console.log(this.$store.state.article.pageSize)
       console.log('pagesize', pageSize)
       this.$store.dispatch('article/bloglist', {
-        pageNum: this.$store.state.article.pageNum
+        pageNum: this.$store.state.article.pageNum,
       })
     },
     currentchange(pageNum) {
@@ -146,12 +146,12 @@ export default {
       // console.log('dian吉',this.$store.state.article.count / this.$store.state.article.pageSize / 2);
       // this.$store.commit("article/nowpage", pageNum);
       this.$store.dispatch('article/blogList', {
-        pageNum
+        pageNum,
       })
       scrollTo({ top: 0, behavior: 'instant' })
       // this.$refs.con[pageNum].removeClass('animated')
       setTimeout(() => {}, 2000)
-    }
+    },
   },
   computed: {
     blogList() {
@@ -163,11 +163,11 @@ export default {
     pageNum() {
       return this.$store.state.article.pageNum
     },
-    activeUsers: function() {
-      return this.$store.state.article.list.map(function(top) {
+    activeUsers: function () {
+      return this.$store.state.article.list.map(function (top) {
         return top.stay_at_top
       })
-    }
+    },
   },
   watch: {
     blogList(val, pageNum) {
@@ -175,7 +175,7 @@ export default {
 
       // 在页面mounted生命周期里面 根据环境实例化WOW
       // console.log('this.$refs.con', this)
-      this.$nextTick(function() {
+      this.$nextTick(function () {
         if (process.browser) {
           // console.log('搜索')
 
@@ -185,15 +185,15 @@ export default {
             // animateClass: 'animated',
             offset: 0,
             mobile: true,
-            live: false
+            live: false,
           }).init()
         }
       })
 
       // this.$refs.con.removeAttribute('class', 'animated')
-    }
+    },
   },
-  transition: 'page'
+  transition: 'page',
 }
 </script>
 

@@ -140,7 +140,7 @@ export default {
         this.currentLyric = ''
       }
       this.allTime = val.dt
-      console.log('val: ', val)
+      // console.log('val: ', val)
       this.playSong(val.id)
     },
     playing(val) {
@@ -223,7 +223,7 @@ export default {
 
         return
       }
-      console.log('this.currentLyric: ', this.currentLyric)
+      // console.log('this.currentLyric: ', this.currentLyric)
       // console.log(
       //   'this.$store.state.music.currentSong',
       //   this.$store.state.music.currentSong.data[0].url,
@@ -234,7 +234,7 @@ export default {
       this.$nextTick(() => {
         this.toPlay()
         this.getlyric(id)
-        console.log('this.currentLyric: ', this.currentLyric)
+        // console.log('this.currentLyric: ', this.currentLyric)
         if (!this.playing) {
           // console.log('暂停')
           this.togglePlaying()
@@ -336,9 +336,10 @@ export default {
       // console.log('暂停')
       // console.log(this.currentLyric)
       // console.log('this.songReady: ', this.songReady)
-      if (!this.songReady) {
-        return
-      }
+      // if (!this.songReady) {
+      //   return
+      // }
+      // alert('点击了播放')
       if (this.currentLyric) {
         this.currentLyric.togglePlay()
       }
@@ -391,7 +392,7 @@ export default {
     },
     nextSong() {
       // this.$refs.scroll.scrollTo(0, 0, 0)
-      console.log('this.currentLyric: ', this.currentLyric)
+      // console.log('this.currentLyric: ', this.currentLyric)
       // this.currentLyric.seek(0)
 
       if (!this.songReady) {
@@ -422,7 +423,7 @@ export default {
       if (!this.playing) {
         this.setTogglePlaying(!this.playing)
       }
-      console.log(currentTime)
+      // console.log(currentTime)
 
       if (this.currentLyric) {
         this.currentLyric.seek(currentTime)
@@ -719,7 +720,7 @@ export default {
     white-space: nowrap;
     min-width: 20px;
     min-height: 14px;
-    max-height: 14px;
+    height: 14px;
     .after {
       transform: translateY(-14px);
       transition: transform 0.2s;
@@ -727,6 +728,7 @@ export default {
     span::after {
       display: block;
       content: attr(data-after);
+      height: 12px;
     }
     .mini-lyric {
       font-size: 12px;

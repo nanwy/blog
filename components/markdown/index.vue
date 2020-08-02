@@ -14,13 +14,11 @@ hljs.registerLanguage('javascript', javascript)
 import * as css from 'highlight.js/lib/languages/css'
 // hljs.registerLanguage("javascript", javascript);
 hljs.registerLanguage('css', css)
-import '../../assets/css/github-markdown.min.css'
 export default {
   props: ['md'],
   data() {
     return {
       content: '',
-      xxx: ''
     }
   },
   created() {
@@ -36,50 +34,49 @@ export default {
       sanitize: false,
       smartLists: true,
       smartypants: false,
-      xhtml: false
+      xhtml: false,
     })
     this.initMarked()
   },
   methods: {
     initMarked() {
+      var rendererMD = new marked.Renderer()
+      rendererMD.heading = function (text, level) {
+        var escapedText = text.toLowerCase().replace(/[^\w]+/g, '-')
+        return (
+          '<h' +
+          level +
+          '><a name="' +
+          escapedText +
+          '" class="anchor" href="#' +
+          escapedText +
+          '"><span class="header-link"></span></a>' +
+          text +
+          '</h' +
+          level +
+          '>'
+        )
+      }
       marked.setOptions({
-        renderer: new marked.Renderer(),
+        renderer: rendererMD,
+        pedantic: false,
+        gfm: true,
+        tables: true,
+        breaks: false,
+        sanitize: false,
+        smartLists: true,
+        smartypants: false,
+        xhtml: false,
         highlight(code) {
           return hljs.highlightAuto(code).value
         },
-        pedantic: false,
-        gfm: true,
-        tables: true,
-        breaks: false,
-        sanitize: false,
-        smartLists: true,
-        smartypants: false,
-        xhtml: false
       })
+      // console.log('this.content: ', this.md)
       this.content = marked(this.md)
-      this.xxx = this.md
     },
-    // 格式化内容
-    newcontent(x) {
-      marked.setOptions({
-        renderer: new marked.Renderer(),
-        highlight: function(code) {
-          return hljs.highlightAuto(code).value
-        },
-        pedantic: false,
-        gfm: true,
-        tables: true,
-        breaks: false,
-        sanitize: false,
-        smartLists: true,
-        smartypants: false,
-        xhtml: false
-      })
-      return marked(x)
-    }
   },
   watch: {},
-  computed: {}
+  computed: {},
 }
 </script>
 

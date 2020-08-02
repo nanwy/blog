@@ -80,10 +80,10 @@ const actions = {
   //文章列表
   async blogList({ commit, state }, data) {
     var { pageNum } = data
-    console.log(state.pageNum);
+    // console.log(state.pageNum);
 
     const res = await this.$axios.$get(`/api/blog/page?pageNum=${pageNum}&pageSize=${state.pageSize}`)
-    console.log(res);
+    // console.log(res);
     commit('count', res.message.count)
     commit('pageNum', pageNum)
     commit('list', res.data)

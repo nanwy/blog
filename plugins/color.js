@@ -7,7 +7,7 @@ export function color(window, undefined) {
  }) */
   b.onclick = function (e) {
     fuQiang(e);
-    console.log(b);
+    // console.log(b);
   };
   var fuArr = [];
   var arr = [
@@ -34,7 +34,7 @@ export function color(window, undefined) {
     var r = Math.floor(Math.random() * 255);
     var g = Math.floor(Math.random() * 255);
     var bo = Math.floor(Math.random() * 255);
-    console.log(e.offsetX, e.offsetY, e);
+    // console.log(e.offsetX, e.offsetY, e);
 
     fuArr.push({
       di: fontDiv,

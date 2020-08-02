@@ -46,7 +46,7 @@ export default {
     },
     showMenu() {
       this.isOpen = !this.$store.state.article.isOpen
-      console.log(this.isOpen)
+      // console.log(this.isOpen)
       // scrollTo({ top: 120, behavior: 'smooth' })
       this.$store.commit('article/isOpen', this.isOpen)
       // console.log(this.isOpen);

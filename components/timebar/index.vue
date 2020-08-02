@@ -133,6 +133,7 @@ export default {
       width: 0;
       height: 3px;
       background-color: #a1a1a1;
+      // transition: all 0.2s;
       max-width: calc(100vw - 150px);
     }
   }
