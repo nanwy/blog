@@ -72,11 +72,13 @@ export default {
       anim: false,
     }
   },
+
   created() {
-    // console.log(this.$store.state.article.list);
+    // console.log(this.$store.state.article)
     let res = this.$store.state.article.list.map(function (top) {
       return top.stay_at_top
     })
+    // console.log('res: ', this.$store.state.article)
     // console.log(this.$store.state.article.pageNum)
     this.$store.commit('article/isOpen', false)
     // this._getBlogList();
@@ -98,13 +100,14 @@ export default {
     }
   },
 
-  async asyncData({ store, params }) {
-    // if (!process.server) return;
-    await store.dispatch('article/blogList', {
-      pageNum: store.state.article.pageNum,
-      pageSize: 5,
-    })
-  },
+  // async fetch({ store, params }) {
+  //   // if (!process.server) return;
+
+  //   await store.dispatch('article/blogList', {
+  //     pageNum: store.state.article.pageNum,
+  //     pageSize: 5,
+  //   })
+  // },
   filters: {
     showDate(value) {
       let createtime = new Date(value * 1000)

@@ -84,9 +84,9 @@ const actions = {
 
     const res = await this.$axios.$get(`/api/blog/page?pageNum=${pageNum}&pageSize=${state.pageSize}`)
     // console.log(res);
-    commit('count', res.message.count)
+    commit('count', res.data.count)
     commit('pageNum', pageNum)
-    commit('list', res.data)
+    commit('list', res.data.rows)
   },
   //文章详情
   async getBlogDetail({ commit }, data) {

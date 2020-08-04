@@ -1,5 +1,9 @@
 <template>
-  <div class="rbloger" :class="{'isOpen':isShow,'hidden':isHidden}">
+  <div
+    class="rbloger"
+    :class="{'isOpen':isShow,'hidden':isHidden}"
+    v-if="Object.keys(songs).length !== 0"
+  >
     <el-aside class="blog-aside">
       <el-col :span="24">
         <div class="bottom-bar">
@@ -110,6 +114,7 @@ export default {
       isAfter: false,
       allTime: '',
       toggle: false,
+      flag: true,
       // playing: false
     }
   },
@@ -118,19 +123,30 @@ export default {
     Timer,
   },
   created() {
-    this.getSong()
-    // console.log(this.songs)
     this.playList = this.$store.state.music.playList.songs
+    this.$axios.$get(`/music/song/detail?ids=${this.$store.state.music.idsList}`).then((res) => {
+      this.$store.dispatch('music/setSongList', res)
+    })
+
     // console.log('Lyric: ', Lyric)
   },
   mounted() {
     this.handleResize()
+
+    this.$nextTick(() => {})
   },
   watch: {
     currentSong(val, oldval) {
+      this.getSong()
+
+      if (!oldval) {
+        // console.log('进入')
+        return
+      }
       if (val.id === oldval.id) {
         return
       }
+      // console.log(oldval)
       // console.log('this.currentLyric: ', this.currentLyric)
       if (this.currentLyric) {
         // console.log('需要停止')
@@ -183,7 +199,7 @@ export default {
     async select(index) {
       // console.log(index)
       this.forindex = index
-
+      // console.log(this.currentSong)
       await this.$store.dispatch('music/changeIndex', { index })
     },
     async playSong(id) {
@@ -208,6 +224,7 @@ export default {
       await this.$store.dispatch('music/startSong', { id })
 
       this.currentUrl = this.$store.state.music.currentSong.data[0].url
+      console.log('this.currentUrl: ', this.currentUrl)
       // console.log('this.currentSong.url == null: ', !this.currentUrl)
       // console.log('this.$store.state.music.currentSong', this.$store.state.music.currentIndex)
 
@@ -230,7 +247,7 @@ export default {
       //   this.currentUrl
       // )
       // console.log('当前', this.forindex, 'shangyis', this.prevIndex)
-      this.currentSongDt = this.$store.state.music.playList.songs[this.currentIndex].dt
+      this.currentSongDt = this.$store.state.music.playList[this.currentIndex].dt
       this.$nextTick(() => {
         this.toPlay()
         this.getlyric(id)
@@ -242,21 +259,24 @@ export default {
       })
     },
     async getSong() {
-      var id = this.$store.state.music.playList.songs[this.currentIndex].id
-      var index = 0
-      // console.log('id: ', id)
-      var res = await this.$axios.$get(`music/check/music?id=${id}`)
-      // console.log('res: ', res)
-      await this.$store.dispatch('music/startSong', { id })
+      if (this.flag) {
+        var id = await this.currentSong.id
+        var index = 0
+        // console.log('id: ', id)
+        var res = await this.$axios.$get(`music/check/music?id=${id}`)
+        // console.log('res: ', res)
+        await this.$store.dispatch('music/startSong', { id })
 
-      this.currentUrl = this.$store.state.music.currentSong.data[0].url
-      this.currentSongDt = this.$store.state.music.playList.songs[this.currentIndex].dt
-      // this.getlyric(id)
-      var res = await this.$axios.$get(`/music/lyric?id=${id}`)
-      this.currentLyric = new Lyric(res.lrc.lyric, this.handleLyric)
-      // console.log('this.currentLyric: ', this.currentLyric)
-      if (this.playing) {
-        this.currentLyric.play()
+        this.currentUrl = this.$store.state.music.currentSong.data[0].url
+        this.currentSongDt = this.$store.state.music.playList[this.currentIndex].dt
+        // this.getlyric(id)
+        var res = await this.$axios.$get(`/music/lyric?id=${id}`)
+        this.currentLyric = new Lyric(res.lrc.lyric, this.handleLyric)
+        // console.log('this.currentLyric: ', this.currentLyric)
+        if (this.playing) {
+          this.currentLyric.play()
+        }
+        this.flag = false
       }
 
       // this.currentLyric.togglePlay()
@@ -455,10 +475,10 @@ export default {
       return this.$store.state.article.isOpen
     },
     songs() {
-      return this.$store.state.music.playList.songs
+      return this.$store.state.music.playList
     },
     currentSong() {
-      return this.$store.state.music.playList.songs[this.$store.state.music.currentIndex]
+      return this.$store.state.music.playList[this.$store.state.music.currentIndex]
     },
     currentIndex() {
       return this.$store.state.music.currentIndex

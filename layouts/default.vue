@@ -115,20 +115,20 @@ export default {
   },
   comments: {},
   methods: {
-    cancelClick() {
-      this.dialogVisible = false
-      clearInterval(this.timer)
-    },
+    // cancelClick() {
+    //   this.dialogVisible = false
+    //   clearInterval(this.timer)
+    // },
     show() {
       this.isShow = !this.isShow
       // console.log('点击', this.isShow)
     },
-    async getSong() {
-      var id = this.$store.state.music.playList.songs[this.$store.state.music.currentIndex].id
-      // console.log('id: ', id)
-      await this.$store.dispatch('music/startSong', { id })
-      // console.log('this.$store.state.music.currentSong', this.$store.state.music.currentSong.data[0].url)
-    },
+    // async getSong() {
+    //   var id = this.$store.state.music.playList.songs[this.$store.state.music.currentIndex].id
+    //   // console.log('id: ', id)
+    //   await this.$store.dispatch('music/startSong', { id })
+    //   // console.log('this.$store.state.music.currentSong', this.$store.state.music.currentSong.data[0].url)
+    // },
   },
   computed: {
     isOpen() {

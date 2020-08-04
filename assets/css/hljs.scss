@@ -1,108 +1,69 @@
-/*
+/* Base16 Atelier Forest Light - Theme */
+/* by Bram de Haan (http://atelierbram.github.io/syntax-highlighting/atelier-schemes/forest) */
+/* Original Base16 color scheme by Chris Kempson (https://github.com/chriskempson/base16) */
 
-Gruvbox style (dark) (c) Pavel Pertsev (original style at https://github.com/morhetz/gruvbox)
+/* Atelier-Forest Comment */
+.hljs-comment,
+.hljs-quote {
+  color: #766e6b;
+}
 
-*/
+/* Atelier-Forest Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-attribute,
+.hljs-tag,
+.hljs-name,
+.hljs-regexp,
+.hljs-link,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class {
+  color: #f22c40;
+}
+
+/* Atelier-Forest Orange */
+.hljs-number,
+.hljs-meta,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params {
+  color: #df5320;
+}
+
+/* Atelier-Forest Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet {
+  color: #7b9726;
+}
+
+/* Atelier-Forest Blue */
+.hljs-title,
+.hljs-section {
+  color: #407ee7;
+}
+
+/* Atelier-Forest Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+  color: #6666ea;
+}
 
 .hljs {
   display: block;
   overflow-x: auto;
+  background: #f1efee;
+  color: #68615e;
   padding: 0.5em;
-  background: #282828;
 }
 
-.hljs,
-.hljs-subst {
-  color: #ebdbb2;
-}
-
-/* Gruvbox Red */
-.hljs-deletion,
-.hljs-formula,
-.hljs-keyword,
-.hljs-link,
-.hljs-selector-tag {
-  color: #fb4934;
-}
-
-/* Gruvbox Blue */
-.hljs-built_in,
-.hljs-emphasis,
-.hljs-name,
-.hljs-quote,
-.hljs-strong,
-.hljs-title,
-.hljs-variable {
-  color: #83a598;
-}
-
-/* Gruvbox Yellow */
-.hljs-attr,
-.hljs-params,
-.hljs-template-tag,
-.hljs-type {
-  color: #fabd2f;
-}
-
-/* Gruvbox Purple */
-.hljs-builtin-name,
-.hljs-doctag,
-.hljs-literal,
-.hljs-number {
-  color: #8f3f71;
-}
-
-/* Gruvbox Orange */
-.hljs-code,
-.hljs-meta,
-.hljs-regexp,
-.hljs-selector-id,
-.hljs-template-variable {
-  color: #fe8019;
-}
-
-/* Gruvbox Green */
-.hljs-addition,
-.hljs-meta-string,
-.hljs-section,
-.hljs-selector-attr,
-.hljs-selector-class,
-.hljs-string,
-.hljs-symbol {
-  color: #b8bb26;
-}
-
-/* Gruvbox Aqua */
-.hljs-attribute,
-.hljs-bullet,
-.hljs-class,
-.hljs-function,
-.hljs-function .hljs-keyword,
-.hljs-meta-keyword,
-.hljs-selector-pseudo,
-.hljs-tag {
-  color: #8ec07c;
-}
-
-/* Gruvbox Gray */
-.hljs-comment {
-  color: #928374;
-}
-
-/* Gruvbox Purple */
-.hljs-link_label,
-.hljs-literal,
-.hljs-number {
-  color: #d3869b;
-}
-
-.hljs-comment,
 .hljs-emphasis {
   font-style: italic;
 }
 
-.hljs-section,
-.hljs-strong,
-.hljs-tag {
+.hljs-strong {
   font-weight: bold;
 }

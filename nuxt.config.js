@@ -67,7 +67,7 @@ export default {
   },
   proxy: {
     '/api': {
-      // target: 'http://59.110.124.156:8000',
+      // target: 'http://localhost:8000',
       target: 'http://59.110.124.156:8000',
       pathRewrite: {
         '^/api': 'api'
@@ -87,7 +87,7 @@ export default {
     /*
     ** You can extend webpack config here
     */
-    publicPath: 'http://img.nanwayan.cn/',
+    // publicPath: 'http://img.nanwayan.cn/',
     extend(config, ctx) {
       if (ctx.isDev && ctx.isClient) {
         config.module.rules.push()
@@ -107,27 +107,28 @@ export default {
 
     // },
     analyze: true,
-    assetFilter: function (assetFilename) {
-      return assetFilename.endsWith('.js');
-    },
+    // assetFilter: function (assetFilename) {
+    //   return assetFilename.endsWith('.js');
+    // },
     babel: {
       plugins: [
         ["component", { "libraryName": "element-ui", "styleLibraryName": "theme-chalk" }]
       ]
     },
-    extractCSS: process.env.NODE_ENV === 'production',
-    optimization: {
-      splitChunks: {
-        cacheGroups: {
-          styles: {
-            name: 'styles',
-            test: /\.(css|vue|scss)$/,
-            chunks: 'all',
-            enforce: true
-          }
-        }
-      }
-    }
-    // extractCSS: true
+    // extractCSS: process.env.NODE_ENV === 'production',
+    // optimization: {
+    //   splitChunks: {
+    //     cacheGroups: {
+    //       styles: {
+    //         name: 'styles',
+    //         test: /\.(css|vue|scss)$/,
+    //         chunks: 'all',
+    //         enforce: true
+    //       }
+    //     }
+    //   }
+    // }
+
+    extractCSS: true
   }
 }

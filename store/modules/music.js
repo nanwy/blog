@@ -16,7 +16,8 @@ const state = () => ({
   playing: false,
   fullScreen: false,
   currentIndex: 0,
-  currentSong: ''
+  currentSong: '',
+  idsList: []
 })
 
 
@@ -42,12 +43,16 @@ const mutations = {
   SET_CURRENT_SONG(state, song) {
     state.currentSong = song
   },
+  SET_IDS_LIST(state, list) {
+    state.idsList = list
+    // console.log(state.playList);
+
+  },
   SET_PLAY_LIST(state, list) {
     state.playList = list
     // console.log(state.playList);
 
   },
-
   IS_FIND_SWIPER(state) {
     state.isFindSwiper = false
   },
@@ -69,9 +74,9 @@ const actions = {
     }
     ids = ids.toString()
     //获取每首歌详情
-    const song = await this.$axios.$get(`/music/song/detail?ids=${ids}`)
+    // const song = await this.$axios.$get(`/music/song/detail?ids=${ids}`)
     // console.log(song[0]);
-    commit('SET_PLAY_LIST', song)
+    commit('SET_IDS_LIST', ids)
     // if (state.playMode === playMode.random) {
     //   let newList = shuffle(list)
     //   commit(types.SET_PLAY_LIST, newList)
@@ -86,10 +91,16 @@ const actions = {
     // commit(types.SET_SEQUENCE_LIST, list)
 
   },
+  async setSongList({ commit }, data) {
+    let { songs } = data
+    // console.log('songs: ', songs);
+    commit('SET_PLAY_LIST', songs)
+  },
   async startSong({ commit }, data) {
     // console.log(data);
     let { id } = data
     const res = await this.$axios.$get(`/music/song/url?id=${id}`)
+    // console.log('res: ', res);
     // commit('SET_CURRENT_INDEX', index)
     commit('SET_CURRENT_SONG', res)
 

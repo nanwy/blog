@@ -36,7 +36,7 @@ import { formatDate } from '../../utils/utils'
 import comment from '../../components/comments'
 import '@/../assets/css/markdown.scss'
 import '@/../assets/css/hljs.scss'
-import hljs from 'highlight.js'
+// import hljs from 'highlight.js'
 if (process.browser) {
   // 在这里根据环境引入wow.js
   var { WOW } = require('wowjs')
@@ -78,7 +78,7 @@ export default {
       mobile: true,
       live: false,
     }).init()
-    hljs.initHighlighting()
+    // hljs.initHighlighting()
   },
   async asyncData({ $axios, store, params }) {
     var id = params.id
@@ -102,7 +102,7 @@ export default {
   },
   computed: {
     res() {
-      return this.$store.state.article.data[0]
+      return this.$store.state.article.data.rows[0]
     },
   },
   filters: {

@@ -47,6 +47,10 @@ export default {
     showMenu() {
       this.isOpen = !this.$store.state.article.isOpen
       // console.log(this.isOpen)
+      // console.log(
+      //   'this.$store.state.music.playList[this.$store.state.music.currentIndex]',
+      //   this.$store.state.music.playList[this.$store.state.music.currentIndex]
+      // )
       // scrollTo({ top: 120, behavior: 'smooth' })
       this.$store.commit('article/isOpen', this.isOpen)
       // console.log(this.isOpen);

@@ -15,6 +15,7 @@ const store = {
       await dispatch('link/getLink')
       await dispatch('music/setSongAll')
       // console.log('chufa触发了', music);
+      // console.log('chufa触发了', music);
     }
   }
 }
