@@ -159,8 +159,11 @@ li {
           height: 80px;
           margin: 5px;
           box-sizing: border-box;
+          margin-top: 20px;
           padding: 0 10px;
           border: 1px dashed #eee;
+          transition: all 0.25s ease 0ms;
+          box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
           a {
             display: flex;
             text-align: center;
@@ -168,6 +171,7 @@ li {
               width: 70px;
               height: 70px;
               border-radius: 50%;
+              transition: all 0.25s ease 0ms;
             }
             .detail {
               line-height: 30px;
@@ -180,6 +184,12 @@ li {
                 line-height: 24px;
               }
             }
+          }
+          &:hover {
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.25) !important;
+          }
+          &:hover a img {
+            transform: rotate(360deg);
           }
         }
       }

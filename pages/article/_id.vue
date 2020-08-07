@@ -18,9 +18,10 @@
           </span>
         </div>
       </div>
+      <catalog :catalogs="res.catalog" :titleTop="catalogTop" v-if="toggle"></catalog>
       <!-- <img v-lazy="res.img" alt /> -->
       <div class="post-content wow bounceInRight">
-        <article v-html="res.content_html" class="post_detail markdown-body" />
+        <article v-html="res.content_html" class="article_detail markdown-body" />
         <p style="text-align:right;font-size:12px;color:#666;">最后更新于{{formatDate(res.updatetime)}}</p>
       </div>
     </div>
@@ -34,6 +35,7 @@
 import { formatDate } from '../../utils/utils'
 // import markdown from '../../components/markdown'
 import comment from '../../components/comments'
+import catalog from '@/catalog/tree'
 import '@/../assets/css/markdown.scss'
 import '@/../assets/css/hljs.scss'
 // import hljs from 'highlight.js'
@@ -64,11 +66,14 @@ export default {
       class: ['jackInTheBox'],
       toname: '',
       parent_id: -1,
+      catalogTop: [],
+      toggle: false,
     }
   },
   components: {
     // markdown,
     comment,
+    catalog,
   },
   mounted() {
     new WOW({
@@ -93,12 +98,22 @@ export default {
     // this.blog = res.data
   },
   created() {
+    // console.log('res', this.res)
     // console.log(this.comments, this.count)
     // this.count = this.comments.length
     // var id = this.$route.params.id;
     // this.getBlogDetail(id)
     // console.log(this.$store.state.article.data)
     // console.log(this.formatDate(this.comments.createtime), this.comments.createtime)
+  },
+  mounted() {
+    this.handleResize()
+
+    this.$nextTick(() => {
+      if (this.toggle) {
+        this.getCatalogTop()
+      }
+    })
   },
   computed: {
     res() {
@@ -112,6 +127,21 @@ export default {
     },
   },
   methods: {
+    handleResize() {
+      const { width } = document.documentElement.getBoundingClientRect()
+      this.toggle = width > 1200
+    },
+    getCatalogTop() {
+      let tag_list = ['H1', 'H2', 'H3', 'H4', 'H5', 'H6']
+      let ind_list = document.getElementsByClassName('article_detail')[0].children
+      console.log('ind_list: ', ind_list)
+
+      for (let i = 0; i < ind_list.length; i++) {
+        if (tag_list.indexOf(ind_list[i].tagName) >= 0) {
+          this.catalogTop.push(ind_list[i].offsetTop)
+        }
+      }
+    },
     formatDate(time) {
       return formatDate(time)
     },

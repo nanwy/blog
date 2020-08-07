@@ -739,20 +739,21 @@ export default {
     text-overflow: ellipsis;
     white-space: nowrap;
     min-width: 20px;
-    min-height: 14px;
-    height: 14px;
+    min-height: 12px;
+    height: 12px;
     .after {
-      transform: translateY(-14px);
+      transform: translateY(-12px);
       transition: transform 0.2s;
     }
     span::after {
       display: block;
       content: attr(data-after);
-      height: 12px;
+      // height: 12px;
     }
     .mini-lyric {
       font-size: 12px;
       font-family: KaiTi;
+      line-height: 12px;
     }
   }
   .front-cover {

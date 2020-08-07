@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div :class="{minback:1,showminback:visible}" @click="handleTo">
-      <span class="triangle">UP</span>
+    <div :class="{show:1,showminback:visible}" @click="handleTo">
+      <!-- <span class="triangle">UP</span> -->
     </div>
   </div>
 </template>
@@ -57,14 +57,29 @@ export default {
 }
 .show {
   position: fixed;
-  top: -700px;
+  bottom: 10px;
   right: 10px;
-  width: 100px;
-  height: 700px;
+  width: 132px;
+  height: 150px;
+  z-index: 999;
+  background: url('https://img.nanwayan.cn/backTop.png') no-repeat;
+  background-size: cover;
+  animation: move 3s infinite linear;
+  cursor: pointer;
+  /* opacity: 0; */
+  transition: all 0.5s;
+}
+.show:hover {
+  background: url('https://img.nanwayan.cn/backTophover.png') no-repeat;
+  background-size: cover;
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  width: 200px;
+  height: 226px;
   z-index: 999;
   animation: move 3s infinite linear;
   cursor: pointer;
-  transition: all 0.5s;
 }
 .backtop {
   top: 0;
@@ -80,6 +95,7 @@ export default {
   right: 12px;
   bottom: 50px;
   box-shadow: 0px 0px 1px 5px rgba(0, 0, 0, 0.1);
+
   opacity: 0;
   transition: all 1s;
   cursor: pointer;

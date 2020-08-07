@@ -172,7 +172,7 @@ export default {
       this.parent_id = com.id
       // console.log('this.toname: ', this.toname, this.parent_id)
       var body = document.body
-      // console.log(document.documentElement)
+      console.log(document.documentElement)
       scrollTo(body, document.documentElement, this.$refs.comment.offsetTop - 50, 800, this.$refs.input.focus)
     },
     moveLeave() {

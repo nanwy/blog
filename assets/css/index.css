@@ -92,7 +92,19 @@
   }
 }
 
-@media screen and (max-width: 767px) {
+@media screen and (max-width: 576px) {
+  .catalog-tree {
+    position: sticky !important;
+    top: 80% !important;
+    /* left: 0 !important;
+    right: 20px; */
+  }
+
+  .show {
+    width: 100px !important;
+    height: 94px !important;
+  }
+
   .article_content {
     display: block !important;
   }
@@ -226,4 +238,17 @@ p {
 
 .el-popup-parent--hidden {
   padding-right: 0px !important;
+}
+
+::-webkit-scrollbar {
+  width: 0.6rem;
+  height: 0.6rem;
+  /* background: transparent; */
+  background: #ef5b9c
+}
+
+/* 滑块 */
+::-webkit-scrollbar-thumb {
+  background: #feeeed;
+  border-radius: 4rem;
 }
