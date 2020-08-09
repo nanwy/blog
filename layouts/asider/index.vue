@@ -71,7 +71,7 @@
         </div>
       </el-col>
     </el-aside>
-    <div class="hide-aside"></div>
+    <tag></tag>
     <audio
       :src="currentUrl"
       ref="audio"
@@ -85,6 +85,7 @@
 
 <script>
 import RoundCircle from '@/music/progress-circle'
+import Tag from '@/tags'
 import Timer from '@/timebar'
 import Lyric from '@/../utils/lyric'
 if (process.browser) {
@@ -121,6 +122,7 @@ export default {
   components: {
     RoundCircle,
     Timer,
+    Tag,
   },
   created() {
     this.playList = this.$store.state.music.playList.songs

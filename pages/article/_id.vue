@@ -21,18 +21,25 @@
       <catalog :catalogs="res.catalog" :titleTop="catalogTop" v-if="toggle"></catalog>
       <!-- <img v-lazy="res.img" alt /> -->
       <div class="post-content wow bounceInRight">
-        <article v-html="res.content_html" class="article_detail markdown-body" />
-        <p style="text-align:right;font-size:12px;color:#666;">最后更新于{{formatDate(res.updatetime)}}</p>
+        <article v-html="res.content" class="article_detail markdown-body" />
+        <span style="text-align:left;font-size:12px;color:#666;">
+          <div class="badge" v-for="item1 in res.tags" :key="item1.id">{{item1.title}}</div>
+        </span>
+        <span
+          style="float:right;font-size:12px;color:#666;line-height:22px;"
+        >最后更新于{{formatDate(res.updatetime)}}</span>
       </div>
     </div>
 
     <comment :comments="comments" />
+    <tag></tag>
   </div>
 </template>
 
 <script>
 // import api from "@/api/article.js";
 import { formatDate } from '../../utils/utils'
+import Tag from '@/tags'
 // import markdown from '../../components/markdown'
 import comment from '../../components/comments'
 import catalog from '@/catalog/tree'
@@ -74,6 +81,7 @@ export default {
     // markdown,
     comment,
     catalog,
+    Tag,
   },
   mounted() {
     new WOW({
@@ -98,7 +106,7 @@ export default {
     // this.blog = res.data
   },
   created() {
-    // console.log('res', this.res)
+    console.log('res', this.res)
     // console.log(this.comments, this.count)
     // this.count = this.comments.length
     // var id = this.$route.params.id;
@@ -117,7 +125,7 @@ export default {
   },
   computed: {
     res() {
-      return this.$store.state.article.data.rows[0]
+      return this.$store.state.article.data[0]
     },
   },
   filters: {
@@ -252,6 +260,22 @@ export default {
     .post-content {
       background-color: #fff;
       padding: 10px;
+      .badge {
+        display: inline-block;
+        min-width: 10px;
+        padding: 5px 7px;
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 1;
+        color: #fff;
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: middle;
+        background-color: #777;
+        border-radius: 10px;
+        font-weight: 700;
+        text-shadow: 0 1px 0 rgba(0, 0, 0, 0.2);
+      }
     }
   }
 }

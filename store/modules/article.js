@@ -5,13 +5,12 @@ const state = () => ({
   // 当前页数
   pageNum: 1,
   // 当前类型
-  nowtype: null,
-  // 历史文章列表
+  tagList: [],
   list: null,
   // 文章列表
-  pagelist: null,
+  pageList: null,
   // 热门文章列表
-  hotlist: null,
+  hotList: null,
   // 文章数据
   data: null,
   // 搜索数据
@@ -21,7 +20,7 @@ const state = () => ({
   // 历史文章分页大小
   historypagesize: 10,
   // 文章类型
-  typelist: null,
+  typeList: null,
   history: null,
   Detail: null,
   isOpen: false
@@ -59,14 +58,15 @@ const mutations = {
   search(state, res) {
     state.search = res
   },
-  pagelist(state, res) {
-    state.pagelist = res
+  pageList(state, res) {
+    state.pageList = res
   },
-  hotlist(state, res) {
-    // state.hotlist = res
-    // slice截取指定元素
-    // state.hotlist = res.slice(0, 3)
-    state.hotlist = res
+  hotList(state, res) {
+
+    state.hotList = res
+  },
+  getTagList(state, res) {
+    state.tagList = res
   },
   history(state, res) {
     // slice截取指定元素
@@ -96,6 +96,10 @@ const actions = {
     // console.log(this.blogList);
 
   },
+  async getTagList({ commit }) {
+    const res = await this.$axios.$get('/api/tag/list')
+    commit('getTagList', res)
+  }
 }
 
 export default {

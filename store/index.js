@@ -12,6 +12,7 @@ const store = {
   actions: {
     async nuxtServerInit({ dispatch }) {
       await dispatch('article/blogList', { pageNum: 1, pageSize: 5 })
+      await dispatch('article/getTagList')
       await dispatch('link/getLink')
       await dispatch('music/setSongAll')
       // console.log('chufa触发了', music);

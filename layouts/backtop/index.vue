@@ -1,28 +1,39 @@
 <template>
   <div>
-    <div :class="{show:1,showminback:visible}" @click="handleTo">
+    <div :class="{show:1,showminback:visible,fly:isGoTop}" @click="handleTo">
       <!-- <span class="triangle">UP</span> -->
     </div>
   </div>
 </template>
 
 <script>
+if (process.browser) {
+  // 在这里根据环境引入wow.js
+  var scrollTo = require('../../utils/scroll.js').scrollTo
+}
 export default {
   data() {
     return {
       visible: false,
       toggle: false,
+      isGoTop: false,
     }
   },
   methods: {
     handleTo() {
       // console.log(scrollTo)
-
-      scrollTo({ top: 0, behavior: 'smooth' })
+      this.isGoTop = true
+      console.log('this.isGoTop: ', this.isGoTop)
+      // scrollTo({ top: 0, behavior: 'smooth' })
+      scrollTo(document.body, document.documentElement, 0, 800, this.removeClass)
+      console.log('this.isGoTop: ', this.isGoTop)
     },
     handleResize() {
       const { width } = document.documentElement.getBoundingClientRect()
       this.toggle = width > 1200
+    },
+    removeClass() {
+      this.isGoTop = false
     },
     headershow() {
       // 头部高度为70px
@@ -57,7 +68,7 @@ export default {
 }
 .show {
   position: fixed;
-  bottom: 10px;
+  /* bottom: -20px; */
   right: 10px;
   width: 132px;
   height: 150px;
@@ -66,14 +77,14 @@ export default {
   background-size: cover;
   animation: move 3s infinite linear;
   cursor: pointer;
-  /* opacity: 0; */
+  opacity: 0;
   transition: all 0.5s;
 }
 .show:hover {
   background: url('https://img.nanwayan.cn/backTophover.png') no-repeat;
   background-size: cover;
   position: fixed;
-  bottom: 10px;
+  /* bottom: 10px; */
   right: 10px;
   width: 200px;
   height: 226px;
@@ -101,20 +112,18 @@ export default {
   cursor: pointer;
   visibility: hidden;
 }
-
+.fly {
+  bottom: 1000px !important;
+  opacity: 0;
+}
 .showminback {
+  bottom: 10px;
   opacity: 1;
   visibility: visible;
 }
 @keyframes move {
-  0% {
-    transform: translatey(0);
-  }
-  75% {
+  50% {
     transform: translatey(-10px);
-  }
-  100% {
-    transform: translatey(0);
   }
 }
 </style>

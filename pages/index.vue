@@ -31,6 +31,9 @@
                   {{formatDate(item.createtime)}}
                 </span>
                 <span>{{item.views}}次观看</span>
+                <div>
+                  <div class="badge" v-for="item1 in item.tags" :key="item1.id">{{item1.title}}</div>
+                </div>
               </div>
             </div>
           </div>
@@ -200,7 +203,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .description {
   box-sizing: border-box;
   padding-left: 10px;
@@ -268,6 +271,24 @@ export default {
 }
 .bottom {
   font-size: 12px;
+  .badge {
+    display: inline-block;
+    min-width: 10px;
+    padding: 5px 7px;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1;
+    color: #fff;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    background-color: #777;
+    border-radius: 10px;
+    font-weight: 700;
+    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.2);
+    margin-left: 5px;
+    margin-top: 5px;
+  }
 }
 .isTop {
   padding: 2px;
