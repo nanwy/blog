@@ -67,8 +67,8 @@ export default {
   },
   proxy: {
     '/api': {
-      target: 'http://localhost:8000',
-      // target: 'http://59.110.124.156:8000',
+      // target: 'http://localhost:8000',
+      target: 'https://www.nanwayan.cn/',
       pathRewrite: {
         '^/api': 'api'
       }

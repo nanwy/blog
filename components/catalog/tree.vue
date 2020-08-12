@@ -1,7 +1,7 @@
 <template>
   <div
     :class="[scrollTop>1000?'catalog-tree':'catalog-tree-position']"
-    :style="{'left':scrollTop>1000?  screenWidth+'px':0+'px'}"
+    :style="{'left': screenWidth+'px'}"
     ref="tree"
     v-if="screenWidth >-225"
   >
@@ -38,15 +38,12 @@ export default {
       this.scrollTop = document.documentElement.scrollTop || document.body.scrollTop
 
       for (let i = 0; i < this.titleTop.length; i++) {
-        if (this.scrollTop >= this.titleTop[i] - 200) {
-          // console.log(this.titleTop[i])
-
-          this.activeIndex = i + 1
-          // console.log('this.activeIndex: ', this.activeIndex, this.scrollTop, this.titleTop[i])
+        if (this.scrollTop >= this.titleTop[i] - 20) {
+          this.activeIndex = i
         }
       }
       // console.log(this.left)
-
+      console.log(this.titleTop, this.scrollTop, this.activeIndex)
       // this.autoScroll()
     },
     autoScroll() {
@@ -96,8 +93,8 @@ export default {
 <style lang="scss" scoped>
 .catalog-tree {
   position: fixed;
-  top: 0;
-  left: 20px;
+  top: 20vh;
+  // left: 20px;
   width: 225px;
   // height: 300px;
   background-color: #fff;
@@ -106,14 +103,22 @@ export default {
   // max-height: 300px;
   // overflow-y: scroll;
   // overflow-x: hidden;
+  opacity: 1;
+  transition: opacity 0.5s linear;
 }
 .catalog-tree-position {
-  overflow: hidden;
-  position: absolute;
-  top: 1020px;
-  left: -5px;
+  // overflow: hidden;
+  // position: absolute;
+  // top: 1020px;
+  // left: -5px;
+  // width: 225px;
+  // background-color: #fff;
+  // border-radius: 10px;
+  position: fixed;
+  opacity: 0;
+  top: 20vh;
+  // left: 20px;
   width: 225px;
-  background-color: #fff;
-  border-radius: 10px;
+  transition: opacity 0.5s linear;
 }
 </style>

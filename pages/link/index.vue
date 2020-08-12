@@ -176,6 +176,9 @@ li {
             .detail {
               line-height: 30px;
               flex: 1 1 0%;
+              h4 {
+                height: 30%;
+              }
               span {
                 font-size: 12px;
                 color: #999;

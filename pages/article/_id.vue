@@ -21,7 +21,7 @@
       <catalog :catalogs="res.catalog" :titleTop="catalogTop" v-if="toggle"></catalog>
       <!-- <img v-lazy="res.img" alt /> -->
       <div class="post-content wow bounceInRight">
-        <article v-html="res.content" class="article_detail markdown-body" />
+        <article v-html="res.content_html" class="article_detail markdown-body" />
         <span style="text-align:left;font-size:12px;color:#666;">
           <div class="badge" v-for="item1 in res.tags" :key="item1.id">{{item1.title}}</div>
         </span>
@@ -91,6 +91,14 @@ export default {
       mobile: true,
       live: false,
     }).init()
+    this.handleResize()
+    this.$nextTick(() => {
+      setTimeout(() => {
+        if (this.toggle) {
+          this.getCatalogTop()
+        }
+      }, 100)
+    })
     // hljs.initHighlighting()
   },
   async asyncData({ $axios, store, params }) {
@@ -98,6 +106,7 @@ export default {
     // console.log(id)
 
     await store.dispatch('article/getBlogDetail', { id })
+
     var res1 = await $axios.$get(`api/comment/detail?id=${id}`)
     // console.log('res: ', res1)
     return { comments: res1 }
@@ -106,7 +115,7 @@ export default {
     // this.blog = res.data
   },
   created() {
-    console.log('res', this.res)
+    // console.log('res', this.res)
     // console.log(this.comments, this.count)
     // this.count = this.comments.length
     // var id = this.$route.params.id;
@@ -114,15 +123,7 @@ export default {
     // console.log(this.$store.state.article.data)
     // console.log(this.formatDate(this.comments.createtime), this.comments.createtime)
   },
-  mounted() {
-    this.handleResize()
 
-    this.$nextTick(() => {
-      if (this.toggle) {
-        this.getCatalogTop()
-      }
-    })
-  },
   computed: {
     res() {
       return this.$store.state.article.data[0]
@@ -142,7 +143,7 @@ export default {
     getCatalogTop() {
       let tag_list = ['H1', 'H2', 'H3', 'H4', 'H5', 'H6']
       let ind_list = document.getElementsByClassName('article_detail')[0].children
-      console.log('ind_list: ', ind_list)
+      // console.log('ind_list: ', ind_list)
 
       for (let i = 0; i < ind_list.length; i++) {
         if (tag_list.indexOf(ind_list[i].tagName) >= 0) {

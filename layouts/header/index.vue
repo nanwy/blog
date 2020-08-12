@@ -1,6 +1,7 @@
 <template>
   <div class="nav">
-    <div class="menu" @click="showMenu">
+    z
+    <div class="menu" :class="{'menu-fix':visible}" @click="showMenu" ref="menu">
       <i class="el-icon-s-operation"></i>
     </div>
 
@@ -34,10 +35,8 @@ export default {
       uname: '',
       upwd: '',
       dialogVisible: false,
+      visible: false,
     }
-  },
-  created() {
-    setInterval(this.nowTime, 1000)
   },
 
   methods: {
@@ -69,6 +68,13 @@ export default {
         })
       }
     },
+    headershow() {
+      // 头部高度为70px
+      const height = 183
+      const offsetTop = window.pageYOffset || document.documentElement.scrollTop
+      this.visible = offsetTop > height
+      // console.log(this.$refs.menu.offsetTop)
+    },
     // handleScroll() {
     //   //改变元素#searchBar的top值
     //   var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
@@ -81,32 +87,15 @@ export default {
     //     document.querySelector('#left-nav').style.top = offsetTop + 'px'
     //   }
     // },
-
-    nowTime() {
-      var date = new Date()
-
-      var year = date.getFullYear()
-      var month = date.getMonth()
-      var day = date.getDate()
-
-      var hour = date.getHours()
-      var minute = date.getMinutes()
-      var second = date.getSeconds()
-
-      //这样写显示时间在1~9会挤占空间；所以要在1~9的数字前补零;
-      if (hour < 10) {
-        hour = '0' + hour
-      }
-      if (minute < 10) {
-        minute = '0' + minute
-      }
-      if (second < 10) {
-        second = '0' + second
-      }
-
-      var x = date.getDay() //获取星期
-      this.time = year + '/' + month + '/' + day + '/' + hour + ':' + minute + ':' + second
-    },
+  },
+  mounted() {
+    // this.handleResize()
+    window.addEventListener('scroll', this.headershow)
+    // window.addEventListener('resize', this.handleResize)
+  },
+  destroyed() {
+    window.removeEventListener('scroll', this.headershow)
+    // window.addEventListener('resize', this.handleResize)
   },
 }
 </script>
@@ -126,6 +115,7 @@ export default {
   flex-shrink: 0;
   /* opacity: 0.8; */
   transition: all 0.5s ease;
+  left: 0;
 }
 .menu {
   width: 35px;
@@ -135,6 +125,12 @@ export default {
   display: none;
   cursor: pointer;
   // padding-top: 138px;
+}
+.menu-fix {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 99;
 }
 #pause {
   position: absolute;

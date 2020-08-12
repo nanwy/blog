@@ -39,7 +39,7 @@ export default {
       let top = document.getElementById(id).getBoundingClientRect().top
       // this.activeIndex = index + 1
       top += document.body.scrollTop || document.documentElement.scrollTop
-      console.log('top: ', top, document.documentElement.scrollTop, id)
+      // console.log('top: ', top, document.documentElement.scrollTop, id)
 
       scrollTo(document.body, document.documentElement, top)
     },

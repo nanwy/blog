@@ -23,10 +23,10 @@ export default {
     handleTo() {
       // console.log(scrollTo)
       this.isGoTop = true
-      console.log('this.isGoTop: ', this.isGoTop)
+      // console.log('this.isGoTop: ', this.isGoTop)
       // scrollTo({ top: 0, behavior: 'smooth' })
       scrollTo(document.body, document.documentElement, 0, 800, this.removeClass)
-      console.log('this.isGoTop: ', this.isGoTop)
+      // console.log('this.isGoTop: ', this.isGoTop)
     },
     handleResize() {
       const { width } = document.documentElement.getBoundingClientRect()

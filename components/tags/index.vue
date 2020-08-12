@@ -1,7 +1,12 @@
 <template>
   <div class="tags">
     <h3>标签云</h3>
-    <div class="badge" v-for="item in tagList" :key="item.id">{{item.title}}</div>
+    <div
+      class="badge"
+      v-for="item in tagList"
+      :key="item.id"
+      @click="toTags(item.id)"
+    >{{item.title}}</div>
   </div>
 </template>
 
@@ -12,8 +17,11 @@ export default {
       return this.$store.state.article.tagList.data.rows
     },
   },
-  created() {
-    console.log('tag', this.tagList, this.$store.state.article)
+  methods: {
+    toTags(id) {
+      this.$router.push({ path: `/tags/${id}` })
+      console.log(id)
+    },
   },
 }
 </script>
@@ -24,6 +32,7 @@ export default {
   border-radius: 10px;
   margin-top: 30px;
   padding: 10px 10px;
+  // width: 100%;
   h3 {
     margin-bottom: 10px;
   }
@@ -44,6 +53,7 @@ export default {
     text-shadow: 0 1px 0 rgba(0, 0, 0, 0.2);
     margin-left: 5px;
     margin-top: 5px;
+    cursor: pointer;
   }
 }
 </style>

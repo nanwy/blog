@@ -128,7 +128,7 @@ export default {
       // console.log(pageSize)
       this.$store.commit('article/pageSize', pageSize)
       // console.log(this.$store.state.article.pageSize)
-      console.log('pagesize', pageSize)
+      // console.log('pagesize', pageSize)
       this.$store.dispatch('article/bloglist', {
         pageNum: this.$store.state.article.pageNum,
       })
@@ -141,8 +141,8 @@ export default {
       // console.log(this.anim)
 
       if (
-        pageNum >= Math.abs(this.$store.state.article.count / this.$store.state.article.pageSize / 2 - 1) &&
-        pageNum < this.$store.state.article.count / this.$store.state.article.pageSize - 2
+        pageNum >= Math.abs(this.$store.state.article.count / this.$store.state.article.pageSize / 2) &&
+        pageNum < this.$store.state.article.count / this.$store.state.article.pageSize
       ) {
         this.center = true
         // console.log('dian吉',this.$store.state.article.count);
@@ -208,7 +208,7 @@ export default {
   box-sizing: border-box;
   padding-left: 10px;
   padding-bottom: 10px;
-  max-width: 100%;
+  max-width: calc(100% - 196px);
 }
 .main::-webkit-scrollbar {
   display: none;
@@ -267,7 +267,7 @@ export default {
   /* margin: 0 auto; */
 }
 .left {
-  margin-left: -18px;
+  margin-left: -8px;
 }
 .bottom {
   font-size: 12px;

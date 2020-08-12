@@ -3,7 +3,7 @@
     <div class="photo-background"></div>
     <el-aside class="blog-aside">
       <el-col :span="24">
-        <el-card class="box-card" style="height:400px" shadow="hover">
+        <el-card class="box-card" style="height:400px" shadow="never">
           <div class="bloger-img">
             <img src="http://img.nanwayan.cn/1592539247967cc138bd2a23cbf2f1f75a333b9289381.png" alt />
           </div>
