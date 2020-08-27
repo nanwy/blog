@@ -170,7 +170,7 @@ export default {
 }
 .container1 {
   margin: 0 auto;
-  width: 1200px;
+  width: calc(100vw - 100px);
   /* box-shadow: 0 0 30px rgba(255, 112, 173, 0.35); */
   position: relative;
 

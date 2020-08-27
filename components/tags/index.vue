@@ -32,6 +32,7 @@ export default {
   border-radius: 10px;
   margin-top: 30px;
   padding: 10px 10px;
+  width: 300px;
   // width: 100%;
   h3 {
     margin-bottom: 10px;

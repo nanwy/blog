@@ -1,6 +1,5 @@
 <template>
   <div class="nav">
-    z
     <div class="menu" :class="{'menu-fix':visible}" @click="showMenu" ref="menu">
       <i class="el-icon-s-operation"></i>
     </div>
