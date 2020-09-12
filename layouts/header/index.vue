@@ -79,7 +79,7 @@ export default {
     //   var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
     //   console.log(document.querySelector('#left-nav').offsetTop)
 
-    //   var offsetTop = document.querySelector('#left-nav').offsetTop
+    //   var offsetTop = document.querySelector('#left-nav').offsetTop+++++
 
     //   if (scrollTop <= 0) {
     //     offsetTop = 0 + Number(scrollTop)

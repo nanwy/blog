@@ -9,32 +9,41 @@
         @click="toTags(item.id)"
       >{{item.title}}</div>
     </div>
-    <div v-for="item in blogList" :key="item.id" class="article_content wow bounceInUp" ref="con">
-      <!-- <span>{{item.blog.title}}</span> -->
+    <div
+      v-if="Object.keys(blogList).length !== 0"
+      v-for="item in blogList"
+      class="article_content wow bounceInUp"
+      ref="con"
+    >
+      <div class="article-l">
+        <nuxt-link :to="`/article/${item.blog.id}`" tag="div" class="img" />
+      </div>
+      <span>{{item.blog.id}}</span> -->
+      <span>{{item.blog.title}}</span>
       <div class="artilcl">
-        <nuxt-link :to="'/article/'+item.blog.id" tag="h2">
+        <!-- <!-- <nuxt-link :to="'/article/'+item.blog.id" tag="h2">
           <img v-lazy="item.blog.img" class="image" />
         </nuxt-link>
-      </div>
+      </div> -->
       <div class="description">
-        <nuxt-link :to="'/article/'+item.blog.id" tag="h2" class="overtext">
+        <!-- <nuxt-link :to="'/article/'+item.blog.id" tag="h2" class="overtext">
           <span class="isTop" v-if="item.blog.stay_at_top">置顶</span>
           <span>{{item.blog.title}}</span>
-        </nuxt-link>
+        </nuxt-link>-->
         <div class="article_b">
           <!-- <div class="overtext article-content">{{item.blog.content}}</div> -->
           <div class="bottom clearfix">
             <p class="author">
               <i class="el-icon-s-custom"></i>
-              {{item.blog.author}}
+              <!-- {{item.blog.author}} -->
             </p>
             <span class="createtime">
               <i class="el-icon-date"></i>
-              {{formatDate(item.blog.createtime)}}
+              <!-- {{formatDate(item.blog.createtime)}} -->
             </span>
-            <span>{{item.blog.views}}次观看</span>
+            <!-- <span>{{item.blog.views}}次观看</span> -->
             <div>
-              <div class="badge" v-for="item1 in item.blog.tags" :key="item1.id">{{item1.title}}</div>
+              <!-- <div class="badge" v-for="item1 in item.blog.tags" :key="item1.id">{{item1.title}}</div> -->
             </div>
           </div>
         </div>
@@ -71,7 +80,7 @@ export default {
     },
   },
   created() {
-    // console.log(this.blogList[0].blog.id)
+    console.log(this.blogList)
   },
   mounted() {
     // console.log(this.blogList)
@@ -79,9 +88,11 @@ export default {
   async asyncData({ $axios, store, params }) {
     var id = params.id
     // console.log(id)
-    var { rows } = await $axios.$get(`api/tag/find?id=${id}&page=1&pageSize=3`)
-    // console.log('res: ', res.data.rows[0].blog)
-    return { blogList: rows }
+
+    var { data } = await $axios.$get(`api/tag/find?id=${id}&page=1&pageSize=3`)
+    console.log('res: ', data)
+    return { blogList: data.rows }
+
     // console.log(res)
     // this.blog = res.data
   },
@@ -158,6 +169,7 @@ export default {
   0% {
     opacity: 0;
   }
+
   100% {
     opacity: 1;
   }
