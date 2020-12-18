@@ -2,19 +2,19 @@
   <div class="detail_content" v-if="res">
     <div class="article-content">
       <div class="title">
-        <h1 class="wow swing">{{res.title}}</h1>
+        <h1 class="wow swing">{{ res.title }}</h1>
         <div class="bottom clearfix wow bounces">
           <span class="author">
             <i class="el-icon-s-custom"></i>
-            {{res.author}}
+            {{ res.author }}
           </span>
           <span class="createtime">
             <i class="el-icon-date"></i>
-            {{formatDate(res.createtime)}}
+            {{ formatDate(res.createtime) }}
           </span>
           <span>
             <i class="el-icon-view"></i>
-            {{res.views}}次观看
+            {{ res.views }}次观看
           </span>
         </div>
       </div>
@@ -22,12 +22,12 @@
       <!-- <img v-lazy="res.img" alt /> -->
       <div class="post-content wow bounceInRight">
         <article v-html="res.content_html" class="article_detail markdown-body" />
-        <span style="text-align:left;font-size:12px;color:#666;">
-          <div class="badge" v-for="item1 in res.tags" :key="item1.id">{{item1.title}}</div>
+        <span style="text-align: left; font-size: 12px; color: #666">
+          <div class="badge" v-for="item1 in res.tags" :key="item1.id">{{ item1.title }}</div>
         </span>
-        <span
-          style="float:right;font-size:12px;color:#666;line-height:22px;"
-        >最后更新于{{formatDate(res.updatetime)}}</span>
+        <span style="float: right; font-size: 12px; color: #666; line-height: 22px"
+          >最后更新于{{ formatDate(res.updatetime) }}</span
+        >
       </div>
     </div>
 
@@ -262,6 +262,7 @@ export default {
       background-color: #fff;
       padding: 10px;
       .badge {
+        cursor: pointer;
         display: inline-block;
         min-width: 10px;
         padding: 5px 7px;

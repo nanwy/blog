@@ -14,8 +14,9 @@ export default {
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: process.env.npm_package_description || '' },
-      { name: "google-site-verification", content: "IiL8m_unrgDOgOM5wmoTgCHZA-UDLh_PKnFCKWOZQw4" }
+      { name: 'description', content: process.env.npm_package_description || '' },
+      { name: "google-site-verification", content: "IiL8m_unrgDOgOM5wmoTgCHZA-UDLh_PKnFCKWOZQw4" },
+      { name: 'keywords', content: process.env.npm_package_keyWord || '' }
     ],
     link: [
       { rel: 'icon1', type: 'image/x-icon', href: '/favicon.ico' },

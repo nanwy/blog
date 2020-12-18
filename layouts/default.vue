@@ -1,8 +1,8 @@
 <template>
   <div id="bg-canvas">
     <!-- <canvas id="demo-canvas" v-show="isShow"></canvas> -->
-    <el-container class="container1" :class="{'container':isOpen}">
-      <div class="content" style="width:100%;">
+    <el-container class="container1" :class="{ container: isOpen }">
+      <div class="content" style="width: 100%">
         <nheader @show="show"></nheader>
         <el-container>
           <!-- 侧边布局 -->
@@ -12,17 +12,11 @@
           <transition name="el-zoom-in-center">
             <el-main class="bg-light main1">
               <!-- 面包屑导航 -->
-              <div
-                class="border-bottom mb-3 bg-white"
-                v-if="bran.length > 0"
-                style="padding: 20px;margin: -20px;"
-              >
+              <div class="border-bottom mb-3 bg-white" v-if="bran.length > 0" style="padding: 20px; margin: -20px">
                 <el-breadcrumb separator-class="el-icon-arrow-right">
-                  <el-breadcrumb-item
-                    v-for="(item,index) in bran"
-                    :key="index"
-                    :to="{ path: item.path }"
-                  >{{item.title}}</el-breadcrumb-item>
+                  <el-breadcrumb-item v-for="(item, index) in bran" :key="index" :to="{ path: item.path }">{{
+                    item.title
+                  }}</el-breadcrumb-item>
                 </el-breadcrumb>
               </div>
               <!-- 主内容 -->

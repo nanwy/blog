@@ -1,19 +1,15 @@
 <template>
-  <div
-    class="rbloger"
-    :class="{'isOpen':isShow,'hidden':isHidden}"
-    v-if="Object.keys(songs).length !== 0"
-  >
+  <div class="rbloger" :class="{ isOpen: isShow, hidden: isHidden }" v-if="Object.keys(songs).length !== 0">
     <el-aside class="blog-aside">
       <el-col :span="24">
         <div class="bottom-bar">
           <div
             class="front-cover"
-            :style="{backgroundImage:'url(' + currentSong.al.picUrl + ')'}"
+            :style="{ backgroundImage: 'url(' + currentSong.al.picUrl + ')' }"
             @click="showClick"
           ></div>
           <div class="item-info">
-            <div class="name">{{currentSong.name}}</div>
+            <div class="name">{{ currentSong.name }}</div>
             <!-- <span class="songer">{{currentSong.ar[0].name}} -{{ currentSong.al.name}}</span> -->
           </div>
           <!-- <el-button type="primary" @click="togglePlaying">播放</el-button> -->
@@ -32,35 +28,37 @@
             @chengePercent="onChengePercent"
           ></timer>
           <div class="is-lyric-wrapper" v-if="toggle">
-            <span class="mini-lyric" :data-after="nextTxt" :class="{'after':isAfter}">{{miniLyric}}</span>
+            <span class="mini-lyric" :data-after="nextTxt" :class="{ after: isAfter }">{{ miniLyric }}</span>
             <!-- <span class="mini-lyric">{{nextTxt}}</span> -->
           </div>
 
-          <p class="time" @click="isLyric = !isLyric">{{changeLyric}}</p>
+          <p class="time" @click="isLyric = !isLyric">{{ changeLyric }}</p>
         </div>
-        <div class="song-bank" ref="scroll" :class="{'ismeun':isMeun}">
+        <div class="song-bank" ref="scroll" :class="{ ismeun: isMeun }">
           <div class="lyric-wrapper" v-show="isLyric">
             <p
               ref="lyricLine"
               class="text"
-              :class="{'active':currentLineNum === index}"
-              v-for="(line,index) in currentLyric.lines"
+              :class="{ active: currentLineNum === index }"
+              v-for="(line, index) in currentLyric.lines"
               :key="index"
-            >{{line.txt}}</p>
+            >
+              {{ line.txt }}
+            </p>
           </div>
           <div v-show="!isLyric">
             <div
               class="list-item"
-              v-for="(item,index) in songs"
+              v-for="(item, index) in songs"
               @click="select(index)"
-              :class="{'songs-active':currentIndex === index}"
+              :class="{ 'songs-active': currentIndex === index }"
             >
-              <span class="num">{{index+1}}</span>
+              <span class="num">{{ index + 1 }}</span>
               <div class="song-detail">
-                <div class="song-name">{{item.name}}</div>
+                <div class="song-name">{{ item.name }}</div>
                 <div class="creator">
                   <!-- <span v-if="maxbr" class="maxbr">SQ</span> -->
-                  {{item.ar[0].name}}-{{item.al.name}}
+                  {{ item.ar[0].name }}-{{ item.al.name }}
                 </div>
               </div>
               <div class="more">
@@ -72,14 +70,7 @@
       </el-col>
     </el-aside>
     <tag></tag>
-    <audio
-      :src="currentUrl"
-      ref="audio"
-      @timeupdate="updateTime"
-      @ended="end"
-      @play="ready"
-      @error="error"
-    ></audio>
+    <audio :src="currentUrl" ref="audio" @timeupdate="updateTime" @ended="end" @play="ready" @error="error"></audio>
   </div>
 </template>
 
@@ -535,7 +526,7 @@ export default {
 }
 .rbloger {
   background-color: #fff;
-  /* width: 225px; */
+  width: 300px;
   /* position: fixed; */
   // overflow: hidden;
   /* top: 200px; */
@@ -596,7 +587,7 @@ export default {
       height: 30px;
       padding: 10px 5px 10px 5px;
       justify-content: space-between;
-
+      cursor: pointer;
       .num {
         line-height: 27px;
         // color: #9a9191;
@@ -638,7 +629,7 @@ export default {
   }
 }
 .blog-aside {
-  /* width: 225px !important; */
+  width: 100% !important;
   overflow-x: hidden;
   position: relative;
   left: 0px;

@@ -2,43 +2,38 @@
   <div class="main">
     <el-row :gutter="24">
       <el-col :span="24" v-if="blogList">
-        <div
-          v-for="(item,index) in blogList"
-          :key="item.id"
-          class="article_content wow bounceInUp"
-          ref="con"
-        >
+        <div v-for="(item, index) in blogList" :key="item.id" class="article_content wow bounceInUp" ref="con">
           <div class="artilcl">
-            <nuxt-link :to="'/article/'+item.id" tag="h2">
+            <nuxt-link :to="'/article/' + item.id" tag="h2">
               <img v-lazy="item.img" class="image" />
             </nuxt-link>
           </div>
 
           <div class="description">
-            <nuxt-link :to="'/article/'+item.id" tag="h2" class="overtext">
+            <nuxt-link :to="'/article/' + item.id" tag="h2" class="overtext">
               <span class="isTop" v-if="item.stay_at_top">置顶</span>
-              <span>{{item.title}}</span>
+              <span>{{ item.title }}</span>
             </nuxt-link>
             <div class="article_b">
-              <div class="overtext article-content">{{item.content}}</div>
+              <div class="overtext article-content">{{ item.content }}</div>
               <div class="bottom clearfix">
                 <p class="author">
                   <i class="el-icon-s-custom"></i>
-                  {{item.author}}
+                  {{ item.author }}
                 </p>
                 <span class="createtime">
                   <i class="el-icon-date"></i>
-                  {{formatDate(item.createtime)}}
+                  {{ formatDate(item.createtime) }}
                 </span>
-                <span>{{item.views}}次观看</span>
+                <span>{{ item.views }}次观看</span>
                 <div>
-                  <div class="badge" v-for="item1 in item.tags" :key="item1.id">{{item1.title}}</div>
+                  <div class="badge" v-for="item1 in item.tags" :key="item1.id">{{ item1.title }}</div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <div class="yema" :class="{'left':center}">
+        <div class="yema" :class="{ left: center }">
           <el-pagination
             background
             layout=" sizes, prev, pager, next"
@@ -46,10 +41,10 @@
             :page-size="5"
             :pager-count="5"
             :current-page="pageNum"
-            :page-sizes="[3,5,7]"
+            :page-sizes="[3, 5, 7]"
             @current-change="currentchange"
             @size-change="handleSizeChange"
-            style="text-align:center;"
+            style="text-align: center"
             class="wow fadeInUp"
           ></el-pagination>
         </div>
@@ -209,6 +204,7 @@ export default {
   padding-left: 10px;
   padding-bottom: 10px;
   max-width: calc(100% - 196px);
+  cursor: pointer;
 }
 .main::-webkit-scrollbar {
   display: none;
@@ -222,11 +218,13 @@ export default {
   color: #303133;
   transition: 0.3s;
   margin-bottom: 20px;
+
   /* animation: move 5s infinite; */
   /* transform: translate3d(-100%, 0, 0); */
 }
 .artilcl {
   flex: 0 0 30%;
+  cursor: pointer;
   /* padding-left: 10px; */
 }
 .artilcl img {

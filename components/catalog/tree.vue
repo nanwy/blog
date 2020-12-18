@@ -1,9 +1,9 @@
 <template>
   <div
-    :class="[scrollTop>1000?'catalog-tree':'catalog-tree-position']"
-    :style="{'left': screenWidth+'px'}"
+    :class="[scrollTop > 1000 ? 'catalog-tree' : 'catalog-tree-position']"
+    :style="{ left: screenWidth + 'px' }"
     ref="tree"
-    v-if="screenWidth >-225"
+    v-if="screenWidth > -225"
   >
     <catalog :catalogs="catalogs" :titleTop="titleTop" :activeIndex="activeIndex"></catalog>
   </div>
@@ -11,6 +11,11 @@
 
 <script>
 import catalog from './index.vue'
+if (process.browser) {
+  // 在这里根据环境引入wow.js
+  // var { WOW } = require('wowjs')
+  var scrollTo = require('../../utils/scroll.js').scrollTo
+}
 export default {
   props: {
     catalogs: {
@@ -38,21 +43,21 @@ export default {
       this.scrollTop = document.documentElement.scrollTop || document.body.scrollTop
 
       for (let i = 0; i < this.titleTop.length; i++) {
-        if (this.scrollTop >= this.titleTop[i] - 20) {
+        if (this.scrollTop - 500 >= this.titleTop[i]) {
           this.activeIndex = i
+          // console.log(this.titleTop[i], this.scrollTop, this.activeIndex)
+          this.autoScroll()
         }
       }
       // console.log(this.left)
-      console.log(this.titleTop, this.scrollTop, this.activeIndex)
-      // this.autoScroll()
     },
     autoScroll() {
       let distance = this.activeIndex * 32 + 32 - this.$refs.tree.scrollTop
       if (distance > 320) {
-        this.$refs.tree.scrollTop += 40
+        scrollTo(this.$refs.tree, this.$refs.tree, (this.$refs.tree.scrollTop += 40), 50)
       }
       if (distance < 100) {
-        this.$refs.tree.scrollTop -= 40
+        scrollTo(this.$refs.tree, this.$refs.tree, (this.$refs.tree.scrollTop -= 40), 50)
       }
     },
   },
@@ -96,10 +101,10 @@ export default {
   top: 20vh;
   // left: 20px;
   width: 225px;
-  // height: 300px;
+  height: 500px;
   background-color: #fff;
   border-radius: 10px;
-  overflow: hidden;
+  overflow-y: scroll;
   // max-height: 300px;
   // overflow-y: scroll;
   // overflow-x: hidden;
@@ -107,7 +112,7 @@ export default {
   transition: opacity 0.5s linear;
 }
 .catalog-tree-position {
-  // overflow: hidden;
+  overflow: hidden;
   // position: absolute;
   // top: 1020px;
   // left: -5px;
@@ -117,6 +122,7 @@ export default {
   position: fixed;
   opacity: 0;
   top: 20vh;
+  height: 500px;
   // left: 20px;
   width: 225px;
   transition: opacity 0.5s linear;

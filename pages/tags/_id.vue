@@ -2,39 +2,34 @@
   <div class="tag-link">
     <div class="tags">
       <h3>标签云</h3>
-      <div
-        class="badge"
-        v-for="item in tagList"
-        :key="item.id"
-        @click="toTags(item.id)"
-      >{{item.title}}</div>
+      <div class="badge" v-for="item in tagList" :key="item.id" @click="toTags(item.id)">{{ item.title }}</div>
     </div>
     <div v-for="item in blogList" :key="item.id" class="article_content wow bounceInUp" ref="con">
       <!-- <span>{{item.blog.title}}</span> -->
       <div class="artilcl">
-        <nuxt-link :to="'/article/'+item.blog.id" tag="h2">
+        <nuxt-link :to="'/article/' + item.blog.id" tag="h2">
           <img v-lazy="item.blog.img" class="image" />
         </nuxt-link>
       </div>
       <div class="description">
-        <nuxt-link :to="'/article/'+item.blog.id" tag="h2" class="overtext">
+        <nuxt-link :to="'/article/' + item.blog.id" tag="h2" class="overtext">
           <span class="isTop" v-if="item.blog.stay_at_top">置顶</span>
-          <span>{{item.blog.title}}</span>
+          <span>{{ item.blog.title }}</span>
         </nuxt-link>
         <div class="article_b">
           <!-- <div class="overtext article-content">{{item.blog.content}}</div> -->
           <div class="bottom clearfix">
             <p class="author">
               <i class="el-icon-s-custom"></i>
-              {{item.blog.author}}
+              {{ item.blog.author }}
             </p>
             <span class="createtime">
               <i class="el-icon-date"></i>
-              {{formatDate(item.blog.createtime)}}
+              {{ formatDate(item.blog.createtime) }}
             </span>
-            <span>{{item.blog.views}}次观看</span>
+            <span>{{ item.blog.views }}次观看</span>
             <div>
-              <div class="badge" v-for="item1 in item.blog.tags" :key="item1.id">{{item1.title}}</div>
+              <div class="badge" v-for="item1 in item.blog.tags" :key="item1.id">{{ item1.title }}</div>
             </div>
           </div>
         </div>

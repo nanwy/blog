@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div :class="{show:1,showminback:visible,fly:isGoTop}" @click="handleTo">
+    <div :class="{ show: 1, showminback: visible, fly: isGoTop }" @click="handleTo">
       <!-- <span class="triangle">UP</span> -->
     </div>
   </div>

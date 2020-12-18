@@ -33,6 +33,7 @@ function move(obj, objfath, amount) {
  */
 
 export function scrollTo(obj, objfath, to, duration = 500, callback) {
+  console.log('objfath: ', duration);
   const start = currentTo(obj, objfath)
   const change = to - start
   // console.log('触发');

@@ -2,6 +2,7 @@
   "name": "nan",
   "version": "1.0.0",
   "description": "南浮宫魅影的Blog,南浮宫魅影",
+  "keyWord": "博客,二次元,南浮宫魅影的博客",
   "author": "galaxy-s10",
   "private": true,
   "scripts": {
