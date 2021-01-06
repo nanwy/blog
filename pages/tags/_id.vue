@@ -91,6 +91,7 @@ export default {
   background-color: #fff;
   border-radius: 10px;
   margin-top: 30px;
+  margin-bottom: 30px;
   padding: 10px 10px;
   // width: 100%;
   h3 {

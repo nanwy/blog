@@ -2,10 +2,16 @@
   <div class="main">
     <el-row :gutter="24">
       <el-col :span="24" v-if="blogList">
-        <div v-for="(item, index) in blogList" :key="item.id" class="article_content wow bounceInUp" ref="con">
+        <div
+          v-for="(item, index) in blogList"
+          :key="item.id"
+          class="article_content wow bounceInUp"
+          :class="{ article_loaded: isImgLoad }"
+          ref="con"
+        >
           <div class="artilcl">
-            <nuxt-link :to="'/article/' + item.id" tag="h2">
-              <img v-lazy="item.img" class="image" />
+            <nuxt-link :to="'/article/' + item.id" tag="div" class="article_img" :class="{ artilcl_loaded: isImgLoad }">
+              <img v-lazy="item.img" class="image" @load="imgLoad" />
             </nuxt-link>
           </div>
 
@@ -68,6 +74,7 @@ export default {
       // blogList: []
       center: false,
       anim: false,
+      isImgLoad: true,
     }
   },
 
@@ -116,6 +123,9 @@ export default {
     // _getBlogList() {
     //   this.$store.dispatch('article/bloglist')
     // },
+    imgLoad() {
+      this.isImgLoad = false
+    },
     formatDate(time) {
       return formatDate(time)
     },
@@ -218,13 +228,18 @@ export default {
   color: #303133;
   transition: 0.3s;
   margin-bottom: 20px;
-
+  height: 100%;
   /* animation: move 5s infinite; */
   /* transform: translate3d(-100%, 0, 0); */
+  .article_img {
+    width: 100%;
+    height: 100%;
+  }
 }
 .artilcl {
   flex: 0 0 30%;
   cursor: pointer;
+  height: 100%;
   /* padding-left: 10px; */
 }
 .artilcl img {

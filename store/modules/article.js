@@ -79,6 +79,7 @@ const mutations = {
 const actions = {
   //文章列表
   async blogList({ commit, state }, data) {
+    // console.log('data: ', data, root);
     var { pageNum } = data
     // console.log(state.pageNum);
 
@@ -89,7 +90,8 @@ const actions = {
     commit('list', res.data.rows)
   },
   //文章详情
-  async getBlogDetail({ commit }, data) {
+  async getBlogDetail({ commit, ...root }, data) {
+    console.log('data: ', data, { ...root });
     let { id } = data
     const res = await this.$axios.$get(`/api/blog/detail?id=${id}`)
     commit('data', res)

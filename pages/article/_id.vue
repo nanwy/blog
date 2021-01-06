@@ -105,7 +105,7 @@ export default {
     var id = params.id
     // console.log(id)
 
-    await store.dispatch('article/getBlogDetail', { id })
+    await store.dispatch('article/getBlogDetail', { id }, { root: 'true' })
 
     var res1 = await $axios.$get(`api/comment/detail?id=${id}`)
     // console.log('res: ', res1)
